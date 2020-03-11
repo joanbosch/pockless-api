@@ -1,0 +1,131 @@
+{
+	"definitions": {
+		"LatLong": {
+			"description": "",
+			"properties": {
+				"latitude": {
+					"type": "number",
+					"format": "double",
+					"description": ""
+				},
+				"longitude": {
+					"type": "number",
+					"format": "double",
+					"description": ""
+				}
+			},
+			"type": "object",
+			"required": [
+				"latitude",
+				"longitude"
+			]
+		},
+		"PockMessage": {
+			"description": "",
+			"properties": {
+				"id": {
+					"type": "object",
+					"description": ""
+				},
+				"message": {
+					"type": "string",
+					"description": ""
+				},
+				"location": {
+					"$ref": "#/definitions/LatLong"
+				},
+				"dateInserted": {
+					"type": "number",
+					"format": "double",
+					"description": ""
+				},
+				"dateModified": {
+					"type": "number",
+					"format": "double",
+					"description": ""
+				},
+				"user": {
+					"type": "string",
+					"description": ""
+				}
+			},
+			"type": "object",
+			"required": [
+				"id",
+				"message",
+				"location",
+				"dateInserted"
+			]
+		},
+		"CreatePockRestInput": {
+			"description": "",
+			"properties": {
+				"message": {
+					"type": "string",
+					"description": ""
+				},
+				"location": {
+					"$ref": "#/definitions/LatLong"
+				},
+				"chatAccess": {
+					"type": "boolean",
+					"description": ""
+				},
+				"category": {
+					"type": "string",
+					"description": ""
+				}
+			},
+			"type": "object",
+			"required": [
+				"message",
+				"location",
+				"chatAccess",
+				"category"
+			]
+		}
+	},
+	"info": {
+		"description": "Documentation of PAPI (Pockles API)",
+		"title": "PAPI",
+		"version": "0.0.1"
+	},
+	"paths": {
+		"/pock": {
+			"post": {
+				"operationId": "PocksRestCreatePockHandler",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/PockMessage"
+						}
+					}
+				},
+				"description": "",
+				"tags": [
+					"Pocks"
+				],
+				"consumes": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"description": "",
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/CreatePockRestInput"
+						}
+					}
+				]
+			}
+		}
+	},
+	"swagger": "2.0",
+	"securityDefinitions": {}
+}

@@ -1,0 +1,9 @@
+{
+  "swagger": {
+    "outputDirectory": "./docs",
+    "entryFile": "./src/index.ts",
+    "name": "PAPI",
+    "description": "Documentation of PAPI (Pockles API)",
+    "version": "0.0.1"
+  }
+}

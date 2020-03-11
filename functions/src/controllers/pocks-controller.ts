@@ -1,0 +1,16 @@
+import { GET, Path, POST } from "typescript-rest"
+import createPock from "../modules/pocks/duckies/create-pock";
+import { CreatePockRestInput } from "@/modules/pocks/models/create-pock-rest-input";
+import { PockMessage } from "@/modules/pocks/models/pock-message";
+import { BaseController } from "./base-controller";
+import { Tags } from "typescript-rest-swagger";
+import { ApiResponse } from "../common/response";
+
+@Tags('Pocks')
+@Path('/pock')
+export class PocksRestController extends BaseController {
+    @POST
+    async createPockHandler(body: CreatePockRestInput): Promise<PockMessage> {
+        return this.asPromise(createPock(body))
+    }
+}
