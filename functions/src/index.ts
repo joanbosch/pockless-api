@@ -4,7 +4,6 @@ import * as express from "express"
 import { Server } from "typescript-rest";
 import controllers from './controllers'
 import { errorHandler, ErrorResponse } from "./common/error";
-import { listPaths } from "./utils/testing";
 
 admin.initializeApp();
 
@@ -20,11 +19,14 @@ Server.swagger(api, {
 })
 
 // Use it only for testing purposes, on deploy remove it
-listPaths()
+// Useful to know if you have declared correctly the endpoint
+// listPaths()
 
+// Adds the errorHandler as an error middleware to the express app
 api.use((err: ErrorResponse, req: express.Request, res: express.Response, next: any) =>
     errorHandler(err, res))
 
+// Exports the express app so FirebaseFunction can know about it and call it in an endpoint request
 exports.api = functions.https.onRequest(api)
 
 

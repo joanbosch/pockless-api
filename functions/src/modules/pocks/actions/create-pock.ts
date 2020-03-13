@@ -19,15 +19,15 @@ const MESSAGES_REF = '/messages'
 export default async (input: CreatePockRestInput): Promise<PockMessage> => {
 
     // Step 1: validate input (it does not sanitize it)
-    if ( !validateCreatePockRestInput(input) ) {
+    if (!validateCreatePockRestInput(input)) {
         throw new ErrorResponse(400, 'Some of the fields are not correct')
     }
 
     // Step 2: Insert into database
     const snapshot =
-        await admin.database().ref(MESSAGES_REF).push({ dateInserted: Date.now(), ...input })
+        await admin.database().ref(MESSAGES_REF).push({dateInserted: Date.now(), ...input})
 
-    if ( !snapshot ) {
+    if (!snapshot) {
         throw new ErrorResponse(418, 'Could not insert the pock')
     }
 
@@ -37,7 +37,7 @@ export default async (input: CreatePockRestInput): Promise<PockMessage> => {
     // Step 3: If correctly inserted, insert the location
     try {
         const locationInserted = await addLocation(input.location, id)
-        if ( !locationInserted ) {
+        if (!locationInserted) {
             throw new ErrorResponse(418, 'Could not insert location')
         }
     } catch (e) {

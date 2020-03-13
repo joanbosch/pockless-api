@@ -13,8 +13,8 @@ const MESSAGES_LOCATIONS_REF = '/messages-locations'
  * @param objectId  id of the object
  */
 export default async (location: LatLong, objectId: string) => {
-    if ( !validateLatLong(location) ) {
-        throw new ErrorResponse(404, 'LarLong is not valid')
+    if (!validateLatLong(location)) {
+        throw new ErrorResponse(400, 'LatLong is not valid')
     }
 
     const {
