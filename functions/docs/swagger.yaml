@@ -61,7 +61,6 @@ definitions:
         required:
             - message
             - location
-            - chatAccess
             - category
 info:
     description: 'Documentation of PAPI (Pockles API)'

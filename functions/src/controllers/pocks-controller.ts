@@ -1,5 +1,5 @@
 import { GET, Path, POST } from "typescript-rest"
-import createPock from "../modules/pocks/duckies/create-pock";
+import createPock from "../modules/pocks/actions/create-pock";
 import { CreatePockRestInput } from "@/modules/pocks/models/create-pock-rest-input";
 import { PockMessage } from "@/modules/pocks/models/pock-message";
 import { BaseController } from "./base-controller";

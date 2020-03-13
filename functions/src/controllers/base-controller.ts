@@ -2,8 +2,14 @@ import { ApiResponse } from "@/common/response";
 
 export class BaseController {
     asPromise<T>(executor: any): Promise<T> {
-        return new Promise<T>(async resolve => {
-            resolve(await executor)
+        return new Promise<T>(async (resolve, reject) => {
+            let result
+            try {
+                result = await executor
+            } catch (e) {
+                reject(e)
+            }
+            resolve(result)
         })
     }
 }

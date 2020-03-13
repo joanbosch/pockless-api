@@ -11,11 +11,7 @@
  
 ## Get started
 
-First of all, clone the repository.
-
 Run `npm install` or `yarn install --pure-lockfile`, whatever you want to download the dependencies.
-
-That's all :)
 
 ## How to use it
 
@@ -36,11 +32,11 @@ All the endpoints, no mather the method they use, must return something.
  
  
 To not write too much boilerplate code, there is an util function inside ``BaseController``
-(which must be extended by **ALL** of the controllers) called ``asPromise(executor)``, where `executor` is the async function we will run upon
+(which must be extended by **ALL** of the controllers) named ``asPromise(executor)``, where `executor` is the async function it will run upon
 the execution of the endpoint. Create pock endpoint is an example.
 
 
-Executors are located inside each module, inside the duckies folder, with the name of what they do. Inside here you can write with your own rules.
+Executors are located inside each module, inside the actions folder, with the name of what they do. Inside here you can write with your own rules.
 
 ## Test
 
@@ -50,12 +46,11 @@ To execute the functions locally use ``npm run emulator`` and do the calls norma
 
 ## Deploy 
 
-It is mandatory to only deploy a release branch, otherwise it is forbidden to do so.
-
-To deploy just call `npm run deploy`, it will handle all the deployment process.
-
-A test will be done after each deploy to ensure the correct functioning of PAPI, if it does not work as expected, a rollback will be made.
+To deploy just call `npm run deploy`, it will handle all the deployment process. Do not deploy just for test, testing should be
+only made in local.
 
 ## Postman
 
-TBR
+You can obtain the Postman collection [here](https://www.getpostman.com/collections/f9eb887003a02a059087).
+
+The environments (dev and prod) are inside the docs folder.

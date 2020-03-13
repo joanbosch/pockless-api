@@ -3,7 +3,7 @@ import * as admin from "firebase-admin";
 import * as express from "express"
 import { Server } from "typescript-rest";
 import controllers from './controllers'
-import { listPaths } from "@/utils/testing";
+import { errorHandler, ErrorResponse } from "./common/error";
 
 admin.initializeApp();
 
@@ -20,7 +20,8 @@ Server.swagger(api, {
 // Use it only for testing purposes, on deploy remove it
 // listPaths()
 
-// TODO: Custom error handler
+api.use((err: ErrorResponse, req: express.Request, res: express.Response, next: any) =>
+    errorHandler(err, res))
 
 exports.api = functions.https.onRequest(api)
 
