@@ -19,7 +19,9 @@ PAPI is available on [https://us-central1-pockles.cloudfunctions.net/api](https:
 
 ## Documentation
 
-Swagger documentation is available [here](https://us-central1-pockles.cloudfunctions.net/api/docs).
+Swagger documentation is available on the /api-doc endpoint when executing the emulator. Available at the [postman collection](#postman).
+
+For now there's no public endpoint to access to it.
 
 ## Create a new endpoint
 
@@ -53,4 +55,4 @@ only made in local.
 
 You can obtain the Postman collection [here](https://www.getpostman.com/collections/f9eb887003a02a059087).
 
-The environments (dev and prod) are inside the docs folder.
+The environments (dev and prod) are inside the postman folder.

@@ -1,7 +1,6 @@
 import { CreatePockRestInput, validateCreatePockRestInput } from "../models/create-pock-rest-input";
 import { PockMessage } from "../models/pock-message";
 import * as admin from "firebase-admin";
-import { ApiResponse } from "../../../common/response";
 import { ErrorResponse } from "../../../common/error";
 import addLocation from '../../geolocation/actions/add-location'
 
