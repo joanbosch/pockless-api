@@ -1,8 +1,8 @@
 import * as admin from "firebase-admin";
 import { ErrorResponse } from "../../../common/error";
 import addLocation from '../../geolocation/actions/add-location'
-import { CreatePockRestInput, validateCreatePockRestInput } from "../models/create-pock-rest-input";
-import { PockMessage } from "../models/pock-message";
+import { CreatePockRestInput, validateCreatePockRestInput } from "../models/create-pock-rest-input"
+import { PockMessage } from "../models/pock-message"
 
 const MESSAGES_REF = '/messages'
 
@@ -11,6 +11,8 @@ const MESSAGES_REF = '/messages'
  *
  * Note: It could be made with a transaction instead of the 'rollback' it
  * is applying in the try-catch.
+ *
+ * TODO: valid until...
  *
  * @param input
  */
@@ -51,7 +53,8 @@ export default async (input: CreatePockRestInput): Promise<PockMessage> => {
         message,
         location,
         dateInserted,
-        mediaUrl
+        mediaUrl,
+        category
     } = pockInserted.val()
 
     return {
@@ -59,6 +62,7 @@ export default async (input: CreatePockRestInput): Promise<PockMessage> => {
         message,
         location,
         dateInserted,
+        category,
         media: mediaUrl,
         user: '0'
     }

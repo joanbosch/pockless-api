@@ -19,4 +19,6 @@ export type PockMessage = {
     user?: string
 
     media?: string
+
+    category: string
 }

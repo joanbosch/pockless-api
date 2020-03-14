@@ -1,3 +1,4 @@
+import { listPaths } from "./utils/testing";
 import * as express from "express"
 import * as admin from "firebase-admin";
 import * as functions from "firebase-functions"
@@ -21,7 +22,7 @@ Server.swagger(api, {
 
 // Use it only for testing purposes, on deploy remove it
 // Useful to know if you have declared correctly the endpoint
-// listPaths()
+listPaths()
 
 // Adds the errorHandler as an error middleware to the express app
 api.use((err: ErrorResponse, req: express.Request, res: express.Response, next: any) =>
