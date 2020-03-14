@@ -8,8 +8,7 @@ import createPock from "../modules/pocks/actions/create-pock"
 import { BaseController } from "./base-controller"
 
 /**
- * Pocks rest controller that manages all the endpoints that are in /pocks.
- *
+ * Pocks rest controller that manages all the endpoints that are in /pock.
  */
 @Tags('Pocks') // for swagger documentation
 @Path('/pock')

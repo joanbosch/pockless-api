@@ -40,12 +40,16 @@ definitions:
             media:
                 type: string
                 description: ""
+            category:
+                type: string
+                description: ""
         type: object
         required:
             - id
             - message
             - location
             - dateInserted
+            - category
     CreatePockRestInput:
         description: 'Type for the input object of the endpoint /pocks'
         properties:

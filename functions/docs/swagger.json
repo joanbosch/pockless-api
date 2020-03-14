@@ -51,6 +51,10 @@
 				"media": {
 					"type": "string",
 					"description": ""
+				},
+				"category": {
+					"type": "string",
+					"description": ""
 				}
 			},
 			"type": "object",
@@ -58,7 +62,8 @@
 				"id",
 				"message",
 				"location",
-				"dateInserted"
+				"dateInserted",
+				"category"
 			]
 		},
 		"CreatePockRestInput": {
