@@ -1,7 +1,7 @@
 {
 	"definitions": {
 		"LatLong": {
-			"description": "",
+			"description": "Latitude-Longitude type",
 			"properties": {
 				"latitude": {
 					"type": "number",
@@ -21,7 +21,7 @@
 			]
 		},
 		"PockMessage": {
-			"description": "",
+			"description": "Type of the PockMessage\r\n\r\nIt has no validator as it is an outgoing object (database -> external device).",
 			"properties": {
 				"id": {
 					"type": "object",
@@ -47,6 +47,10 @@
 				"user": {
 					"type": "string",
 					"description": ""
+				},
+				"media": {
+					"type": "string",
+					"description": ""
 				}
 			},
 			"type": "object",
@@ -58,7 +62,7 @@
 			]
 		},
 		"CreatePockRestInput": {
-			"description": "",
+			"description": "Type for the input object of the endpoint /pocks",
 			"properties": {
 				"message": {
 					"type": "string",
@@ -72,6 +76,10 @@
 					"description": ""
 				},
 				"category": {
+					"type": "string",
+					"description": ""
+				},
+				"mediaUrl": {
 					"type": "string",
 					"description": ""
 				}

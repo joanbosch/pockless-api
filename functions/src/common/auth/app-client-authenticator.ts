@@ -1,5 +1,5 @@
-import { AppClient } from "../auth/app-client";
 import * as express from "express"
+import { AppClient } from "../auth/app-client";
 import { ErrorResponse } from "../error";
 
 // TODO (victor): Could this be converted to the standard AppUserAgent? Does Retrofit allow to put the AppUserAgent easily?
@@ -26,7 +26,7 @@ export const appClientAuthenticator = (appClientsAllowed: AppClient[]) => {
     return function (req: express.Request) {
         const appClientRequest = req.header(APP_CLIENT_HEADER_NAME)
         if (!appClientRequest || !appClientsAllowed.find(appClient => appClient === appClientRequest)) {
-            throw new ErrorResponse(401, 'AppClient is not authorized')
+            throw new ErrorResponse(403, 'AppClient is not authorized')
         }
     }
 }

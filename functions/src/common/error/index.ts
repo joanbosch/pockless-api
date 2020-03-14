@@ -22,7 +22,7 @@ export class ErrorResponse {
  * @param res
  */
 export const errorHandler = (err: ErrorResponse, res: express.Response) => {
-    const { statusCode, message } = err
+    const {statusCode, message} = err
     res.status(statusCode).json({
         message,
         timestamp: Date.now()

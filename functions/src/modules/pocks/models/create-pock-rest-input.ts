@@ -1,5 +1,5 @@
-import { LatLong, LatLongValidator } from "../../../common/models/lat-long";
 import * as yup from 'yup';
+import { LatLong, LatLongValidator } from "../../../common/models/lat-long";
 
 /**
  * Type for the input object of the endpoint /pocks
@@ -12,6 +12,8 @@ export type CreatePockRestInput = {
     chatAccess?: boolean
 
     category: string
+
+    mediaUrl?: string
 }
 
 /**
@@ -22,7 +24,8 @@ const validator = yup.object().shape({
     message: yup.string().required(),
     location: LatLongValidator,
     chatAccess: yup.boolean().notRequired(),
-    category: yup.string().required()
+    category: yup.string().required(),
+    mediaUrl: yup.string().notRequired().url()
 })
 
 /**

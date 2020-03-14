@@ -1,7 +1,7 @@
-import { LatLong, validateLatLong } from "../../../common/models/lat-long"
-import { ErrorResponse } from "../../../common/error"
-import * as geofire from "geofire"
 import * as admin from "firebase-admin"
+import * as geofire from "geofire"
+import { ErrorResponse } from "../../../common/error"
+import { LatLong, validateLatLong } from "../../../common/models/lat-long"
 
 const MESSAGES_LOCATIONS_REF = '/messages-locations'
 

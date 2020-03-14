@@ -17,4 +17,6 @@ export type PockMessage = {
     dateModified?: number
 
     user?: string
+
+    media?: string
 }
