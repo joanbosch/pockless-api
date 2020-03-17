@@ -30,15 +30,17 @@ definitions:
                 type: number
                 format: double
                 description: ""
-            dateModified:
-                type: number
-                format: double
-                description: ""
             user:
                 type: string
                 description: ""
             media:
                 type: string
+                description: ""
+            category:
+                type: string
+                description: ""
+            chatAccess:
+                type: boolean
                 description: ""
         type: object
         required:
@@ -46,6 +48,8 @@ definitions:
             - message
             - location
             - dateInserted
+            - category
+            - chatAccess
     CreatePockRestInput:
         description: 'Type for the input object of the endpoint /pocks'
         properties:

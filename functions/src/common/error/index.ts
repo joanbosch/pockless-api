@@ -5,12 +5,17 @@ import * as express from "express"
  */
 export class ErrorResponse {
     statusCode: number
-    message: string
+    errorMessage: string
+    errorDescription?: string
 
-    constructor(statusCode: number, message: string) {
+    constructor(statusCode: number, message: string);
+    constructor(statusCode: number, message: string, errorDescription: string);
+    constructor(statusCode: number, message: string, errorDescription?: string) {
         this.statusCode = statusCode
-        this.message = message
+        this.errorMessage = message
+        this.errorDescription = errorDescription
     }
+
 }
 
 /**
@@ -22,9 +27,15 @@ export class ErrorResponse {
  * @param res
  */
 export const errorHandler = (err: ErrorResponse, res: express.Response) => {
-    const {statusCode, message} = err
-    res.status(statusCode).json({
-        message,
+    const {statusCode, errorMessage, errorDescription} = err
+    const json = {
+        message: errorMessage,
         timestamp: Date.now()
-    })
+    }
+
+    if (!!errorDescription) {
+        Object.assign(json, {description: errorDescription})
+    }
+
+    res.status(statusCode).json(json)
 }

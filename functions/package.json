@@ -10,7 +10,8 @@
     "deploy": "npm run swagger && npm run build && firebase deploy --only functions",
     "logs": "firebase functions:log",
     "swagger": "swaggerGen -c ./swaggerConfig.json",
-    "testCircularDependencies": "madge src/index.ts"
+    "testCircularDependencies": "madge src/index.ts",
+    "test": "jest /functions"
   },
   "engines": {
     "node": "10"
@@ -36,8 +37,11 @@
     "yup": "^0.28.3"
   },
   "devDependencies": {
+    "@types/jest": "^25.1.4",
     "@types/yup": "^0.26.32",
     "firebase-functions-test": "^0.1.6",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.1",
     "tslint": "^5.12.0",
     "typescript": "^3.2.2"
   },

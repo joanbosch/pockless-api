@@ -1,10 +1,11 @@
 import * as admin from "firebase-admin";
 import { ErrorResponse } from "../../../common/error";
 import addLocation from '../../geolocation/actions/add-location'
-import { CreatePockRestInput, validateCreatePockRestInput } from "../models/create-pock-rest-input";
-import { PockMessage } from "../models/pock-message";
+import { CreatePockRestInput, validateCreatePockRestInput } from "../models/create-pock-rest-input"
+import { PockMessage } from "../models/pock-message"
 
-const MESSAGES_REF = '/messages'
+export const MESSAGES_REF = '/messages'
+export const DEFAULT_EXPIRATION_TIME = 7 * 24 * 3600 * 1000 // 1 week
 
 /**
  * Inserts a new pock on the database.
@@ -23,7 +24,11 @@ export default async (input: CreatePockRestInput): Promise<PockMessage> => {
 
     // Step 2: Insert into database
     const snapshot =
-        await admin.database().ref(MESSAGES_REF).push({dateInserted: Date.now(), ...input})
+        await admin.database().ref(MESSAGES_REF).push({
+            dateInserted: Date.now(),
+            dateExpiration: Date.now() + DEFAULT_EXPIRATION_TIME,
+            ...input
+        })
 
     if (!snapshot) {
         throw new ErrorResponse(418, 'Could not insert the pock')
@@ -51,7 +56,9 @@ export default async (input: CreatePockRestInput): Promise<PockMessage> => {
         message,
         location,
         dateInserted,
-        mediaUrl
+        mediaUrl,
+        category,
+        chatAccess
     } = pockInserted.val()
 
     return {
@@ -59,6 +66,8 @@ export default async (input: CreatePockRestInput): Promise<PockMessage> => {
         message,
         location,
         dateInserted,
+        category,
+        chatAccess: !!chatAccess ? chatAccess : false,
         media: mediaUrl,
         user: '0'
     }

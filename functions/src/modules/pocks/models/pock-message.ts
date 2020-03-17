@@ -14,9 +14,11 @@ export type PockMessage = {
 
     dateInserted: number
 
-    dateModified?: number
-
     user?: string
 
     media?: string
+
+    category: string
+
+    chatAccess: boolean
 }

@@ -39,17 +39,20 @@
 					"format": "double",
 					"description": ""
 				},
-				"dateModified": {
-					"type": "number",
-					"format": "double",
-					"description": ""
-				},
 				"user": {
 					"type": "string",
 					"description": ""
 				},
 				"media": {
 					"type": "string",
+					"description": ""
+				},
+				"category": {
+					"type": "string",
+					"description": ""
+				},
+				"chatAccess": {
+					"type": "boolean",
 					"description": ""
 				}
 			},
@@ -58,7 +61,9 @@
 				"id",
 				"message",
 				"location",
-				"dateInserted"
+				"dateInserted",
+				"category",
+				"chatAccess"
 			]
 		},
 		"CreatePockRestInput": {

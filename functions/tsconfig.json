@@ -13,7 +13,8 @@
       "@/*": [
         "src/*"
       ]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   },
   "compileOnSave": true,
   "include": [
