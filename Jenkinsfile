@@ -8,13 +8,13 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'cd functions && yarn install --pure-lockfile'
+        sh 'cd functions && npm install'
       }
     }
 
     stage('Test') {
       steps {
-        sh 'cd functions && yarn test'
+        sh 'cd functions && npm test'
       }
     }
 
