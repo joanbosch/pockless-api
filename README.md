@@ -57,4 +57,4 @@ You can obtain the Postman collection [here](https://www.getpostman.com/collecti
 
 The environments (dev and prod) are inside the postman folder.
 
-jenkins test3
+jenkins test4
