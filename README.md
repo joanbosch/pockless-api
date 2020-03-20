@@ -56,3 +56,5 @@ only made in local.
 You can obtain the Postman collection [here](https://www.getpostman.com/collections/f9eb887003a02a059087).
 
 The environments (dev and prod) are inside the postman folder.
+
+jenkins test
