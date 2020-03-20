@@ -1,5 +1,5 @@
-import { CreatePockRestInput } from "@/modules/pocks/models/create-pock-rest-input"
-import { PockMessage } from "@/modules/pocks/models/pock-message"
+import { CreatePockRestInput } from "../modules/pocks/models/create-pock-rest-input"
+import { PockMessage } from "../modules/pocks/models/pock-message"
 import { GET, Path, POST, PreProcessor } from "typescript-rest"
 import { Tags } from "typescript-rest-swagger";
 import { AppClient } from "../common/auth/app-client"
