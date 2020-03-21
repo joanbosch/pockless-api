@@ -20,12 +20,12 @@ export default async (): Promise<PockMessage[]> => {
     let returnPocksList : PockMessage[] = []
 
     // Step 2: Get all Pocks from DataBase
-    const snapshot = await admin.database().ref(`${MESSAGES_REF}`).once('value')
+    const snapshot = await admin.database().ref(MESSAGES_REF).once('value')
     if (!snapshot) {
         throw new ErrorResponse(418, 'Could not get all pocks')
     }
 
-    for (let pock of snapshot.val()){
+    snapshot.forEach((pock) => {
         const {
             key,
             message,
@@ -46,7 +46,7 @@ export default async (): Promise<PockMessage[]> => {
             media: mediaUrl,
             user: '0'
             })
-    }
+    })
 
     return returnPocksList
 }

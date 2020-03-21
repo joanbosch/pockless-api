@@ -19,19 +19,11 @@ export class PocksRestController extends BaseController {
     async createPockHandler(body: CreatePockRestInput): Promise<PockMessage> {
         return this.asPromise(createPock(body))
     }
-}
 
-/**
- * Message rest controller it manages all the endpoint that are in /messages
- */
-@Tags('All Pocks')
-@Path('/pocks')
-export class MessageRestController extends BaseController {
     @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
+    @Path('/history')
     @GET
     async getAllMessagesHandler(): Promise<PockMessage[]> {
         return this.asPromise(allPocks())
     }
-
-
 }
