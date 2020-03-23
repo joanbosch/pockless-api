@@ -25,7 +25,7 @@ export default async (input: LatLong): Promise<PockMessage[]> => {
     let returnPocksList: PockMessage[] = [];
     let i: number;
     for (i=0; i<locations.length; i++) {
-        const onePock = await admin.database().ref(`${MESSAGES_REF}/${locations[i].key}`).once('value')
+        const onePock = await admin.database().ref(`${MESSAGES_REF}/${locations[i]}`).once('value')
         const {
             message,
             location,
@@ -36,7 +36,7 @@ export default async (input: LatLong): Promise<PockMessage[]> => {
         } = onePock.val()
 
         returnPocksList.push({
-            id: locations[i].key,
+            id: locations[i],
             message,
             location,
             dateInserted,
@@ -50,11 +50,14 @@ export default async (input: LatLong): Promise<PockMessage[]> => {
     return returnPocksList
 }
 
-const getLocations = async (location: LatLong, radius: number): Promise<GeoFireLocation[]> =>
+/**
+ * Obtains the id of any pock inside the radius of a location.
+ */
+const getLocations = async (location: LatLong, radius: number): Promise<string[]> =>
     new Promise((resolve, reject) => {
         // @ts-ignore
         const gf = new geofire.GeoFire(admin.database().ref(MESSAGES_LOC_REF))
-        const locations: GeoFireLocation[] = []
+        const locations: string[] = []
         const geoQuery = gf.query({
             center: [
                 location.latitude,
@@ -63,17 +66,11 @@ const getLocations = async (location: LatLong, radius: number): Promise<GeoFireL
             radius: radius
         })
 
-        const keyEntered = geoQuery.on("key_entered", (key: string, location: LatLong, distance: number) =>
-            locations.push({key: key, distance: distance, location: location}))
+        const keyEntered = geoQuery.on("key_entered", (key: string) =>
+            locations.push(key))
 
         geoQuery.on('ready', () => {
             keyEntered.cancel()
             resolve(locations)
         })
     })
-
-interface GeoFireLocation {
-    key: string,
-    location: LatLong,
-    distance: number
-}
