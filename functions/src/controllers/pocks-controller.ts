@@ -1,7 +1,7 @@
 import { LatLong } from "../common/models/lat-long";
 import { CreatePockRestInput } from "@/modules/pocks/models/create-pock-rest-input"
 import { PockMessage } from "@/modules/pocks/models/pock-message"
-import { GET, Path, POST, PreProcessor } from "typescript-rest"
+import { GET, Path, POST, PreProcessor, QueryParam } from "typescript-rest"
 import { Tags } from "typescript-rest-swagger";
 import { AppClient } from "../common/auth/app-client"
 import { appClientAuthenticator } from "../common/auth/app-client-authenticator"
@@ -22,7 +22,7 @@ export class PocksRestController extends BaseController {
     }
 
     @GET
-    async getNearPocksHandler(body: LatLong): Promise<PockMessage[]> {
-        return this.asPromise(getNearPocks(body))
+    async getNearPocksHandler(@QueryParam("latitude") lat: number, @QueryParam("longitude") long: number): Promise<PockMessage[]> {
+        return this.asPromise(getNearPocks(lat, long))
     }
 }
