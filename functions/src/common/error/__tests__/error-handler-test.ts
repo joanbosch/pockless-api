@@ -40,4 +40,24 @@ describe('ErrorHandler', () => {
             expect(json).toBeCalledWith(expect.objectContaining({message: errorMessage}))
         });
     })
+
+    describe('given there is no errorResponse', () => {
+        it('should return 500 status code', function () {
+            // @ts-ignore
+            errorHandler(null, res)
+
+            expect(status).toBeCalledWith(500)
+            expect(json).toBeCalledWith(expect.objectContaining({message: "Unknown error"}))
+        });
+    })
+
+    describe('given there is an invalid errorResponse', () => {
+        it('should return 500 status code', function () {
+            // @ts-ignore
+            errorHandler(new Error("test"), res)
+
+            expect(status).toBeCalledWith(500)
+            expect(json).toBeCalledWith(expect.objectContaining({message: "Unknown error"}))
+        });
+    })
 });
