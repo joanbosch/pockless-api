@@ -135,6 +135,98 @@
 						}
 					}
 				]
+			},
+			"get": {
+				"operationId": "PocksRestGetNearPocksHandler",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/PockMessage"
+							}
+						}
+					}
+				},
+				"description": "",
+				"tags": [
+					"Pocks"
+				],
+				"parameters": [
+					{
+						"description": "",
+						"in": "query",
+						"name": "latitude",
+						"required": true,
+						"type": "number",
+						"format": "double"
+					},
+					{
+						"description": "",
+						"in": "query",
+						"name": "longitude",
+						"required": true,
+						"type": "number",
+						"format": "double"
+					}
+				]
+			}
+		},
+		"/pock/history": {
+			"get": {
+				"operationId": "PocksRestGetAllMessagesHandler",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/PockMessage"
+							}
+						}
+					}
+				},
+				"description": "",
+				"tags": [
+					"Pocks"
+				],
+				"parameters": []
+			}
+		},
+		"/pock/{id}": {
+			"get": {
+				"operationId": "PocksRestGetMessageById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/PockMessage"
+						}
+					}
+				},
+				"description": "",
+				"tags": [
+					"Pocks"
+				],
+				"parameters": [
+					{
+						"description": "",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
 			}
 		}
 	},
