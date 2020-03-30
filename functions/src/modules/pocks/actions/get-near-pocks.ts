@@ -28,25 +28,29 @@ export default async (latitude: number, longitude: number): Promise<PockMessage[
     let returnPocksList: PockMessage[] = [];
     for (const pockId of nearIds) { //if using forEach and async it doesn't return any pock
         const onePock = await admin.database().ref(`${MESSAGES_REF}/${pockId}`).once('value')
-        const {
-            message,
-            location,
-            dateInserted,
-            mediaUrl,
-            category,
-            chatAccess
-        } = onePock.val()
+        const {dateExpiration} = onePock.val()
 
-        returnPocksList.push({
-            id: pockId,
-            message,
-            location,
-            dateInserted,
-            category,
-            chatAccess: !!chatAccess ? chatAccess : false,
-            media: mediaUrl,
-            user: '0'
-        });
+        if (dateExpiration > Date.now()) {
+            const {
+                message,
+                location,
+                dateInserted,
+                mediaUrl,
+                category,
+                chatAccess
+            } = onePock.val()
+
+            returnPocksList.push({
+                id: pockId,
+                message,
+                location,
+                dateInserted,
+                category,
+                chatAccess: !!chatAccess ? chatAccess : false,
+                media: mediaUrl,
+                user: '0'
+            });
+        }
     }
 
     return returnPocksList
