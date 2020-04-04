@@ -5,7 +5,7 @@ import { PockMessage } from "../models/pock-message"
 import { getNearIds } from "../../geolocation/actions/get-near-ids"
 
 const MESSAGES_REF = '/messages'
-const RADIUS_POCKS: number = 0.5 // 0.5 kilometers
+const RADIUS_POCKS: number = 50 // 0.5 kilometers
 
 /**
  * Returns all the pocks near to the given location.

@@ -1,3 +1,4 @@
+import { UserRestController } from "./user-controller";
 import { PocksRestController } from "./pocks-controller";
 
 /**
@@ -6,5 +7,6 @@ import { PocksRestController } from "./pocks-controller";
  * No need to modify the index file to add a new controller.
  */
 export default [
-    PocksRestController
+    PocksRestController,
+    UserRestController
 ]

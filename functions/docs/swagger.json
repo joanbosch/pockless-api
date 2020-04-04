@@ -1,5 +1,102 @@
 {
 	"definitions": {
+		"UserProfile": {
+			"description": "",
+			"properties": {
+				"id": {
+					"type": "string",
+					"description": ""
+				},
+				"name": {
+					"type": "string",
+					"description": ""
+				},
+				"birthDate": {
+					"type": "number",
+					"format": "double",
+					"description": ""
+				},
+				"mail": {
+					"type": "string",
+					"description": ""
+				},
+				"profileImageUrl": {
+					"type": "string",
+					"description": ""
+				},
+				"radiusVisibility": {
+					"type": "number",
+					"format": "double",
+					"description": ""
+				},
+				"badge": {
+					"type": "number",
+					"format": "double",
+					"description": ""
+				},
+				"pocks": {
+					"type": "number",
+					"format": "double",
+					"description": ""
+				}
+			},
+			"type": "object",
+			"required": [
+				"id",
+				"name",
+				"birthDate",
+				"mail",
+				"profileImageUrl",
+				"radiusVisibility",
+				"badge",
+				"pocks"
+			]
+		},
+		"Boolean": {
+			"description": "",
+			"properties": {},
+			"type": "object"
+		},
+		"CreateUserRestInput": {
+			"description": "",
+			"properties": {
+				"id": {
+					"type": "string",
+					"description": ""
+				},
+				"name": {
+					"type": "string",
+					"description": ""
+				},
+				"birthDate": {
+					"type": "number",
+					"format": "double",
+					"description": ""
+				},
+				"mail": {
+					"type": "string",
+					"description": ""
+				},
+				"profileImageUrl": {
+					"type": "string",
+					"description": ""
+				},
+				"radiusVisibility": {
+					"type": "number",
+					"format": "double",
+					"description": ""
+				}
+			},
+			"type": "object",
+			"required": [
+				"id",
+				"name",
+				"birthDate",
+				"mail",
+				"profileImageUrl",
+				"radiusVisibility"
+			]
+		},
 		"LatLong": {
 			"description": "Latitude-Longitude type",
 			"properties": {
@@ -103,6 +200,88 @@
 		"version": "0.0.1"
 	},
 	"paths": {
+		"/user": {
+			"get": {
+				"operationId": "UserRestGetUser",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/UserProfile"
+						}
+					}
+				},
+				"description": "",
+				"tags": [
+					"Users"
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "UserRestCreateUser",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Boolean"
+						}
+					}
+				},
+				"description": "",
+				"tags": [
+					"Users"
+				],
+				"consumes": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"description": "",
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/CreateUserRestInput"
+						}
+					}
+				]
+			}
+		},
+		"/user/{id}/exists": {
+			"get": {
+				"operationId": "UserRestUserExists",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Boolean"
+						}
+					}
+				},
+				"description": "",
+				"tags": [
+					"Users"
+				],
+				"parameters": [
+					{
+						"description": "",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
 		"/pock": {
 			"post": {
 				"operationId": "PocksRestCreatePockHandler",
