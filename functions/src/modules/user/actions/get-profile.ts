@@ -1,12 +1,18 @@
-// TODO: just for testing as token has not been implemented yet
-export default async () => ({
-    id: "sdkbfsakljfbsak",
-    name: "Carlos",
-    birthDate: 867492172,
-    mail: "test@test.com",
-    profileImageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Willirexxx.jpg/220px-Willirexxx.jpg",
-    // settings
-    radiusVisibility: 500,
-    badge: 3, // todo change to badge once available,
-    pocks: 1888
-})
+/**
+ * Return the user associated with the token
+ * @param user
+ */
+import admin from "firebase-admin";
+import { ErrorResponse } from "../../../common/error";
+import { UserProfile } from "../model/user-profile";
+
+const PROFILE_REF = '/profile'
+
+export default async (user: any): Promise<UserProfile> => {
+    const userSnapshot = await admin.database().ref(`${PROFILE_REF}/${user.uid}`).once('value')
+
+    if (userSnapshot === null || userSnapshot.val() === null) {
+        throw new ErrorResponse(404, "User not found")
+    }
+    return userSnapshot.val() as UserProfile
+}

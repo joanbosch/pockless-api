@@ -1,23 +1,24 @@
-import { CreatePockRestInput } from "@/modules/pocks/models/create-pock-rest-input";
 import * as yup from "yup";
 
 export type CreateUserRestInput = {
     id: string,
     name: string,
-    birthDate: number
+    birthDate: string
     mail: string,
     profileImageUrl: string,
     // settings
-    radiusVisibility: number
+    radiusVisibility: number,
+    accentColor: string
 }
 
 const validator = yup.object().shape({
     id: yup.string().required(),
     name: yup.string().required(),
-    birthDate: yup.number().required(),
-    mail: yup.number().required(),
-    profileImageUrl: yup.string().required().url(),
-    radiusVisibility: yup.number().notRequired()
+    birthDate: yup.string().required(),
+    mail: yup.string().required().email(),
+    profileImageUrl: yup.string().notRequired().url(),
+    radiusVisibility: yup.number().notRequired().min(1).max(20),
+    accentColor: yup.string().notRequired()
 })
 
 

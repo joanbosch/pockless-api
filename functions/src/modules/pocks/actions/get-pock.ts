@@ -38,7 +38,7 @@ export default async (pockId: string): Promise<PockMessage> => {
         location,
         dateInserted,
         category,
-        chatAccess: !!chatAccess ? chatAccess : false,
+        chatAccess,
         media: mediaUrl,
         user: '0'
     }

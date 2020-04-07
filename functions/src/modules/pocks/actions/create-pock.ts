@@ -14,8 +14,9 @@ export const DEFAULT_EXPIRATION_TIME = 7 * 24 * 3600 * 1000 // 1 week
  * is applying in the try-catch.
  *
  * @param input
+ * @param user
  */
-export default async (input: CreatePockRestInput): Promise<PockMessage> => {
+export default async (input: CreatePockRestInput, user: any): Promise<PockMessage> => {
 
     // Step 1: validate input (it does not sanitize it)
     if (!validateCreatePockRestInput(input)) {
@@ -27,6 +28,7 @@ export default async (input: CreatePockRestInput): Promise<PockMessage> => {
         await admin.database().ref(MESSAGES_REF).push({
             dateInserted: Date.now(),
             dateExpiration: Date.now() + DEFAULT_EXPIRATION_TIME,
+            user: user.uid,
             ...input
         })
 
@@ -67,8 +69,7 @@ export default async (input: CreatePockRestInput): Promise<PockMessage> => {
         location,
         dateInserted,
         category,
-        chatAccess: !!chatAccess ? chatAccess : false,
+        chatAccess,
         media: mediaUrl,
-        user: '0'
     }
 }

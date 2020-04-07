@@ -7,5 +7,6 @@ export type UserProfile = {
     // settings
     radiusVisibility: number,
     badge: number,
-    pocks: number
+    pocks: number,
+    accentColor: string
 }

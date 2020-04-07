@@ -31,6 +31,9 @@ definitions:
                 type: number
                 format: double
                 description: ""
+            accentColor:
+                type: string
+                description: ""
         type: object
         required:
             - id
@@ -41,6 +44,7 @@ definitions:
             - radiusVisibility
             - badge
             - pocks
+            - accentColor
     Boolean:
         description: ""
         properties: {}
@@ -55,8 +59,7 @@ definitions:
                 type: string
                 description: ""
             birthDate:
-                type: number
-                format: double
+                type: string
                 description: ""
             mail:
                 type: string
@@ -68,6 +71,9 @@ definitions:
                 type: number
                 format: double
                 description: ""
+            accentColor:
+                type: string
+                description: ""
         type: object
         required:
             - id
@@ -76,6 +82,7 @@ definitions:
             - mail
             - profileImageUrl
             - radiusVisibility
+            - accentColor
     LatLong:
         description: 'Latitude-Longitude type'
         properties:

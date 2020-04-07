@@ -38,6 +38,10 @@
 					"type": "number",
 					"format": "double",
 					"description": ""
+				},
+				"accentColor": {
+					"type": "string",
+					"description": ""
 				}
 			},
 			"type": "object",
@@ -49,7 +53,8 @@
 				"profileImageUrl",
 				"radiusVisibility",
 				"badge",
-				"pocks"
+				"pocks",
+				"accentColor"
 			]
 		},
 		"Boolean": {
@@ -69,8 +74,7 @@
 					"description": ""
 				},
 				"birthDate": {
-					"type": "number",
-					"format": "double",
+					"type": "string",
 					"description": ""
 				},
 				"mail": {
@@ -85,6 +89,10 @@
 					"type": "number",
 					"format": "double",
 					"description": ""
+				},
+				"accentColor": {
+					"type": "string",
+					"description": ""
 				}
 			},
 			"type": "object",
@@ -94,7 +102,8 @@
 				"birthDate",
 				"mail",
 				"profileImageUrl",
-				"radiusVisibility"
+				"radiusVisibility",
+				"accentColor"
 			]
 		},
 		"LatLong": {
