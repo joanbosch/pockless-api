@@ -6,14 +6,10 @@ export const MESSAGES_REF = '/messages'
 
 /**
  *
- * Get a pocks from the database with a specific id
+ * Get a pock from the database with a specific id
  *
- * Return a pock with a specific id
- *
- * Must be reviewed when the distance system restriction and user system is implemented
- *
+ * TODO: Return also username
  */
-
 export default async (pockId: string): Promise<PockMessage> => {
 
     const db = await admin.database().ref(`${MESSAGES_REF}/${pockId}`).once('value')
@@ -40,6 +36,5 @@ export default async (pockId: string): Promise<PockMessage> => {
         category,
         chatAccess,
         media: mediaUrl,
-        user: '0'
     }
 }

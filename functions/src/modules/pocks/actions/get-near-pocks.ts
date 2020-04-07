@@ -9,6 +9,8 @@ const RADIUS_POCKS: number = 50 // 0.5 kilometers
 
 /**
  * Returns all the pocks near to the given location.
+ *
+ * TODO: The returned value should take in consideration the selected radius of the user
  */
 export default async (latitude: number, longitude: number): Promise<PockMessage[]> => {
     const input: LatLong = {
