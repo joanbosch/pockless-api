@@ -8,7 +8,7 @@ const MESSAGES_REF = '/messages'
 const RADIUS_POCKS: number = 50 // 0.5 kilometers
 
 /**
- * Returns all the pocks near to the given location.
+ * Returns all the pocks near to the given location
  *
  * TODO: The returned value should take in consideration the selected radius of the user
  */
