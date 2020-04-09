@@ -1,17 +1,19 @@
 import * as admin from "firebase-admin";
 import { ErrorResponse } from "../../../common/error";
 import { LatLong, validateLatLong } from "../../../common/models/lat-long";
-import { PockMessage } from "../models/pock-message"
 import { getNearIds } from "../../geolocation/actions/get-near-ids"
+import { PockMessage } from "../models/pock-message"
 
 const MESSAGES_REF = '/messages'
-const RADIUS_POCKS: number = 0.5 // 0.5 kilometers
+const RADIUS_POCKS: number = 50 // 0.5 kilometers
 
 /**
- * Returns all the pocks near to the given location.
+ * Returns all the pocks near to the given location
+ *
+ * TODO: The returned value should take in consideration the selected radius of the user
  */
 export default async (latitude: number, longitude: number): Promise<PockMessage[]> => {
-    let input: LatLong = {
+    const input: LatLong = {
         latitude,
         longitude
     }
@@ -25,30 +27,12 @@ export default async (latitude: number, longitude: number): Promise<PockMessage[
     const nearIds = await getNearIds(input, RADIUS_POCKS)
 
     // Step 3: Find the pocks corresponding to the obtained ids and add them to the 'returnPocksList' array
-    let returnPocksList: PockMessage[] = [];
+    const returnPocksList: PockMessage[] = [];
     for (const pockId of nearIds) { //if using forEach and async it doesn't return any pock
         const onePock = await admin.database().ref(`${MESSAGES_REF}/${pockId}`).orderByChild('dateExpiration').endAt(Date.now()).once('value')
         // If database returned nothing, means that it has expired
-        if (onePock != null) {
-            const {
-                message,
-                location,
-                dateInserted,
-                mediaUrl,
-                category,
-                chatAccess
-            } = onePock.val()
-
-            returnPocksList.push({
-                id: pockId,
-                message,
-                location,
-                dateInserted,
-                category,
-                chatAccess: !!chatAccess ? chatAccess : false,
-                media: mediaUrl,
-                user: '0'
-            });
+        if (onePock !== null) {
+            returnPocksList.push(Object.assign({}, onePock.val(), {id: pockId}))
         }
     }
 

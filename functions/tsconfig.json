@@ -9,11 +9,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    },
     "allowSyntheticDefaultImports": true
   },
   "compileOnSave": true,
