@@ -11,12 +11,12 @@ export const DEFAULT_EXPIRATION_TIME = 7 * 24 * 3600 * 1000 // 1 week
  * Must be reviewed when "log-in" funcionality is avaliable.
  *
  */
-export default async (): Promise<PockMessage[]> => {
+export default async (user: any): Promise<PockMessage[]> => {
     // Step 1: validate input. ¡Nothing must be validated!
-    let returnPocksList : PockMessage[] = []
+    const returnPocksList: PockMessage[] = []
 
     // Step 2: Get all Pocks from DataBase
-    const snapshot = await admin.database().ref(MESSAGES_REF).once('value')
+    const snapshot = await admin.database().ref(MESSAGES_REF).orderByChild('user').equalTo(user.uid).once('value')
     if (!snapshot) {
         //Review ErrorResponse statusCode, 418 means "I'm a teapot!"
         throw new ErrorResponse(418, 'Could not get all pocks')
@@ -34,15 +34,14 @@ export default async (): Promise<PockMessage[]> => {
         } = pock.val()
 
         returnPocksList.push({
-            id:key,
+            id: key,
             message,
             location,
             dateInserted,
             category,
             chatAccess: !!chatAccess ? chatAccess : false,
-            media: mediaUrl,
-            user: '0'
-            })
+            media: mediaUrl
+        })
     })
 
     return returnPocksList

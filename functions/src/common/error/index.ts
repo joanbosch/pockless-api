@@ -27,7 +27,7 @@ export class ErrorResponse {
  * @param res
  */
 export const errorHandler = (err: ErrorResponse | any, res: express.Response) => {
-    const {statusCode, errorMessage, errorDescription} = err || {}
+    const {statusCode = 500, errorMessage, errorDescription} = err || {}
     const json = {
         message: errorMessage || "Unknown error",
         timestamp: Date.now()
@@ -37,5 +37,5 @@ export const errorHandler = (err: ErrorResponse | any, res: express.Response) =>
         Object.assign(json, {description: errorDescription})
     }
 
-    res.status(statusCode | 500).json(json)
+    res.status(statusCode).json(json)
 }
