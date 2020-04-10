@@ -1,5 +1,5 @@
 import { ErrorResponse } from "../../../common/error";
-import { CreatePockRestInput, validateCreatePockRestInput } from "../models/create-pock-rest-input";
+import { EditPockRestInput, validateEditPockRestInput } from "../models/edit-pock-rest-input";
 import { PockMessage } from "../models/pock-message";
 import * as admin from "firebase-admin";
 
@@ -15,14 +15,14 @@ const EDITABLE_TIME = 20 * 60 * 1000 // 20 minutes
  * @param input
  * @param user
  */
-export default async (id: string, input: CreatePockRestInput, user: any): Promise<PockMessage> => {
+export default async (id: string, input: EditPockRestInput, user: any): Promise<PockMessage> => {
     /*
     Input type must be changed to EditPockRestInput (for example).
     It would include message and maybe chatAccess, category or mediaUrl too.
      */
 
     // Step 1: validate input (it does not sanitize it)
-    if (!validateCreatePockRestInput(input)) {
+    if (!validateEditPockRestInput(input)) {
         throw new ErrorResponse(400, 'Some of the fields are not correct')
     }
 

@@ -9,6 +9,7 @@ import getNearPocks from "../modules/pocks/actions/get-near-pocks"
 import viewPock from "../modules/pocks/actions/get-pock"
 import editPock from "../modules/pocks/actions/edit-pock"
 import { CreatePockRestInput } from "../modules/pocks/models/create-pock-rest-input"
+import { EditPockRestInput } from "../modules/pocks/models/edit-pock-rest-input"
 import { PockMessage } from "../modules/pocks/models/pock-message"
 import { BaseController } from "./base-controller"
 
@@ -52,7 +53,7 @@ export class PocksRestController extends BaseController {
     @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @Path('/:id')
     @PUT
-    async editPockHandler(@PathParam("id") id: string, body: CreatePockRestInput): Promise<PockMessage> {
+    async editPockHandler(@PathParam("id") id: string, body: EditPockRestInput): Promise<PockMessage> {
         return this.asPromise(editPock, id, body)
     }
 }
