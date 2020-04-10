@@ -13,8 +13,9 @@ const EDITABLE_TIME = 20 * 60 * 1000 // 20 minutes
  *
  * @param id
  * @param input
+ * @param user
  */
-export default async (id: string, input: CreatePockRestInput): Promise<PockMessage> => {
+export default async (id: string, input: CreatePockRestInput, user: any): Promise<PockMessage> => {
     /*
     Input type must be changed to EditPockRestInput (for example).
     It would include message and maybe chatAccess, category or mediaUrl too.
@@ -32,7 +33,10 @@ export default async (id: string, input: CreatePockRestInput): Promise<PockMessa
     }
 
     // Step 3: check if the pock is editable
-    const {dateInserted} = snapshot.val()
+    const {user: creator, dateInserted} = snapshot.val()
+    if (creator != user.uid) {
+        throw new ErrorResponse(403, 'You have not created this pock')
+    }
     if (Date.now() > dateInserted + EDITABLE_TIME) {
         throw new ErrorResponse(400, 'Could not edit this pock')
     }
@@ -60,6 +64,6 @@ export default async (id: string, input: CreatePockRestInput): Promise<PockMessa
         category,
         chatAccess: !!chatAccess ? chatAccess : false,
         media: mediaUrl,
-        user: '0'
+        user: creator
     }
 }

@@ -48,10 +48,11 @@ export class PocksRestController extends BaseController {
         return this.asPromise(viewPock, id)
     }
 
+    @PreProcessor(userAuthentication)
     @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @Path('/:id')
     @PUT
     async editPockHandler(@PathParam("id") id: string, body: CreatePockRestInput): Promise<PockMessage> {
-        return this.asPromise(editPock(id, body))
+        return this.asPromise(editPock, id, body)
     }
 }
