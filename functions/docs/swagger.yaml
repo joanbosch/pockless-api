@@ -126,7 +126,7 @@ definitions:
                 description: ""
             chatAccess:
                 type: boolean
-                    description: ""
+                description: ""
         type: object
         required:
             - id
@@ -137,16 +137,16 @@ definitions:
             - chatAccess
     CreatePockRestInput:
         description: ""
-            properties:
-                message:
-                    type: string
-                    description: ""
-                location:
-                    $ref: '#/definitions/LatLong'
-                chatAccess:
-                    type: boolean
-                    description: ""
-                category:
+        properties:
+            message:
+                type: string
+                description: ""
+            location:
+                $ref: '#/definitions/LatLong'
+            chatAccess:
+                type: boolean
+                description: ""
+            category:
                 type: string
                 description: ""
             mediaUrl:
@@ -191,12 +191,13 @@ paths:
             consumes:
                 - application/json
             parameters:
-                - description: ""
-                  in: body
-                  name: body
-                  required: true
-                  schema:
-                      $ref: '#/definitions/CreateUserRestInput'
+                -
+                    description: ""
+                    in: body
+                    name: body
+                    required: true
+                    schema:
+                        $ref: '#/definitions/CreateUserRestInput'
     '/user/{id}/exists':
         get:
             operationId: UserRestUserExists
@@ -211,11 +212,12 @@ paths:
             tags:
                 - Users
             parameters:
-                - description: ""
-                  in: path
-                  name: id
-                  required: true
-                  type: string
+                -
+                    description: ""
+                    in: path
+                    name: id
+                    required: true
+                    type: string
     /pock:
         post:
             operationId: PocksRestCreatePockHandler
@@ -232,12 +234,13 @@ paths:
             consumes:
                 - application/json
             parameters:
-                - description: ""
-                  in: body
-                  name: body
-                  required: true
-                  schema:
-                      $ref: '#/definitions/CreatePockRestInput'
+                -
+                    description: ""
+                    in: body
+                    name: body
+                    required: true
+                    schema:
+                        $ref: '#/definitions/CreatePockRestInput'
         get:
             operationId: PocksRestGetNearPocksHandler
             produces:
@@ -253,18 +256,20 @@ paths:
             tags:
                 - Pocks
             parameters:
-                - description: ""
-                  in: query
-                  name: latitude
-                  required: true
-                  type: number
-                  format: double
-                - description: ""
-                  in: query
-                  name: longitude
-                  required: true
-                  type: number
-                  format: double
+                -
+                    description: ""
+                    in: query
+                    name: latitude
+                    required: true
+                    type: number
+                    format: double
+                -
+                    description: ""
+                    in: query
+                    name: longitude
+                    required: true
+                    type: number
+                    format: double
     /pock/history:
         get:
             operationId: PocksRestGetAllMessagesHandler
@@ -295,10 +300,11 @@ paths:
             tags:
                 - Pocks
             parameters:
-                - description: ""
-                  in: path
-                  name: id
-                  required: true
-                  type: string
+                -
+                    description: ""
+                    in: path
+                    name: id
+                    required: true
+                    type: string
 swagger: '2.0'
 securityDefinitions: {}

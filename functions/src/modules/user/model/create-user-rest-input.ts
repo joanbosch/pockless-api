@@ -1,11 +1,9 @@
 import { an, is, namedSchema } from "yup-decorator";
-import { Validator } from "../../../common/models/validator";
 
 @namedSchema(CreateUserRestInput.name)
-export class CreateUserRestInput extends Validator {
+export class CreateUserRestInput {
     // @ts-ignore
     constructor({id, name, birthDate, mail, profileImageUrl, radiusVisibility, accentColor}) {
-        super();
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;

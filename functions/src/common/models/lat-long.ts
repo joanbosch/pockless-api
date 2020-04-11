@@ -1,15 +1,13 @@
 import { an, is, namedSchema } from "yup-decorator";
-import { Validator } from "./validator";
 
 /**
  * Latitude-Longitude type
  */
 @namedSchema(LatLong.name)
-export class LatLong extends Validator {
+export class LatLong {
 
     // @ts-ignore
     constructor({latitude, longitude}) {
-        super()
         this.latitude = latitude
         this.longitude = longitude
     }

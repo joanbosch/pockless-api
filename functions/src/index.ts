@@ -5,14 +5,14 @@ import { Server } from "typescript-rest";
 import { errorHandler, ErrorResponse } from "./common/error";
 import controllers from './controllers'
 
-// const serviceAccount = require('C:\\Users\\Victor\\Desktop\\Pockles.json');
-//
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount),
-//     databaseURL: 'https://pockles.firebaseio.com'
-// });
+const serviceAccount = require('C:\\Users\\Victor\\Desktop\\Pockles.json');
 
-admin.initializeApp();
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: 'https://pockles.firebaseio.com'
+});
+
+// admin.initializeApp();
 
 const api = express()
 
