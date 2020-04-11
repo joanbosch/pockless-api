@@ -5,9 +5,9 @@ import { Server } from "typescript-rest";
 import { errorHandler, ErrorResponse } from "./common/error";
 import controllers from './controllers'
 
-//const serviceAccount = require('C:\\Users\\Victor\\Desktop\\Pockles.json');
-
-// To execute the API locally and connected to the firebase database use this
+// const serviceAccount = require('C:\\Users\\Victor\\Desktop\\Pockles.json');
+//
+// // To execute the API locally and connected to the firebase database use this
 // admin.initializeApp({
 //     credential: admin.credential.cert(serviceAccount),
 //     databaseURL: 'https://pockles.firebaseio.com'
