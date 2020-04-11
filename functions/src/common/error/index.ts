@@ -15,6 +15,7 @@ export class ErrorResponse {
         this.errorMessage = message
         this.errorDescription = errorDescription
     }
+
 }
 
 /**
@@ -26,7 +27,6 @@ export class ErrorResponse {
  * @param res
  */
 export const errorHandler = (err: ErrorResponse | any, res: express.Response) => {
-    console.log(err)
     const {statusCode = 500, errorMessage, errorDescription} = err || {}
     const json = {
         message: errorMessage || "Unknown error",
