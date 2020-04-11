@@ -106,6 +106,19 @@
 				"accentColor"
 			]
 		},
+		"InsertTokenRestInput": {
+			"description": "",
+			"properties": {
+				"token": {
+					"type": "string",
+					"description": ""
+				}
+			},
+			"type": "object",
+			"required": [
+				"token"
+			]
+		},
 		"LatLong": {
 			"description": "Latitude-Longitude type",
 			"properties": {
@@ -287,6 +300,40 @@
 						"name": "id",
 						"required": true,
 						"type": "string"
+					}
+				]
+			}
+		},
+		"/user/token": {
+			"put": {
+				"operationId": "UserRestInsertToken",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Boolean"
+						}
+					}
+				},
+				"description": "",
+				"tags": [
+					"Users"
+				],
+				"consumes": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"description": "",
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/InsertTokenRestInput"
+						}
 					}
 				]
 			}

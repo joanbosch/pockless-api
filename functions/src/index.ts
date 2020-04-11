@@ -7,6 +7,13 @@ import controllers from './controllers'
 
 admin.initializeApp();
 
+// const serviceAccount = require('C:\\Users\\Sergioo\\Desktop\\Tercero\\Q2\\ECSDI\\Pockles.json');
+//
+// admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount),
+//     databaseURL: 'https://pockles.firebaseio.com'
+// });
+
 const api = express()
 
 Server.buildServices(api, ...controllers)

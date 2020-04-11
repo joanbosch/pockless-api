@@ -83,6 +83,15 @@ definitions:
             - profileImageUrl
             - radiusVisibility
             - accentColor
+    InsertTokenRestInput:
+        description: ""
+        properties:
+            token:
+                type: string
+                description: ""
+        type: object
+        required:
+            - token
     LatLong:
         description: 'Latitude-Longitude type'
         properties:
@@ -189,12 +198,13 @@ paths:
             consumes:
                 - application/json
             parameters:
-                - description: ""
-                  in: body
-                  name: body
-                  required: true
-                  schema:
-                      $ref: '#/definitions/CreateUserRestInput'
+                -
+                    description: ""
+                    in: body
+                    name: body
+                    required: true
+                    schema:
+                        $ref: '#/definitions/CreateUserRestInput'
     '/user/{id}/exists':
         get:
             operationId: UserRestUserExists
@@ -209,11 +219,35 @@ paths:
             tags:
                 - Users
             parameters:
-                - description: ""
-                  in: path
-                  name: id
-                  required: true
-                  type: string
+                -
+                    description: ""
+                    in: path
+                    name: id
+                    required: true
+                    type: string
+    /user/token:
+        put:
+            operationId: UserRestInsertToken
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        $ref: '#/definitions/Boolean'
+            description: ""
+            tags:
+                - Users
+            consumes:
+                - application/json
+            parameters:
+                -
+                    description: ""
+                    in: body
+                    name: body
+                    required: true
+                    schema:
+                        $ref: '#/definitions/InsertTokenRestInput'
     /pock:
         post:
             operationId: PocksRestCreatePockHandler
@@ -230,12 +264,13 @@ paths:
             consumes:
                 - application/json
             parameters:
-                - description: ""
-                  in: body
-                  name: body
-                  required: true
-                  schema:
-                      $ref: '#/definitions/CreatePockRestInput'
+                -
+                    description: ""
+                    in: body
+                    name: body
+                    required: true
+                    schema:
+                        $ref: '#/definitions/CreatePockRestInput'
         get:
             operationId: PocksRestGetNearPocksHandler
             produces:
@@ -251,18 +286,20 @@ paths:
             tags:
                 - Pocks
             parameters:
-                - description: ""
-                  in: query
-                  name: latitude
-                  required: true
-                  type: number
-                  format: double
-                - description: ""
-                  in: query
-                  name: longitude
-                  required: true
-                  type: number
-                  format: double
+                -
+                    description: ""
+                    in: query
+                    name: latitude
+                    required: true
+                    type: number
+                    format: double
+                -
+                    description: ""
+                    in: query
+                    name: longitude
+                    required: true
+                    type: number
+                    format: double
     /pock/history:
         get:
             operationId: PocksRestGetAllMessagesHandler
@@ -293,10 +330,11 @@ paths:
             tags:
                 - Pocks
             parameters:
-                - description: ""
-                  in: path
-                  name: id
-                  required: true
-                  type: string
+                -
+                    description: ""
+                    in: path
+                    name: id
+                    required: true
+                    type: string
 swagger: '2.0'
 securityDefinitions: {}
