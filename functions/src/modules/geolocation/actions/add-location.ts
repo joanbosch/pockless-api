@@ -1,9 +1,8 @@
 import * as admin from "firebase-admin"
 import * as geofire from "geofire"
 import { ErrorResponse } from "../../../common/error"
-import { LatLong, validateLatLong } from "../../../common/models/lat-long"
-
-const MESSAGES_LOCATIONS_REF = '/messages-locations'
+import { LatLong } from "../../../common/models/lat-long"
+import { MESSAGES_LOCATIONS_REF } from "../../../common/paths";
 
 /**
  * Adds the given location to the id into the specific {@link #MESSAGES_LOCATIONS_REF}
@@ -13,10 +12,6 @@ const MESSAGES_LOCATIONS_REF = '/messages-locations'
  * @param objectId  id of the object
  */
 export default async (location: LatLong, objectId: string) => {
-    if (!validateLatLong(location)) {
-        throw new ErrorResponse(400, 'LatLong is not valid')
-    }
-
     const {
         latitude,
         longitude

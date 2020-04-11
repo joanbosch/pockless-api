@@ -1,30 +1,23 @@
-import * as yup from 'yup';
+import { an, is, namedSchema } from "yup-decorator";
+import { Validator } from "./validator";
 
 /**
  * Latitude-Longitude type
  */
-export type LatLong = {
+@namedSchema(LatLong.name)
+export class LatLong extends Validator {
 
+    // @ts-ignore
+    constructor({latitude, longitude}) {
+        super()
+        this.latitude = latitude
+        this.longitude = longitude
+    }
+
+    @is(an.number().required().min(-90).max(90))
     latitude: number
 
+    @is(an.number().required().min(-180).max(180))
     longitude: number
 }
-
-/**
- * Validator of the {@link LatLong type}.
- *
- * Validates that all the information contained in a LatLong object
- * is correct.
- */
-export const LatLongValidator = yup.object().shape({
-    latitude: yup.number().required().min(-90).max(90),
-    longitude: yup.number().required().min(-180).max(180)
-})
-
-/**
- * Sync validator for a LatLong object.
- *
- * @param object    Object to validate against {@link #LatLongValidator}
- */
-export const validateLatLong = (object: LatLong) => LatLongValidator.isValidSync(object)
 

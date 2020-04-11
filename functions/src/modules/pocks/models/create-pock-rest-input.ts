@@ -1,39 +1,36 @@
-import * as yup from 'yup';
-import { LatLong, LatLongValidator } from "../../../common/models/lat-long";
+import { an, is, namedSchema, nested } from "yup-decorator";
+import { LatLong } from "../../../common/models/lat-long";
+import { Validator } from "../../../common/models/validator";
 
-/**
- * Type for the input object of the endpoint /pocks
- */
-export type CreatePockRestInput = {
+
+@namedSchema(CreatePockRestInput.name)
+export class CreatePockRestInput extends Validator {
+    // @ts-ignore
+    constructor({message, location, chatAccess, category, url}) {
+        super()
+        this.message = message;
+        this.location = new LatLong(location)
+        this.chatAccess = chatAccess ? chatAccess : false
+        this.category = category
+        this.mediaUrl = url
+    }
+
+    @is(an.string().required())
     message: string
 
+    @nested()
     location: LatLong
 
+    @is(an.boolean().notRequired())
     chatAccess?: boolean
 
+    @is(an.string().required())
     category: string
 
+    @is(an.string().notRequired().url())
     mediaUrl?: string
 }
 
-/**
- * Validator of {@link CreatePockRestInput}
- *
- */
-const validator = yup.object().shape({
-    message: yup.string().required(),
-    location: LatLongValidator,
-    chatAccess: yup.boolean().notRequired(),
-    category: yup.string().required(),
-    mediaUrl: yup.string().notRequired().url()
-})
-
-/**
- * Validates synchronously that the {@param object} is correct.
- *
- * @param object       object of type {@link CreatePockRestInput} to validate
- */
-export const validateCreatePockRestInput = (object: CreatePockRestInput) => validator.isValidSync(object)
 
 
 

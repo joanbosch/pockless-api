@@ -1,35 +1,35 @@
-import { LatLong, validateLatLong } from "../lat-long"
+import { LatLong } from "../lat-long"
 
 describe('LatLong', () => {
     describe('given a LatLong object with valid values', () => {
-        const latLong: LatLong = {
+        const latLong = new LatLong({
             latitude: 50,
             longitude: 60
-        }
+        })
 
         it('should return true when validating', function () {
-            expect(validateLatLong(latLong)).toBeTruthy()
+            expect(latLong.validate()).toBeTruthy()
         });
     })
     describe('given a LatLong object with invalid values', () => {
-        const latLong: LatLong = {
+        const latLong = new LatLong({
             latitude: 500,
             longitude: 60
-        }
+        })
 
         it('should return false when validating', function () {
-            expect(validateLatLong(latLong)).toBeFalsy()
+            expect(latLong.validate()).toBeFalsy()
         });
     })
 
     describe('given a LatLong object with fields missing', () => {
-        const latLong = {
-            latitude: 500
-        }
+        // @ts-ignore
+        const latLong = new LatLong({
+            longitude: 60
+        })
 
         it('should return false when validating', function () {
-            // @ts-ignore
-            expect(validateLatLong(latLong)).toBeFalsy()
+            expect(latLong.validate()).toBeFalsy()
         });
     })
 })

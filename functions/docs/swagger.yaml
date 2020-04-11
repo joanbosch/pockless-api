@@ -10,8 +10,7 @@ definitions:
                 type: string
                 description: ""
             birthDate:
-                type: number
-                format: double
+                type: string
                 description: ""
             mail:
                 type: string
@@ -116,6 +115,9 @@ definitions:
             user:
                 type: string
                 description: ""
+            username:
+                type: string
+                description: ""
             media:
                 type: string
                 description: ""
@@ -124,7 +126,7 @@ definitions:
                 description: ""
             chatAccess:
                 type: boolean
-                description: ""
+                    description: ""
         type: object
         required:
             - id
@@ -134,17 +136,17 @@ definitions:
             - category
             - chatAccess
     CreatePockRestInput:
-        description: 'Type for the input object of the endpoint /pocks'
-        properties:
-            message:
-                type: string
-                description: ""
-            location:
-                $ref: '#/definitions/LatLong'
-            chatAccess:
-                type: boolean
-                description: ""
-            category:
+        description: ""
+            properties:
+                message:
+                    type: string
+                    description: ""
+                location:
+                    $ref: '#/definitions/LatLong'
+                chatAccess:
+                    type: boolean
+                    description: ""
+                category:
                 type: string
                 description: ""
             mediaUrl:

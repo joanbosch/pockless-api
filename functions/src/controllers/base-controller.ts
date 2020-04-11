@@ -3,6 +3,8 @@
  * to write in each endpoint
  */
 import { Context, ServiceContext } from "typescript-rest";
+import { validateSync } from "yup-decorator";
+import { ErrorResponse } from "../common/error/index";
 
 export abstract class BaseController {
     @Context
@@ -27,5 +29,13 @@ export abstract class BaseController {
             }
             resolve(result)
         })
+    }
+
+    validate(object: object, type: string) {
+        try {
+            validateSync({object: object, schemaName: type})
+        } catch (e) {
+            throw new ErrorResponse(400, 'Some fields are not correct', e.errors)
+        }
     }
 }

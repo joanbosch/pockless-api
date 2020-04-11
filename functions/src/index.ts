@@ -5,6 +5,13 @@ import { Server } from "typescript-rest";
 import { errorHandler, ErrorResponse } from "./common/error";
 import controllers from './controllers'
 
+// const serviceAccount = require('C:\\Users\\Victor\\Desktop\\Pockles.json');
+//
+// admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount),
+//     databaseURL: 'https://pockles.firebaseio.com'
+// });
+
 admin.initializeApp();
 
 const api = express()
@@ -24,8 +31,7 @@ Server.swagger(api, {
 //listPaths()
 
 // Adds the errorHandler as an error middleware to the express app
-api.use((err: ErrorResponse, req: express.Request, res: express.Response, next: any) =>
-    errorHandler(err, res))
+api.use((err: ErrorResponse, req: express.Request, res: express.Response, next: any) => errorHandler(err, res))
 
 // Exports the express app so FirebaseFunction can know about it and call it in an endpoint request
 exports.api = functions.https.onRequest(api)

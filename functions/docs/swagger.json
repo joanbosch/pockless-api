@@ -12,8 +12,7 @@
 					"description": ""
 				},
 				"birthDate": {
-					"type": "number",
-					"format": "double",
+					"type": "string",
 					"description": ""
 				},
 				"mail": {
@@ -149,6 +148,10 @@
 					"type": "string",
 					"description": ""
 				},
+				"username": {
+					"type": "string",
+					"description": ""
+				},
 				"media": {
 					"type": "string",
 					"description": ""
@@ -173,7 +176,7 @@
 			]
 		},
 		"CreatePockRestInput": {
-			"description": "Type for the input object of the endpoint /pocks",
+			"description": "",
 			"properties": {
 				"message": {
 					"type": "string",

@@ -1,8 +1,7 @@
-import { LatLong } from "../../../common/models/lat-long";
 import * as admin from "firebase-admin";
 import * as geofire from "geofire";
-
-const MESSAGES_LOC_REF = '/messages-locations'
+import { LatLong } from "../../../common/models/lat-long";
+import { MESSAGES_LOCATIONS_REF } from "../../../common/paths";
 
 /**
  * Obtains the id of any pock inside the radius of a location.
@@ -10,7 +9,7 @@ const MESSAGES_LOC_REF = '/messages-locations'
 export const getNearIds = async (location: LatLong, radius: number): Promise<string[]> =>
     new Promise((resolve, reject) => {
         // @ts-ignore
-        const gf = new geofire.GeoFire(admin.database().ref(MESSAGES_LOC_REF))
+        const gf = new geofire.GeoFire(admin.database().ref(MESSAGES_LOCATIONS_REF))
         const locations: string[] = []
         const geoQuery = gf.query({
             center: [

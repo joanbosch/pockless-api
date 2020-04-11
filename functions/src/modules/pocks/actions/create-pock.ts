@@ -1,10 +1,10 @@
 import * as admin from "firebase-admin";
 import { ErrorResponse } from "../../../common/error";
+import { MESSAGES_REF } from "../../../common/paths";
 import addLocation from '../../geolocation/actions/add-location'
-import { CreatePockRestInput, validateCreatePockRestInput } from "../models/create-pock-rest-input"
+import { CreatePockRestInput } from "../models/create-pock-rest-input"
 import { PockMessage } from "../models/pock-message"
 
-export const MESSAGES_REF = '/messages'
 export const DEFAULT_EXPIRATION_TIME = 7 * 24 * 3600 * 1000 // 1 week
 
 /**
@@ -17,12 +17,6 @@ export const DEFAULT_EXPIRATION_TIME = 7 * 24 * 3600 * 1000 // 1 week
  * @param user
  */
 export default async (input: CreatePockRestInput, user: any): Promise<PockMessage> => {
-
-    // Step 1: validate input (it does not sanitize it)
-    if (!validateCreatePockRestInput(input)) {
-        throw new ErrorResponse(400, 'Some of the fields are not correct')
-    }
-
     // Step 2: Insert into database
     const snapshot =
         await admin.database().ref(MESSAGES_REF).push({
@@ -54,22 +48,6 @@ export default async (input: CreatePockRestInput, user: any): Promise<PockMessag
 
     // Step 4: Return the freshly inserted pock from the database
     const pockInserted = await admin.database().ref(`${MESSAGES_REF}/${id}`).once('value')
-    const {
-        message,
-        location,
-        dateInserted,
-        mediaUrl,
-        category,
-        chatAccess
-    } = pockInserted.val()
 
-    return {
-        id,
-        message,
-        location,
-        dateInserted,
-        category,
-        chatAccess,
-        media: mediaUrl,
-    }
+    return new PockMessage(Object.assign({}, pockInserted.val(), {id: pockInserted.key}))
 }
