@@ -14,7 +14,7 @@ import controllers from './controllers'
 // });
 
 // To deploy is is needed to just use this
-// admin.initializeApp();
+admin.initializeApp();
 
 const api = express()
 
