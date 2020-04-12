@@ -1,15 +1,18 @@
-import { GET, Path, PathParam, POST, PreProcessor, QueryParam } from "typescript-rest"
+import admin from "firebase-admin";
+import { DELETE, GET, Path, PathParam, POST, PreProcessor, QueryParam } from "typescript-rest"
 import { Tags } from "typescript-rest-swagger";
 import { AppClient } from "../common/auth/app-client"
 import { appClientAuthenticator } from "../common/auth/app-client-authenticator"
 import { userAuthentication } from "../common/auth/user-authenticator";
 import { LatLong } from "../common/models/lat-long";
 import createPock from "../modules/pocks/actions/create-pock"
+import deleteLikePock from "../modules/pocks/actions/delete-like-pock"
 import historyPocks from "../modules/pocks/actions/get-history-pocks"
 import getNearPocks from "../modules/pocks/actions/get-near-pocks"
-import viewPock from "../modules/pocks/actions/get-pock"
+import getPock from "../modules/pocks/actions/get-pock"
+import likePock from "../modules/pocks/actions/like-pock"
 import { CreatePockRestInput } from "../modules/pocks/models/create-pock-rest-input"
-import { PockMessage } from "../modules/pocks/models/pock-message"
+import { PockMessage } from "../modules/pocks/models/pock-message";
 import { BaseController } from "./base-controller"
 
 /**
@@ -39,7 +42,7 @@ export class PocksRestController extends BaseController {
     @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @Path('/history')
     @GET
-    async getAllMessagesHandler(): Promise<PockMessage[]> {
+    async getPocksHist(): Promise<PockMessage[]> {
         return this.asPromise(historyPocks)
     }
 
@@ -48,6 +51,22 @@ export class PocksRestController extends BaseController {
     @Path('/:id')
     @GET
     async getMessageById(@PathParam("id") id: string): Promise<PockMessage> {
-        return this.asPromise(viewPock, id)
+        return this.asPromise(getPock, id)
+    }
+
+    @PreProcessor(userAuthentication)
+    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
+    @Path('/:id/like')
+    @POST
+    async likePock(@PathParam("id") id: string): Promise<PockMessage> {
+        return this.asPromise(likePock, id)
+    }
+
+    @PreProcessor(userAuthentication)
+    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
+    @Path('/:id/like')
+    @DELETE
+    async removeLikePock(@PathParam("id") id: string): Promise<PockMessage> {
+        return this.asPromise(deleteLikePock, id)
     }
 }

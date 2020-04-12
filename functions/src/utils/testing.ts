@@ -7,5 +7,9 @@ import { Server } from "typescript-rest";
  */
 export const listPaths = () => {
     console.log('Listing found paths:')
-    Server.getPaths().forEach(path => console.log('/api' + path))
+    Server.getPaths().forEach(path => {
+        Server.getHttpMethods(path).forEach(method => {
+            console.log(`${method}: /api${path}`)
+        })
+    })
 }

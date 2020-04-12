@@ -126,17 +126,17 @@
 			]
 		},
 		"PockMessage": {
-			"description": "Type of the PockMessage\r\n\r\nIt has no validator as it is an outgoing object (database -> external device).",
-			"properties": {
-				"id": {
-					"type": "object",
-					"description": ""
-				},
-				"message": {
-					"type": "string",
-					"description": ""
-				},
-				"location": {
+          "description": "Type of the PockMessage",
+          "properties": {
+            "id": {
+              "type": "object",
+              "description": ""
+            },
+            "message": {
+              "type": "string",
+              "description": ""
+            },
+            "location": {
 					"$ref": "#/definitions/LatLong"
 				},
 				"dateInserted": {
@@ -153,27 +153,38 @@
 					"description": ""
 				},
 				"media": {
-					"type": "string",
-					"description": ""
-				},
-				"category": {
-					"type": "string",
-					"description": ""
-				},
-				"chatAccess": {
-					"type": "boolean",
-					"description": ""
-				}
-			},
+                  "type": "string",
+                  "description": ""
+                },
+            "category": {
+              "type": "string",
+              "description": ""
+            },
+            "chatAccess": {
+              "type": "boolean",
+              "description": ""
+            },
+            "canLike": {
+              "type": "boolean",
+              "description": ""
+            },
+            "likes": {
+              "type": "number",
+              "format": "double",
+              "description": ""
+            }
+          },
 			"type": "object",
 			"required": [
-				"id",
-				"message",
-				"location",
-				"dateInserted",
-				"category",
-				"chatAccess"
-			]
+              "id",
+              "message",
+              "location",
+              "dateInserted",
+              "category",
+              "chatAccess",
+              "canLike",
+              "likes"
+            ]
 		},
 		"CreatePockRestInput": {
 			"description": "",
@@ -369,17 +380,17 @@
 		},
 		"/pock/history": {
 			"get": {
-				"operationId": "PocksRestGetAllMessagesHandler",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/PockMessage"
+              "operationId": "PocksRestGetPocksHist",
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Ok",
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/PockMessage"
 							}
 						}
 					}
@@ -389,26 +400,85 @@
 					"Pocks"
 				],
 				"parameters": []
-			}
-		},
-		"/pock/{id}": {
-			"get": {
-				"operationId": "PocksRestGetMessageById",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"$ref": "#/definitions/PockMessage"
-						}
-					}
-				},
-				"description": "",
-				"tags": [
-					"Pocks"
-				],
+            }
+        },
+      "/pock/{id}": {
+        "get": {
+          "operationId": "PocksRestGetMessageById",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Ok",
+              "schema": {
+                "$ref": "#/definitions/PockMessage"
+              }
+            }
+          },
+          "description": "",
+          "tags": [
+            "Pocks"
+          ],
+          "parameters": [
+            {
+              "description": "",
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "/pock/{id}/like": {
+        "post": {
+          "operationId": "PocksRestLikePock",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Ok",
+              "schema": {
+                "$ref": "#/definitions/PockMessage"
+              }
+            }
+          },
+          "description": "",
+          "tags": [
+            "Pocks"
+          ],
+          "consumes": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "description": "",
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "type": "string"
+            }
+          ]
+        },
+        "delete": {
+          "operationId": "PocksRestRemoveLikePock",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Ok",
+              "schema": {
+                "$ref": "#/definitions/PockMessage"
+              }
+            }
+          },
+          "description": "",
+          "tags": [
+            "Pocks"
+          ],
 				"parameters": [
 					{
 						"description": "",
