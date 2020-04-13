@@ -7,14 +7,14 @@ import { LatLong } from "../../../common/models/lat-long";
  */
 export class PockMessage {
     // @ts-ignore
-    constructor({id, message, location, dateInserted, user, username, url, category, chatAccess}) {
+    constructor({id, message, location, dateInserted, user, username, media, category, chatAccess}) {
         this.id = id
         this.message = message
         this.location = location
         this.dateInserted = dateInserted
         this.user = user
         this.username = username
-        this.media = url
+        this.media = media
         this.category = category
         this.chatAccess = chatAccess
     }
