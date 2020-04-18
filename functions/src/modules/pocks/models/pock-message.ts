@@ -6,6 +6,7 @@ import { LatLong } from "../../../common/models/lat-long";
  * It has no validator as it is an outgoing object (database -> external device).
  */
 export class PockMessage {
+    static POCK_LOCATION = [];
     // @ts-ignore
     constructor({id, message, location, dateInserted, user, username, media, category, chatAccess}) {
         this.id = id
@@ -17,6 +18,8 @@ export class PockMessage {
         this.media = media
         this.category = category
         this.chatAccess = chatAccess
+        // @ts-ignore
+        PockMessage.POCK_LOCATION.push(location);
     }
 
     id: any
@@ -36,4 +39,8 @@ export class PockMessage {
     category: string
 
     chatAccess: boolean
+
+    static getAllLocations() {
+        return PockMessage.POCK_LOCATION.slice(); //devolvemos una copia, para evitar que alguien pueda modificar el original
+    }
 }
