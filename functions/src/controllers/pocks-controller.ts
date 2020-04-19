@@ -55,7 +55,7 @@ export class PocksRestController extends BaseController {
     @PreProcessor(userAuthentication)
     @PreProcessor(appClientAuthenticator([AppClient.POCKLES]))
     @GET
-    async getAllPocksLocations(@PathParam("id") id: string): Promise<Array<LatLong>> {
+    async getAllPocksLocations(): Promise<Array<LatLong>> {
         return this.asPromise(heatmap)
     }
 }
