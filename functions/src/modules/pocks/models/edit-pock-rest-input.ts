@@ -10,13 +10,13 @@ export class EditPockRestInput {
         this.mediaUrl = url
     }
 
-    @is(an.string().required())
+    @is(an.string().notRequired())
     message: string
 
     @is(an.boolean().notRequired())
     chatAccess?: boolean
 
-    @is(an.string().required())
+    @is(an.string().notRequired())
     category: string
 
     @is(an.string().notRequired().url())

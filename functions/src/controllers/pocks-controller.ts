@@ -58,6 +58,7 @@ export class PocksRestController extends BaseController {
     @Path('/:id')
     @PATCH
     async editPockHandler(@PathParam("id") id: string, body: EditPockRestInput): Promise<PockMessage> {
+        this.validate(body, EditPockRestInput.name)
         return this.asPromise(editPock, id, body)
     }
 }
