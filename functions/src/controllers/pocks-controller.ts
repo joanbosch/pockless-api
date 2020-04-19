@@ -1,4 +1,4 @@
-import { GET, Path, PathParam, POST, PUT, PreProcessor, QueryParam } from "typescript-rest"
+import { GET, PATCH, Path, PathParam, POST, PreProcessor, QueryParam } from "typescript-rest"
 import { Tags } from "typescript-rest-swagger";
 import { AppClient } from "../common/auth/app-client"
 import { appClientAuthenticator } from "../common/auth/app-client-authenticator"
@@ -56,7 +56,7 @@ export class PocksRestController extends BaseController {
     @PreProcessor(userAuthentication)
     @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @Path('/:id')
-    @PUT
+    @PATCH
     async editPockHandler(@PathParam("id") id: string, body: EditPockRestInput): Promise<PockMessage> {
         return this.asPromise(editPock, id, body)
     }

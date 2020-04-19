@@ -1,32 +1,24 @@
-import * as yup from 'yup';
+import { an, is, namedSchema } from "yup-decorator";
 
-/**
- * Type for the input object of the endpoint /pocks when editing a pock
- */
-export type EditPockRestInput = {
+@namedSchema(EditPockRestInput.name)
+export class EditPockRestInput {
+    // @ts-ignore
+    constructor({message, chatAccess, category, url}) {
+        this.message = message;
+        this.chatAccess = chatAccess ? chatAccess : false
+        this.category = category
+        this.mediaUrl = url
+    }
+
+    @is(an.string().required())
     message: string
 
+    @is(an.boolean().notRequired())
     chatAccess?: boolean
 
+    @is(an.string().required())
     category: string
 
+    @is(an.string().notRequired().url())
     mediaUrl?: string
 }
-
-/**
- * Validator of {@link EditPockRestInput}
- *
- */
-const validator = yup.object().shape({
-    message: yup.string().required(),
-    chatAccess: yup.boolean().notRequired(),
-    category: yup.string().required(),
-    mediaUrl: yup.string().notRequired().url()
-})
-
-/**
- * Validates synchronously that the {@param object} is correct.
- *
- * @param object       object of type {@link EditPockRestInput} to validate
- */
-export const validateEditPockRestInput = (object: EditPockRestInput) => validator.isValidSync(object)
