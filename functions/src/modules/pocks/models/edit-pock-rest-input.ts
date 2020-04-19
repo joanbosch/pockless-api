@@ -11,13 +11,13 @@ export class EditPockRestInput {
     }
 
     @is(an.string().notRequired())
-    message: string
+    message?: string
 
     @is(an.boolean().notRequired())
     chatAccess?: boolean
 
     @is(an.string().notRequired())
-    category: string
+    category?: string
 
     @is(an.string().notRequired().url())
     mediaUrl?: string
