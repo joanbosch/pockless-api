@@ -3,6 +3,7 @@ import { Tags } from "typescript-rest-swagger";
 import { AppClient } from "../common/auth/app-client"
 import { appClientAuthenticator } from "../common/auth/app-client-authenticator"
 import { userAuthentication } from "../common/auth/user-authenticator";
+import { LatLong } from "../common/models/lat-long";
 import createPock from "../modules/pocks/actions/create-pock"
 import historyPocks from "../modules/pocks/actions/get-history-pocks"
 import getNearPocks from "../modules/pocks/actions/get-near-pocks"
@@ -23,14 +24,17 @@ export class PocksRestController extends BaseController {
     @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @POST
     async createPockHandler(body: CreatePockRestInput): Promise<PockMessage> {
+        this.validate(body, CreatePockRestInput.name)
         return this.asPromise(createPock, body)
     }
 
     @PreProcessor(userAuthentication)
     @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @GET
-    async getNearPocksHandler(@QueryParam("latitude") lat: number, @QueryParam("longitude") long: number): Promise<PockMessage[]> {
-        return this.asPromise(getNearPocks, lat, long)
+    async getNearPocksHandler(@QueryParam("latitude") latitude: number, @QueryParam("longitude") longitude: number): Promise<PockMessage[]> {
+        const latLong: LatLong = new LatLong({latitude, longitude})
+        this.validate(latLong, LatLong.name)
+        return this.asPromise(getNearPocks, latLong)
     }
 
     @PreProcessor(userAuthentication)

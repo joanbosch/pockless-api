@@ -10,8 +10,7 @@ definitions:
                 type: string
                 description: ""
             birthDate:
-                type: number
-                format: double
+                type: string
                 description: ""
             mail:
                 type: string
@@ -116,6 +115,9 @@ definitions:
             user:
                 type: string
                 description: ""
+            username:
+                type: string
+                description: ""
             media:
                 type: string
                 description: ""
@@ -134,7 +136,7 @@ definitions:
             - category
             - chatAccess
     CreatePockRestInput:
-        description: 'Type for the input object of the endpoint /pocks'
+        description: ""
         properties:
             message:
                 type: string
@@ -189,12 +191,13 @@ paths:
             consumes:
                 - application/json
             parameters:
-                - description: ""
-                  in: body
-                  name: body
-                  required: true
-                  schema:
-                      $ref: '#/definitions/CreateUserRestInput'
+                -
+                    description: ""
+                    in: body
+                    name: body
+                    required: true
+                    schema:
+                        $ref: '#/definitions/CreateUserRestInput'
     '/user/{id}/exists':
         get:
             operationId: UserRestUserExists
@@ -209,11 +212,12 @@ paths:
             tags:
                 - Users
             parameters:
-                - description: ""
-                  in: path
-                  name: id
-                  required: true
-                  type: string
+                -
+                    description: ""
+                    in: path
+                    name: id
+                    required: true
+                    type: string
     /pock:
         post:
             operationId: PocksRestCreatePockHandler
@@ -230,12 +234,13 @@ paths:
             consumes:
                 - application/json
             parameters:
-                - description: ""
-                  in: body
-                  name: body
-                  required: true
-                  schema:
-                      $ref: '#/definitions/CreatePockRestInput'
+                -
+                    description: ""
+                    in: body
+                    name: body
+                    required: true
+                    schema:
+                        $ref: '#/definitions/CreatePockRestInput'
         get:
             operationId: PocksRestGetNearPocksHandler
             produces:
@@ -251,18 +256,20 @@ paths:
             tags:
                 - Pocks
             parameters:
-                - description: ""
-                  in: query
-                  name: latitude
-                  required: true
-                  type: number
-                  format: double
-                - description: ""
-                  in: query
-                  name: longitude
-                  required: true
-                  type: number
-                  format: double
+                -
+                    description: ""
+                    in: query
+                    name: latitude
+                    required: true
+                    type: number
+                    format: double
+                -
+                    description: ""
+                    in: query
+                    name: longitude
+                    required: true
+                    type: number
+                    format: double
     /pock/history:
         get:
             operationId: PocksRestGetAllMessagesHandler
@@ -293,10 +300,11 @@ paths:
             tags:
                 - Pocks
             parameters:
-                - description: ""
-                  in: path
-                  name: id
-                  required: true
-                  type: string
+                -
+                    description: ""
+                    in: path
+                    name: id
+                    required: true
+                    type: string
 swagger: '2.0'
 securityDefinitions: {}
