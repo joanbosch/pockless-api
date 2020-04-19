@@ -6,13 +6,13 @@ import {MESSAGES_LOCATIONS_REF, MESSAGES_REF} from "../../../common/paths";
 import {PockMessage} from "../../pocks/models/pock-message";
 import {now} from "moment";
 
-export default async (user: any): Promise<Array<LatLong>[]> => {
+export default async (user: any): Promise<Array<LatLong>> => {
     //Step 1: Take all Ids of the Pocks Table
     const allIds = PockMessage.getAllIds()
 
     //Step2: Get the pock related to this Id and check user not null and if can see +18 pocks
 
-    const returnLocationList: Array<LatLong>[] = []
+    const returnLocationList: Array<LatLong> = []
     const filterSensiblePocks = user != null && !user.isOlderThan18()
 
     for (const pockId of allIds) { //if using forEach and async it doesn't return any pock
