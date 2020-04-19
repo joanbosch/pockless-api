@@ -3,7 +3,7 @@ import * as geofire from "geofire"
 import { ErrorResponse } from "../../../common/error"
 import { LatLong } from "../../../common/models/lat-long"
 import {MESSAGES_LOCATIONS_REF, MESSAGES_REF} from "../../../common/paths";
-import {PockMessage} from "../../pocks/models/pock-message";
+import {PockMessage} from "../models/pock-message";
 import {now} from "moment";
 
 export default async (user: any): Promise<Array<LatLong>> => {

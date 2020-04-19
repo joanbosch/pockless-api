@@ -11,7 +11,7 @@ import viewPock from "../modules/pocks/actions/get-pock"
 import {CreatePockRestInput} from "../modules/pocks/models/create-pock-rest-input"
 import {PockMessage} from "../modules/pocks/models/pock-message"
 import {BaseController} from "./base-controller"
-import heatmap from "../modules/geolocation/actions/heatmap";
+import heatmap from "../modules/pocks/actions/heatmap";
 
 /**
  * Pocks rest controller that manages all the endpoints that are in /pock.
@@ -55,7 +55,7 @@ export class PocksRestController extends BaseController {
     @PreProcessor(userAuthentication)
     @PreProcessor(appClientAuthenticator([AppClient.POCKLES]))
     @GET
-    async userExists(@PathParam("id") id: string): Promise<Boolean> {
+    async getAllPocksLocations(@PathParam("id") id: string): Promise<Array<LatLong>> {
         return this.asPromise(heatmap(id))
     }
 }
