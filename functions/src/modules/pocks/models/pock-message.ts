@@ -7,6 +7,7 @@ import { LatLong } from "../../../common/models/lat-long";
  */
 export class PockMessage {
     static POCK_LOCATION = [];
+    static POCK_ID =[];
     // @ts-ignore
     constructor({id, message, location, dateInserted, user, username, media, category, chatAccess}) {
         this.id = id
@@ -19,7 +20,9 @@ export class PockMessage {
         this.category = category
         this.chatAccess = chatAccess
         // @ts-ignore
-        PockMessage.POCK_LOCATION.push(location);
+        PockMessage.POCK_LOCATION.push(location)
+        // @ts-ignore
+        PockMessage.POCK_ID.push(id)
     }
 
     id: any
@@ -42,5 +45,8 @@ export class PockMessage {
 
     static getAllLocations() {
         return PockMessage.POCK_LOCATION.slice(); //devolvemos una copia, para evitar que alguien pueda modificar el original
+    }
+    static getAllIds() {
+        return PockMessage.POCK_ID.slice(); //devolvemos una copia, para evitar que alguien pueda modificar el original
     }
 }
