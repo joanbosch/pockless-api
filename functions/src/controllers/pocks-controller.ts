@@ -1,19 +1,19 @@
-import {GET, PATCH, Path, PathParam, POST, PreProcessor, QueryParam} from "typescript-rest"
-import {Tags} from "typescript-rest-swagger";
-import {AppClient} from "../common/auth/app-client"
-import {appClientAuthenticator} from "../common/auth/app-client-authenticator"
-import {userAuthentication} from "../common/auth/user-authenticator";
-import {LatLong} from "../common/models/lat-long";
+import { GET, PATCH, Path, PathParam, POST, PreProcessor, QueryParam } from "typescript-rest"
+import { Tags } from "typescript-rest-swagger";
+import { AppClient } from "../common/auth/app-client"
+import { appClientAuthenticator } from "../common/auth/app-client-authenticator"
+import { userAuthentication } from "../common/auth/user-authenticator";
+import { LatLong } from "../common/models/lat-long";
 import createPock from "../modules/pocks/actions/create-pock"
+import editPock from "../modules/pocks/actions/edit-pock"
 import historyPocks from "../modules/pocks/actions/get-history-pocks"
 import getNearPocks from "../modules/pocks/actions/get-near-pocks"
 import viewPock from "../modules/pocks/actions/get-pock"
-import editPock from "../modules/pocks/actions/edit-pock"
-import {CreatePockRestInput} from "../modules/pocks/models/create-pock-rest-input"
-import { EditPockRestInput } from "../modules/pocks/models/edit-pock-rest-input"
-import {PockMessage} from "../modules/pocks/models/pock-message"
-import {BaseController} from "./base-controller"
 import heatmap from "../modules/pocks/actions/heatmap";
+import { CreatePockRestInput } from "../modules/pocks/models/create-pock-rest-input"
+import { EditPockRestInput } from "../modules/pocks/models/edit-pock-rest-input"
+import { PockMessage } from "../modules/pocks/models/pock-message"
+import { BaseController } from "./base-controller"
 
 /**
  * Pocks rest controller that manages all the endpoints that are in /pock.
@@ -22,7 +22,7 @@ import heatmap from "../modules/pocks/actions/heatmap";
 @Path('/pock')
 export class PocksRestController extends BaseController {
     @PreProcessor(userAuthentication)
-    @PreProcessor(appClientAuthenticator([AppClient.POCKLES]))
+    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @POST
     async createPockHandler(body: CreatePockRestInput): Promise<PockMessage> {
         this.validate(body, CreatePockRestInput.name)
@@ -30,7 +30,7 @@ export class PocksRestController extends BaseController {
     }
 
     @PreProcessor(userAuthentication)
-    @PreProcessor(appClientAuthenticator([AppClient.POCKLES]))
+    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @GET
     async getNearPocksHandler(@QueryParam("latitude") latitude: number, @QueryParam("longitude") longitude: number): Promise<PockMessage[]> {
         const latLong: LatLong = new LatLong({latitude, longitude})
@@ -39,7 +39,7 @@ export class PocksRestController extends BaseController {
     }
 
     @PreProcessor(userAuthentication)
-    @PreProcessor(appClientAuthenticator([AppClient.POCKLES]))
+    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @Path('/history')
     @GET
     async getAllMessagesHandler(): Promise<PockMessage[]> {
@@ -47,7 +47,7 @@ export class PocksRestController extends BaseController {
     }
 
     @PreProcessor(userAuthentication)
-    @PreProcessor(appClientAuthenticator([AppClient.POCKLES]))
+    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @Path('/:id')
     @GET
     async getMessageById(@PathParam("id") id: string): Promise<PockMessage> {
@@ -55,7 +55,7 @@ export class PocksRestController extends BaseController {
     }
 
     @PreProcessor(userAuthentication)
-    @PreProcessor(appClientAuthenticator([AppClient.POCKLES]))
+    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @Path('/locations')
     @GET
     async getAllPocksLocations(): Promise<Array<LatLong>> {
