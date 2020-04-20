@@ -15,10 +15,6 @@ export default async (): Promise<Array<LatLong>> => {
         .endAt(now())
         .once('value')
 
-    if (!snapshotOfAllPocks) {
-        throw new ErrorResponse(418, 'Could not get all pocks')
-    }
-
     //Step2: Get All pock's location of the Snapshot
     const allPocksLocation: Array<LatLong> = []
     snapshotOfAllPocks.forEach((s: admin.database.DataSnapshot) => {
