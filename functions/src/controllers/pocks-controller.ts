@@ -5,10 +5,11 @@ import { appClientAuthenticator } from "../common/auth/app-client-authenticator"
 import { userAuthentication } from "../common/auth/user-authenticator";
 import { LatLong } from "../common/models/lat-long";
 import createPock from "../modules/pocks/actions/create-pock"
+import editPock from "../modules/pocks/actions/edit-pock"
 import historyPocks from "../modules/pocks/actions/get-history-pocks"
 import getNearPocks from "../modules/pocks/actions/get-near-pocks"
 import viewPock from "../modules/pocks/actions/get-pock"
-import editPock from "../modules/pocks/actions/edit-pock"
+import heatmap from "../modules/pocks/actions/heatmap";
 import { CreatePockRestInput } from "../modules/pocks/models/create-pock-rest-input"
 import { EditPockRestInput } from "../modules/pocks/models/edit-pock-rest-input"
 import { PockMessage } from "../modules/pocks/models/pock-message"
@@ -51,6 +52,14 @@ export class PocksRestController extends BaseController {
     @GET
     async getMessageById(@PathParam("id") id: string): Promise<PockMessage> {
         return this.asPromise(viewPock, id)
+    }
+
+    @PreProcessor(userAuthentication)
+    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
+    @Path('/locations')
+    @GET
+    async getAllPocksLocations(): Promise<Array<LatLong>> {
+        return this.asPromise(heatmap)
     }
 
     @PreProcessor(userAuthentication)
