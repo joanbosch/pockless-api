@@ -20,7 +20,7 @@ export default async (user: any): Promise<PockMessage[]> => {
 
     const result: PockMessage[] = []
     snapshot.forEach((s: admin.database.DataSnapshot) => {
-        result.push(new PockMessage(s.val()))
+        result.push(new PockMessage(Object.assign({}, s.val(), {id: s.key})))
     })
 
     return result.sort((a: PockMessage, b: PockMessage) => a.dateInserted - b.dateInserted)
