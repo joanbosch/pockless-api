@@ -1,20 +1,19 @@
-import admin from "firebase-admin";
 import { DELETE, GET, PATCH, Path, PathParam, POST, PreProcessor, QueryParam } from "typescript-rest"
-import { Tags } from "typescript-rest-swagger";
+import { Tags } from "typescript-rest-swagger"
 import { AppClient } from "../common/auth/app-client"
 import { appClientAuthenticator } from "../common/auth/app-client-authenticator"
-import { userAuthentication } from "../common/auth/user-authenticator";
-import { LatLong } from "../common/models/lat-long";
+import { userAuthentication } from "../common/auth/user-authenticator"
+import { LatLong } from "../common/models/lat-long"
 import createPock from "../modules/pocks/actions/create-pock"
 import deleteLikePock from "../modules/pocks/actions/delete-like-pock"
 import editPock from "../modules/pocks/actions/edit-pock"
 import getNearPocks from "../modules/pocks/actions/get-near-pocks"
 import getPock from "../modules/pocks/actions/get-pock"
+import heatmap from "../modules/pocks/actions/heatmap"
 import likePock from "../modules/pocks/actions/like-pock"
-import heatmap from "../modules/pocks/actions/heatmap";
 import { CreatePockRestInput } from "../modules/pocks/models/create-pock-rest-input"
 import { EditPockRestInput } from "../modules/pocks/models/edit-pock-rest-input"
-import { PockMessage } from "../modules/pocks/models/pock-message";
+import { PockMessage } from "../modules/pocks/models/pock-message"
 import { BaseController } from "./base-controller"
 
 /**
