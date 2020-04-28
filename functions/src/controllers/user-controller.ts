@@ -4,6 +4,8 @@ import { AppClient } from "../common/auth/app-client";
 import { appClientAuthenticator } from "../common/auth/app-client-authenticator";
 import { userAuthentication } from "../common/auth/user-authenticator";
 import { BaseController } from "../controllers/base-controller";
+import historyPocks from "../modules/pocks/actions/get-history-pocks";
+import { PockMessage } from "../modules/pocks/models/pock-message";
 import getProfile from "../modules/user/actions/get-profile";
 import userExists from "../modules/user/actions/get-user-exists";
 import { CreateUserRestInput } from "../modules/user/model/create-user-rest-input";
@@ -33,5 +35,13 @@ export class UserRestController extends BaseController {
     async createUser(body: CreateUserRestInput): Promise<Boolean> {
         this.validate(body, CreateUserRestInput.name)
         return this.asPromise(createUser, body)
+    }
+
+    @PreProcessor(userAuthentication)
+    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
+    @Path('/history')
+    @GET
+    async getAllMessagesHandler(): Promise<PockMessage[]> {
+        return this.asPromise(historyPocks)
     }
 }

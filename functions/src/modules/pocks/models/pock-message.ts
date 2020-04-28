@@ -2,17 +2,19 @@ import { LatLong } from "../../../common/models/lat-long";
 
 /**
  * Type of the PockMessage
+ *
+ * It has no validator as it is an outgoing object (database -> external device).
  */
 export class PockMessage {
     // @ts-ignore
-    constructor({id, message, location, dateInserted, user, username, url, category, chatAccess, likes, canLike}) {
+    constructor({id, message, location, dateInserted, user, username, media, category, chatAccess, likes, canLike}) {
         this.id = id
         this.message = message
         this.location = location
         this.dateInserted = dateInserted
         this.user = user
         this.username = username
-        this.media = url
+        this.media = media
         this.category = category
         this.chatAccess = chatAccess
         this.likes = likes
