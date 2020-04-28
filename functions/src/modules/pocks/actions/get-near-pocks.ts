@@ -32,13 +32,10 @@ export default async (input: LatLong, user: any): Promise<PockMessage[]> => {
     const filterSensiblePocks = profile != null && !profile.isOlderThan18()
 
     for (const pockId of nearIds) { //if using forEach and async it doesn't return any pock
-        const onePock = await admin.database().ref(`${MESSAGES_REF}/${pockId}`)
-            .orderByChild('dateExpiration')
-            .endAt(now())
-            .once('value')
+        const onePock = await admin.database().ref(`${MESSAGES_REF}/${pockId}`).once('value')
 
         // If database returned nothing, means that it has expired
-        if (onePock != null && onePock.val() !== null) {
+        if (onePock != null && onePock.val() !== null && onePock.val().dateExpiration >= now()) {
             if (!filterSensiblePocks || onePock.val().category !== '+18') {
                 returnPocksList.push(new PockMessage(Object.assign({}, onePock.val(), {id: pockId})))
             }

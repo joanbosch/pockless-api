@@ -28,15 +28,13 @@ export default async (pockId: string, {uid}: any): Promise<PockMessage> => {
 
     const likes = likesSnapshot.val() != null ? Object.keys(likesSnapshot.val()).length : 0
 
-    const canLikeSnapshot = await admin.database().ref(`${LIKES_REF}`)
+    const likedSnapshot = await admin.database().ref(`${LIKES_REF}`)
         .orderByChild("composedKey")
         .equalTo(composeKey(pockId, uid))
         .once('value')
 
-    const canLike = canLikeSnapshot.val() == null
-
     return new PockMessage(Object.assign(
         {},
         db.val(),
-        {id: pockId, user, username: name, likes, canLike}))
+        {id: pockId, user, username: name, likes, liked: likedSnapshot.val() != null}))
 }
