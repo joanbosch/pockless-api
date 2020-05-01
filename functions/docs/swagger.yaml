@@ -10,8 +10,7 @@ definitions:
                 type: string
                 description: ""
             birthDate:
-                type: number
-                format: double
+                type: string
                 description: ""
             mail:
                 type: string
@@ -83,15 +82,6 @@ definitions:
             - profileImageUrl
             - radiusVisibility
             - accentColor
-    InsertTokenRestInput:
-        description: ""
-        properties:
-            token:
-                type: string
-                description: ""
-        type: object
-        required:
-            - token
     LatLong:
         description: 'Latitude-Longitude type'
         properties:
@@ -125,6 +115,9 @@ definitions:
             user:
                 type: string
                 description: ""
+            username:
+                type: string
+                description: ""
             media:
                 type: string
                 description: ""
@@ -143,7 +136,7 @@ definitions:
             - category
             - chatAccess
     CreatePockRestInput:
-        description: 'Type for the input object of the endpoint /pocks'
+        description: ""
         properties:
             message:
                 type: string
@@ -225,29 +218,6 @@ paths:
                     name: id
                     required: true
                     type: string
-    /user/token:
-        put:
-            operationId: UserRestInsertToken
-            produces:
-                - application/json
-            responses:
-                '200':
-                    description: Ok
-                    schema:
-                        $ref: '#/definitions/Boolean'
-            description: ""
-            tags:
-                - Users
-            consumes:
-                - application/json
-            parameters:
-                -
-                    description: ""
-                    in: body
-                    name: body
-                    required: true
-                    schema:
-                        $ref: '#/definitions/InsertTokenRestInput'
     /pock:
         post:
             operationId: PocksRestCreatePockHandler

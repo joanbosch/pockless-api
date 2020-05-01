@@ -6,7 +6,7 @@
     "serve": "npm run build && firebase serve --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
-    "emulator": "npm run build && firebase emulators:start",
+    "emulator": "npm run build && firebase emulators:start --only functions",
     "deploy": "npm run swagger && npm run build && firebase deploy --only functions",
     "logs": "firebase functions:log",
     "swagger": "swaggerGen -c ./swaggerConfig.json",
@@ -34,10 +34,12 @@
     "joi-typescript-validator": "0.0.9",
     "lodash": "latest",
     "madge": "^3.7.0",
+    "moment": "^2.24.0",
     "multer": "^1.4.2",
     "typescript-rest": "3.0.1",
     "typescript-rest-swagger": "^1.1.1",
-    "yup": "^0.28.3"
+    "yup": "^0.28.3",
+    "yup-decorator": "^2.1.0"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",

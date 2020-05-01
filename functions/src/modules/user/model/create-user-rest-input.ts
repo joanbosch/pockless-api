@@ -1,32 +1,39 @@
-import * as yup from "yup";
+import { an, is, namedSchema } from "yup-decorator";
 
-export type CreateUserRestInput = {
-    id: string,
-    name: string,
+@namedSchema(CreateUserRestInput.name)
+export class CreateUserRestInput {
+    // @ts-ignore
+    constructor({id, name, birthDate, mail, profileImageUrl, radiusVisibility, accentColor}) {
+        this.id = id;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.mail = mail;
+        this.profileImageUrl = profileImageUrl;
+        this.radiusVisibility = radiusVisibility;
+        this.accentColor = accentColor;
+    }
+
+    @is(an.string().required())
+    id: string
+
+    @is(an.string().required())
+    name: string
+
+    @is(an.string().required())
     birthDate: string
-    mail: string,
-    profileImageUrl: string,
+
+    @is(an.string().required().email())
+    mail: string
+
+    @is(an.string().required().url())
+    profileImageUrl: string
     // settings
-    radiusVisibility: number,
+
+    @is(an.number().notRequired().min(1).max(20))
+    radiusVisibility: number
+
+    @is(an.string().notRequired())
     accentColor: string
 }
-
-const validator = yup.object().shape({
-    id: yup.string().required(),
-    name: yup.string().required(),
-    birthDate: yup.string().required(),
-    mail: yup.string().required().email(),
-    profileImageUrl: yup.string().notRequired().url(),
-    radiusVisibility: yup.number().notRequired().min(1).max(20),
-    accentColor: yup.string().notRequired()
-})
-
-
-/**
- * Validates synchronously that the {@param object} is correct.
- *
- * @param object       object of type {@link CreateUserRestInput} to validate
- */
-export const validateCreateUserRestInput = (object: CreateUserRestInput) => validator.isValidSync(object)
 
 

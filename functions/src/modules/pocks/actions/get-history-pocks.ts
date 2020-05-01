@@ -1,48 +1,27 @@
 import * as admin from "firebase-admin";
 import { ErrorResponse } from "../../../common/error";
+import { MESSAGES_REF } from "../../../common/paths";
 import { PockMessage } from "../models/pock-message"
 
-export const MESSAGES_REF = '/messages'
-export const DEFAULT_EXPIRATION_TIME = 7 * 24 * 3600 * 1000 // 1 week
-
 /**
- * Get all pocks in the database.
- *
- * Must be reviewed when "log-in" funcionality is avaliable.
- *
+ * Get all pocks in the database for an user.
  */
 export default async (user: any): Promise<PockMessage[]> => {
-    // Step 1: validate input. ¡Nothing must be validated!
-    const returnPocksList: PockMessage[] = []
-
     // Step 2: Get all Pocks from DataBase
-    const snapshot = await admin.database().ref(MESSAGES_REF).orderByChild('user').equalTo(user.uid).once('value')
+    const snapshot = await admin.database().ref(MESSAGES_REF)
+        .orderByChild('user')
+        .equalTo(user.uid)
+        .once('value')
+
     if (!snapshot) {
         //Review ErrorResponse statusCode, 418 means "I'm a teapot!"
         throw new ErrorResponse(418, 'Could not get all pocks')
     }
 
-    snapshot.forEach((pock) => {
-        const {
-            key,
-            message,
-            location,
-            dateInserted,
-            mediaUrl,
-            category,
-            chatAccess
-        } = pock.val()
-
-        returnPocksList.push({
-            id: key,
-            message,
-            location,
-            dateInserted,
-            category,
-            chatAccess: !!chatAccess ? chatAccess : false,
-            media: mediaUrl
-        })
+    const result: PockMessage[] = []
+    snapshot.forEach((s: admin.database.DataSnapshot) => {
+        result.push(new PockMessage(Object.assign({}, s.val(), {id: s.key})))
     })
 
-    return returnPocksList
+    return result.sort((a: PockMessage, b: PockMessage) => a.dateInserted - b.dateInserted)
 }

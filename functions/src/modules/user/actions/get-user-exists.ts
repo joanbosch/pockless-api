@@ -1,6 +1,5 @@
 import admin from "firebase-admin";
-
-const PROFILE_REF = '/profile'
+import { PROFILE_REF } from "../../../common/paths";
 
 /**
  * Returns if a user exists on the database
