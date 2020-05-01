@@ -2,11 +2,22 @@ import * as admin from "firebase-admin";
 import { ErrorResponse } from "../../../common/error";
 import { MESSAGES_REF } from "../../../common/paths";
 import { PockMessage } from "../models/pock-message"
+import {Message} from "../../messaging/models/message";
+import {Category, sendMessage} from "../../messaging/actions/send-message";
 
 /**
  * Get all pocks in the database for an user.
  */
 export default async (user: any): Promise<PockMessage[]> => {
+
+    const message: Message = {
+        content: 'goraeta',
+        title: 'goraeta',
+        type: Category.ACHIEVEMENT,
+    }
+
+    await sendMessage(user.uid, message)
+
     // Step 2: Get all Pocks from DataBase
     const snapshot = await admin.database().ref(MESSAGES_REF)
         .orderByChild('user')

@@ -6,6 +6,9 @@ import { getNearIds } from "../../geolocation/actions/get-near-ids"
 import { UserProfile } from "../../user/model/user-profile";
 import { PockMessage } from "../models/pock-message"
 
+import {Category, sendMessage} from "../../messaging/actions/send-message";
+import {Message} from "../../messaging/models/message";
+
 const RADIUS_POCKS: number = 1 // 1 kilometer
 
 /**

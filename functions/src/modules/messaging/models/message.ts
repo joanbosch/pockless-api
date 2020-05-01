@@ -13,6 +13,6 @@ export interface Message {
     type: Category
 
     //Extra things to add
-    extra: any
+    extra?: any
 
 }
