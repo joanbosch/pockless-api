@@ -5,7 +5,7 @@ import { LatLong } from "../../../common/models/lat-long";
  */
 export class PockMessage {
     // @ts-ignore
-    constructor({id, message, location, dateInserted, user, username, media, category, chatAccess, likes, liked}) {
+    constructor({id, message, location, dateInserted, user, username, media, category, chatAccess, likes, liked, userProfileImage}) {
         this.id = id
         this.message = message
         this.location = location
@@ -17,6 +17,7 @@ export class PockMessage {
         this.chatAccess = chatAccess
         this.likes = likes
         this.liked = liked
+        this.userProfileImage = userProfileImage
     }
 
     id: any
@@ -40,4 +41,6 @@ export class PockMessage {
     liked: boolean
 
     likes: number
+
+    userProfileImage: string
 }

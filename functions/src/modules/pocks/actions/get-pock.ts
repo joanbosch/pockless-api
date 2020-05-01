@@ -19,7 +19,7 @@ export default async (pockId: string, {uid}: any): Promise<PockMessage> => {
     const {user} = db.val()
 
     const userProfileSnapshot = await admin.database().ref(`${PROFILE_REF}/${user}`).once('value')
-    const {name} = userProfileSnapshot.val() || ""
+    const {name, profileImageUrl} = userProfileSnapshot.val() || ""
 
     const likesSnapshot = await admin.database().ref(`${LIKES_REF}`)
         .orderByChild("pock")
@@ -36,5 +36,5 @@ export default async (pockId: string, {uid}: any): Promise<PockMessage> => {
     return new PockMessage(Object.assign(
         {},
         db.val(),
-        {id: pockId, user, username: name, likes, liked: likedSnapshot.val() != null}))
+        {id: pockId, user, username: name, likes, liked: likedSnapshot.val() != null, userProfileImage: profileImageUrl}))
 }

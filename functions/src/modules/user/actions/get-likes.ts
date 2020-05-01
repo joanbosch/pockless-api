@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
-import { LIKES_REF, MESSAGES_REF } from "../../../common/paths";
+import { LIKES_REF } from "../../../common/paths";
+import getPock from "../../pocks/actions/get-pock";
 import { PockMessage } from "../../pocks/models/pock-message";
 
 export default async ({uid}: any): Promise<PockMessage[]> => {
@@ -15,7 +16,6 @@ export default async ({uid}: any): Promise<PockMessage[]> => {
     }
 
     return Promise.all(Object.values(val).map(async (like: any) => {
-        const pock = await admin.database().ref(`${MESSAGES_REF}/${like.pock}`).once('value')
-        return new PockMessage(Object.assign({}, pock.val(), {id: like.pock}))
+        return await getPock(like.pock, {uid})
     }))
 }
