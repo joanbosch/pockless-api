@@ -11,8 +11,8 @@ import {Category, sendMessage} from "../../messaging/actions/send-message";
 export default async (user: any): Promise<PockMessage[]> => {
 
     const message: Message = {
-        content: 'goraeta',
-        title: 'goraeta',
+        content: 'VIVA WILLY',
+        title: 'MENUDO TITULO COMPAÑERO JEJE',
         type: Category.ACHIEVEMENT,
     }
 
