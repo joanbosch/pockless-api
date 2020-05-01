@@ -1,4 +1,4 @@
-import { GET, Path, PathParam, POST, PreProcessor } from "typescript-rest";
+import {GET, Path, PathParam, POST, PreProcessor, PUT} from "typescript-rest";
 import { Tags } from "typescript-rest-swagger";
 import { AppClient } from "../common/auth/app-client";
 import { appClientAuthenticator } from "../common/auth/app-client-authenticator";
@@ -11,6 +11,8 @@ import userExists from "../modules/user/actions/get-user-exists";
 import { CreateUserRestInput } from "../modules/user/model/create-user-rest-input";
 import { UserProfile } from "../modules/user/model/user-profile";
 import createUser from "./../modules/user/actions/create-user";
+import {InsertTokenRestInput} from "../modules/user/model/insert-token-rest-input";
+import insertToken from "./../modules/messaging/actions/insert-token";
 
 @Tags('Users')
 @Path('/user')
@@ -43,5 +45,13 @@ export class UserRestController extends BaseController {
     @GET
     async getAllMessagesHandler(): Promise<PockMessage[]> {
         return this.asPromise(historyPocks)
+    }
+
+    @PreProcessor(userAuthentication)
+    @PreProcessor(appClientAuthenticator([AppClient.POCKLES]))
+    @PUT
+    @Path('/token')
+    async insertToken(body: InsertTokenRestInput): Promise<Boolean> {
+        return this.asPromise(insertToken, body)
     }
 }

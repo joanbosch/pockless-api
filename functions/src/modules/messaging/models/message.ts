@@ -12,4 +12,7 @@ export interface Message {
     //Category of the message, it is required
     type: Category
 
+    //Extra things to add
+    extra: any
+
 }
