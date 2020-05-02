@@ -98,7 +98,7 @@ definitions:
             - latitude
             - longitude
     PockMessage:
-        description: "Type of the PockMessage\r\n\r\nIt has no validator as it is an outgoing object (database -> external device)."
+        description: 'Type of the PockMessage'
         properties:
             id:
                 type: object
@@ -116,25 +116,34 @@ definitions:
                 type: string
                 description: ""
             username:
-                type: string
-                description: ""
+              type: string
+              description: ""
             media:
-                type: string
-                description: ""
+              type: string
+              description: ""
             category:
-                type: string
-                description: ""
+              type: string
+              description: ""
             chatAccess:
-                type: boolean
-                description: ""
+              type: boolean
+              description: ""
+            canLike:
+              type: boolean
+              description: ""
+            likes:
+              type: number
+              format: double
+              description: ""
         type: object
         required:
-            - id
-            - message
-            - location
-            - dateInserted
-            - category
-            - chatAccess
+          - id
+          - message
+          - location
+          - dateInserted
+          - category
+          - chatAccess
+          - canLike
+          - likes
     CreatePockRestInput:
         description: ""
         properties:
@@ -272,7 +281,7 @@ paths:
                     format: double
     /pock/history:
         get:
-            operationId: PocksRestGetAllMessagesHandler
+          operationId: PocksRestGetPocksHist
             produces:
                 - application/json
             responses:
@@ -284,27 +293,65 @@ paths:
                             $ref: '#/definitions/PockMessage'
             description: ""
             tags:
-                - Pocks
-            parameters: []
+              - Pocks
+          parameters: []
     '/pock/{id}':
-        get:
-            operationId: PocksRestGetMessageById
-            produces:
-                - application/json
-            responses:
-                '200':
-                    description: Ok
-                    schema:
-                        $ref: '#/definitions/PockMessage'
-            description: ""
-            tags:
-                - Pocks
-            parameters:
-                -
-                    description: ""
-                    in: path
-                    name: id
-                    required: true
-                    type: string
+      get:
+        operationId: PocksRestGetMessageById
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: Ok
+            schema:
+              $ref: '#/definitions/PockMessage'
+        description: ""
+        tags:
+          - Pocks
+        parameters:
+          - description: ""
+            in: path
+            name: id
+            required: true
+            type: string
+    '/pock/{id}/like':
+      post:
+        operationId: PocksRestLikePock
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: Ok
+            schema:
+              $ref: '#/definitions/PockMessage'
+        description: ""
+        tags:
+          - Pocks
+        consumes:
+          - application/json
+        parameters:
+          - description: ""
+            in: path
+            name: id
+            required: true
+            type: string
+      delete:
+        operationId: PocksRestRemoveLikePock
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: Ok
+            schema:
+              $ref: '#/definitions/PockMessage'
+        description: ""
+        tags:
+          - Pocks
+        parameters:
+          - description: ""
+            in: path
+            name: id
+            required: true
+            type: string
 swagger: '2.0'
 securityDefinitions: {}

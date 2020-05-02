@@ -1,12 +1,13 @@
 import * as admin from "firebase-admin";
 import { ErrorResponse } from "../../../common/error";
-import { MESSAGES_REF, PROFILE_REF } from "../../../common/paths";
+import { LIKES_REF, MESSAGES_REF, PROFILE_REF } from "../../../common/paths";
 import { PockMessage } from "../models/pock-message"
+import { composeKey } from "./like-pock";
 
 /**
  * Get a pock from the database with a specific id
  */
-export default async (pockId: string): Promise<PockMessage> => {
+export default async (pockId: string, {uid}: any): Promise<PockMessage> => {
 
     const db = await admin.database().ref(`${MESSAGES_REF}/${pockId}`).once('value')
 
@@ -18,7 +19,22 @@ export default async (pockId: string): Promise<PockMessage> => {
     const {user} = db.val()
 
     const userProfileSnapshot = await admin.database().ref(`${PROFILE_REF}/${user}`).once('value')
-    const {name} = userProfileSnapshot.val() || ""
+    const {name, profileImageUrl} = userProfileSnapshot.val() || ""
 
-    return new PockMessage(Object.assign({}, db.val(), {id: pockId}, {user, username: name}))
+    const likesSnapshot = await admin.database().ref(`${LIKES_REF}`)
+        .orderByChild("pock")
+        .equalTo(pockId)
+        .once('value')
+
+    const likes = likesSnapshot.val() != null ? Object.keys(likesSnapshot.val()).length : 0
+
+    const likedSnapshot = await admin.database().ref(`${LIKES_REF}`)
+        .orderByChild("composedKey")
+        .equalTo(composeKey(pockId, uid))
+        .once('value')
+
+    return new PockMessage(Object.assign(
+        {},
+        db.val(),
+        {id: pockId, user, username: name, likes, liked: likedSnapshot.val() != null, userProfileImage: profileImageUrl}))
 }
