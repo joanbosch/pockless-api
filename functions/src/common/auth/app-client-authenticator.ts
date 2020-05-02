@@ -1,7 +1,6 @@
 import * as express from "express"
 import {AppClient} from "../auth/app-client";
 import {ErrorResponse} from "../error";
-import admin from "firebase-admin";
 
 // TODO (victor): Could this be converted to the standard AppUserAgent? Does Retrofit allow to put the AppUserAgent easily?
 export const APP_CLIENT_HEADER_NAME = 'AppClient'
@@ -26,12 +25,6 @@ export const APP_CLIENT_HEADER_NAME = 'AppClient'
 export const appClientAuthenticator = (appClientsAllowed: AppClient[]) => {
     return function (req: express.Request) {
         const appClientRequest = req.header(APP_CLIENT_HEADER_NAME)
-        const authorizationRequest = req.headers.authorization
-        let idToken;
-        // @ts-ignore
-        const user = admin.auth().verifyIdToken(authorizationRequest).then(e =>
-            console.log(e)).catch((ae: any) =>
-            console.log(ae))
         if (!appClientRequest || !appClientsAllowed.find(appClient => appClient === appClientRequest)) {
             throw new ErrorResponse(403, 'AppClient is not authorized')
         }
