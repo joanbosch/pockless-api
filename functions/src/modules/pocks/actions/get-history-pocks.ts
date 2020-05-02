@@ -2,8 +2,6 @@ import * as admin from "firebase-admin";
 import { ErrorResponse } from "../../../common/error";
 import { MESSAGES_REF } from "../../../common/paths";
 import { PockMessage } from "../models/pock-message"
-import {Message} from "../../messaging/models/message";
-import {Category, sendMessage} from "../../messaging/actions/send-message";
 
 /**
  * Get all pocks in the database for an user.
