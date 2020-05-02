@@ -1,3 +1,4 @@
+import { ChatRestController } from "./chat-controller";
 import { UserRestController } from "./user-controller";
 import { PocksRestController } from "./pocks-controller";
 
@@ -8,5 +9,6 @@ import { PocksRestController } from "./pocks-controller";
  */
 export default [
     PocksRestController,
-    UserRestController
+    UserRestController,
+    ChatRestController
 ]
