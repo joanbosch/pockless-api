@@ -9,15 +9,6 @@ import {Category, sendMessage} from "../../messaging/actions/send-message";
  * Get all pocks in the database for an user.
  */
 export default async (user: any): Promise<PockMessage[]> => {
-
-    const message: Message = {
-        content: 'VIVA WILLY',
-        title: 'MENUDO TITULO COMPAÑERO JEJE',
-        type: Category.ACHIEVEMENT,
-    }
-
-    await sendMessage(user.uid, message)
-
     // Step 2: Get all Pocks from DataBase
     const snapshot = await admin.database().ref(MESSAGES_REF)
         .orderByChild('user')
