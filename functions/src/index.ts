@@ -4,6 +4,7 @@ import * as functions from "firebase-functions"
 import { Server } from "typescript-rest";
 import { errorHandler, ErrorResponse } from "./common/error";
 import controllers from './controllers'
+import { listPaths } from "./utils/testing";
 
 // const serviceAccount = require('C:\\Users\\Victor\\Desktop\\Pockles.json');
 //
@@ -30,7 +31,7 @@ Server.swagger(api, {
 
 // Use it only for testing purposes, on deploy remove it
 // Useful to know if you have declared correctly the endpoint
-//listPaths()
+listPaths()
 
 // Adds the errorHandler as an error middleware to the express app
 api.use((err: ErrorResponse, req: express.Request, res: express.Response, next: any) => errorHandler(err, res))

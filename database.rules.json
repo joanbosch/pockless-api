@@ -8,6 +8,13 @@
         "g"
       ],
       ".write": true
+    },
+    "likes": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": [
+        "composedKey"
+      ]
     }
   }
 }
