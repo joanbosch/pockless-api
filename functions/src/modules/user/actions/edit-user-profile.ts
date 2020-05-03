@@ -3,7 +3,6 @@ import { ErrorResponse } from "../../../common/error";
 import { PROFILE_REF } from "../../../common/paths";
 import { EditUserProfileRestInput} from "../model/edit-user-profile-rest-input";
 import { UserProfile } from "../model/user-profile";
-import {CreateUserRestInput} from "../model/create-user-rest-input";
 
 /**
  * Edit the content of a existing profile on the database
@@ -11,7 +10,7 @@ import {CreateUserRestInput} from "../model/create-user-rest-input";
  * @param input
  * @param user
  */
-export default async (input: CreateUserRestInput, user: any): Promise<UserProfile> => {
+export default async (input: EditUserProfileRestInput, user: any): Promise<UserProfile> => {
 
     //Check if exists a profile with the given id
     const userSnapshot = await admin.database().ref(`${PROFILE_REF}/${user.uid}`).once('value')
