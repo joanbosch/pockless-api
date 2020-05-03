@@ -16,5 +16,7 @@ export default async (user: any): Promise<UserProfile> => {
 
     const pocks = await admin.database().ref(`${MESSAGES_REF}`).orderByChild('user').equalTo(user.uid).once('value')
 
-    return new UserProfile(Object.assign({}, userSnapshot.val(), {pocks: Object.keys(pocks.val()).length}))
+    const numberOfPocks = pocks.val() != null ? Object.keys(pocks.val()).length : 0
+
+    return new UserProfile(Object.assign({}, userSnapshot.val(), {pocks: numberOfPocks}))
 }

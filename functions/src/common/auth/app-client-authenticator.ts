@@ -1,6 +1,6 @@
 import * as express from "express"
-import { AppClient } from "../auth/app-client";
-import { ErrorResponse } from "../error";
+import {AppClient} from "../auth/app-client";
+import {ErrorResponse} from "../error";
 
 // TODO (victor): Could this be converted to the standard AppUserAgent? Does Retrofit allow to put the AppUserAgent easily?
 export const APP_CLIENT_HEADER_NAME = 'AppClient'
