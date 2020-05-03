@@ -17,6 +17,8 @@ import { listPaths } from "./utils/testing";
 // To deploy is is needed to just use this
 admin.initializeApp();
 
+// const serviceAccount = require('C:\\Users\\Sergioo\\Desktop\\Tercero\\Q2\\ECSDI\\Pockles.json');
+
 const api = express()
 
 Server.buildServices(api, ...controllers)
