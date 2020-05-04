@@ -21,7 +21,7 @@ export default async (user: any): Promise<Chat[]> => {
         .once('value')
 
     if (!snapshot1 && !snapshot2) {
-        throw new ErrorResponse(404, 'Could not get any chat')
+        throw new ErrorResponse(400, 'Could not get any chat')
     }
 
     // 2. Return the chats obtained, sorted by the date of the last message
