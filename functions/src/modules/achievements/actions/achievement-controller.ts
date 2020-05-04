@@ -11,19 +11,19 @@ import {Achievements} from "../models/achievements";
  * @param user
  */
 
-export default async (user: any): Promise<string[]> => {
+export default async (user: any): Promise<Achievements[]> => {
 
-    //Step 1: Take an Snapshot of the achievments
+    //Step 1: Take an Snapshot of the Achievments
     const snapshotOfAllAchivments = await admin.database().ref('/achievements')
         .once('value')
 
-    //Step2: Get All achievementsId where userId is equal to the user given
-    const allAchievmentsOfAnUser: string[] = []
+    //Step2: Get All Achievements where userId is equal to the user given
+    const allAchievmentsOfAnUser: Achievements[] = []
     snapshotOfAllAchivments.forEach((s: admin.database.DataSnapshot) => {
         if (s.val().userId == user)
-            allAchievmentsOfAnUser.push(s.val().achievementId)
+            allAchievmentsOfAnUser.push(s.val())
     })
 
-    //Step 3: Return all achievementsId
+    //Step 3: Return all Achievements
     return allAchievmentsOfAnUser
 }
