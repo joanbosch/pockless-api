@@ -11,7 +11,7 @@ pipelines:
             - cd functions
             - npm install
             - npm test
-            - tslint --project tsconfig.json
+            - npm run lint
   branches:
     develop:
       - step:
@@ -22,7 +22,7 @@ pipelines:
             - cd functions
             - npm install
             - npm test
-            - tslint --project tsconfig.json
+            - npm run lint
       - step:
           name: Deploy
           caches:
