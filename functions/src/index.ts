@@ -42,4 +42,3 @@ api.use((err: ErrorResponse, req: express.Request, res: express.Response, next: 
 exports.api = functions.https.onRequest(api)
 
 
-
