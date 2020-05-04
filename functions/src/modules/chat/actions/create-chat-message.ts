@@ -1,8 +1,10 @@
 import * as admin from "firebase-admin";
-import { CHAT_MESSAGES_REF, CHATS_REF, MESSAGES_REF } from "../../../common/paths";
+import { Category, sendMessage } from "../../messaging/actions/send-message";
+import { ErrorResponse } from "../../../common/error";
+import { CHAT_MESSAGES_REF, CHATS_REF, MESSAGES_REF, PROFILE_REF } from "../../../common/paths";
+import { Message } from "../../messaging/models/message";
 import { ChatMessage } from "../models/chat-message";
 import { CreateMessageRestInput } from "../models/create-message-rest-input";
-import { ErrorResponse } from "../../../common/error";
 
 /**
  * Inserts a new chat message on the database.
@@ -28,7 +30,7 @@ const createChatAndMessage = async (text: string, pockId: string, userId: string
     }
     const pockAuthor = pock.val().user
 
-    // 2. Verify that pock creator is not the current user and chat is enabled on this pock
+    // 2. Verify that pock author is not the current user and chat is enabled on this pock
     if (pockAuthor == userId) {
         throw new ErrorResponse(409, 'Could not create a chat with yourself')
     }
@@ -42,7 +44,7 @@ const createChatAndMessage = async (text: string, pockId: string, userId: string
         .equalTo(composeKeyUsers(userId, pockAuthor))
         .once('value')
     if (existingChat.val() != null) {
-        throw new ErrorResponse(409, 'A chat with pock creator already exists')
+        throw new ErrorResponse(409, 'A chat with pock author already exists')
     }
 
     // 4. Create chat
@@ -79,6 +81,8 @@ const createChatAndMessage = async (text: string, pockId: string, userId: string
 
     // 6. Return the inserted message
     const newMessage = await admin.database().ref(`${CHAT_MESSAGES_REF}/${chatId}/${messageId}`).once('value')
+
+    await sendNotification(pockAuthor, userId, text)
 
     return new ChatMessage(Object.assign({}, newMessage.val(), {id: newMessage.key, chatId}))
 }
@@ -117,10 +121,26 @@ const createMessage = async (text: string, chatId: string, userId: string): Prom
         date: newMessage.val().date
     })
 
+    let receiver: string
+    if (userId == chatInfo.val().user1) receiver = chatInfo.val().user2
+    else receiver = chatInfo.val().user1
+    await sendNotification(receiver, userId, text)
+
     return new ChatMessage(Object.assign({}, newMessage.val(), {id: newMessage.key, chatId}))
 }
 
 const composeKeyUsers = (user1: string, user2: string): string => {
     if (user1 < user2) return `${user1}_${user2}`
     return `${user2}_${user1}`
+}
+
+const sendNotification = async (receiverId: string, senderId: string, message: string) => {
+    const sender = await admin.database().ref(`${PROFILE_REF}/${senderId}`).once('value')
+
+    const notification: Message = {
+        title: `New message from ${sender.val().name}`,
+        content: message,
+        type: Category.CHAT
+    }
+    await sendMessage(receiverId, notification)
 }
