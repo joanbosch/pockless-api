@@ -1,6 +1,6 @@
 import * as admin from "firebase-admin"
-import {Message} from "../models/message";
-import {MESSAGES_REF, NOTIFICATIONS_REF, PROFILE_REF} from "../../../common/paths";
+import { NOTIFICATIONS_REF, PROFILE_REF } from "../../../common/paths";
+import { Message } from "../models/message";
 
 export enum Category {
     CHAT,
@@ -23,7 +23,7 @@ export const sendMessage = async (receiverId: string, message: Message) => {
             )
         }
 
-        admin.messaging().sendToDevice(token.val(), {
+        await admin.messaging().sendToDevice(token.val(), {
             data: {
                 body: message.content,
                 title: message.title,
