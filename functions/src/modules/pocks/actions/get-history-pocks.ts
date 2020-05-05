@@ -23,5 +23,7 @@ export default async (user: any): Promise<PockMessage[]> => {
         result.push(new PockMessage(Object.assign({}, s.val(), {id: s.key})))
     })
 
+    //Check Achievement: Mirar historial
+
     return result.sort((a: PockMessage, b: PockMessage) => a.dateInserted - b.dateInserted)
 }

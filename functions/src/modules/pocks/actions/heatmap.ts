@@ -17,6 +17,8 @@ export default async (): Promise<LatLong[]> => {
         allPocksLocation.push(new LatLong(s.val().location))
     })
 
+    //Check Achievement: usar heatmap
+
     //Step 3: Return all locations
     return allPocksLocation
 }

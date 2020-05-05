@@ -49,5 +49,25 @@ export default async (input: CreatePockRestInput, user: any): Promise<PockMessag
     // Step 4: Return the freshly inserted pock from the database
     const pockInserted = await admin.database().ref(`${MESSAGES_REF}/${id}`).once('value')
 
+    //Check Achievement: Primer Pock
+
+    //Check Achievement: 10 Pock
+
+    //Check Achievement: 100 Pock
+
+    //Check Achievement: 1000 Pock
+
+    //Check Achievement: 517 Pock
+
+    //Check Achievement: 12 Pock salud
+
+    //Check Achievement: 1 mes sin Pock
+
+    //Check Achievement: 1 pock a las 8:00Am
+
+    //Check Achievement: 1 pock/dia durante 10
+
+    //Check Achievement: Que punteria
+
     return new PockMessage(Object.assign({}, pockInserted.val(), {id: pockInserted.key}))
 }
