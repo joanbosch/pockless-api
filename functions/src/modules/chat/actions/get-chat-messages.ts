@@ -5,6 +5,7 @@ import { ChatMessage } from "../models/chat-message";
 
 /**
  * Returns all the messages from the given chat
+ *
  * @param id
  * @param user
  */
@@ -30,8 +31,9 @@ export default async (id: string, user: any): Promise<ChatMessage[]> => {
         result.push(new ChatMessage(Object.assign({}, m.val(), {id: m.key, chatId: id})))
     })
 
-    // 4. Set messages sent by the other member as read (the loop stops when finds a message from the other user already read)
-    for (let i:number = 0; i<result.length &&(result[i].senderId == user.uid || !result[i].read); i++) {
+    // 4. Set messages sent by the other member as read
+    // Last message is most recent. The loop stops when finds a message from the other user already read.
+    for (let i:number = result.length-1; i>=0 &&(result[i].senderId == user.uid || !result[i].read); i--) {
         if (result[i].senderId != user.uid && !result[i].read) {
             await admin.database().ref(`${CHAT_MESSAGES_REF}/${id}/${result[i].id}`).update({
                 read: true

@@ -79,7 +79,7 @@ const createChatAndMessage = async (text: string, pockId: string, userId: string
     const messageRef = newMessageSnapshot.ref.toString().split('/')
     const messageId = messageRef[messageRef.length - 1]
 
-    // 6. Return the inserted message
+    // 6. Send notification / Return the inserted message
     const newMessage = await admin.database().ref(`${CHAT_MESSAGES_REF}/${chatId}/${messageId}`).once('value')
 
     await sendNotification(pockAuthor, userId, text)
@@ -113,7 +113,7 @@ const createMessage = async (text: string, chatId: string, userId: string): Prom
     const ref = snapshot.ref.toString().split('/')
     const messageId = ref[ref.length - 1]
 
-    // 4. Return the inserted message from database AND UPDATE LAST MESSAGE OF CHAT
+    // 4. Update last message of chat / Send notification / Return the inserted message from database
     const newMessage = await admin.database().ref(`${CHAT_MESSAGES_REF}/${chatId}/${messageId}`).once('value')
 
     await admin.database().ref(`${CHATS_REF}/${chatId}`).update({
