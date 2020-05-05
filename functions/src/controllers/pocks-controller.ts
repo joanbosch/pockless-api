@@ -86,6 +86,6 @@ export class PocksRestController extends BaseController {
     @Path('/:id/report')
     @POST
     async reportPock(@PathParam("id") id: string): Promise<PockMessage> {
-        return this.asPromise(likePock, id)
+        return this.asPromise(reportPock, id)
     }
 }
