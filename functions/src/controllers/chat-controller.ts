@@ -34,7 +34,7 @@ export class ChatRestController extends BaseController {
 
     @PreProcessor(userAuthentication)
     @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
-    @Path('/newmessage')
+    @Path('/message')
     @POST
     async createChatMessageHandler(body: CreateMessageRestInput): Promise<ChatMessage> {
         this.validate(body, CreateMessageRestInput.name)
