@@ -11,6 +11,7 @@ import getNearPocks from "../modules/pocks/actions/get-near-pocks"
 import getPock from "../modules/pocks/actions/get-pock"
 import heatmap from "../modules/pocks/actions/heatmap"
 import likePock from "../modules/pocks/actions/like-pock"
+import reportPock from "../modules/pocks/actions/report-pock"
 import { CreatePockRestInput } from "../modules/pocks/models/create-pock-rest-input"
 import { EditPockRestInput } from "../modules/pocks/models/edit-pock-rest-input"
 import { PockMessage } from "../modules/pocks/models/pock-message"
@@ -78,5 +79,13 @@ export class PocksRestController extends BaseController {
     async editPockHandler(@PathParam("id") id: string, body: EditPockRestInput): Promise<PockMessage> {
         this.validate(body, EditPockRestInput.name)
         return this.asPromise(editPock, id, body)
+    }
+
+    @PreProcessor(userAuthentication)
+    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
+    @Path('/:id/report')
+    @POST
+    async reportPock(@PathParam("id") id: string): Promise<PockMessage> {
+        return this.asPromise(likePock, id)
     }
 }
