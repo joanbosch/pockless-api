@@ -16,15 +16,6 @@ export class OwnedAchievements {
     achievementId: string
     userId: string
     dateOfAcquitance: number
-
-    //New Achivement achieved function
-    userGetNewAchievement(usId: string, achId: string) {
-        admin.database().ref(OWNED_ACHIEVEMENTS_REF).push({
-            achievementId: achId,
-            userId: usId,
-            dateOfAcquitance: now
-        })
-    }
 }
 
 
