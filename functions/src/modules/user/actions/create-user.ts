@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 import { ErrorResponse } from "../../../common/error";
-import { PROFILE_REF } from "../../../common/paths";
+import { PROFILE_REF, OWNED_ACHIEVEMENTS_REF } from "../../../common/paths";
 import { CreateUserRestInput, } from "../model/create-user-rest-input";
 import { UserProfile } from "../model/user-profile";
 import getUserExists from "./get-user-exists";

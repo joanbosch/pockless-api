@@ -1,6 +1,10 @@
 /**
  * Type of the Achievements
  */
+import {OWNED_ACHIEVEMENTS_REF} from "../../../common/paths";
+import admin from "firebase-admin";
+import {now} from "moment";
+
 export class OwnedAchievements {
     // @ts-ignore
     constructor({achievementId, userId, dateOfAcquitance}) {
@@ -8,7 +12,19 @@ export class OwnedAchievements {
         this.userId = userId;
         this.dateOfAcquitance = dateOfAcquitance;
     }
+
     achievementId: string
     userId: string
     dateOfAcquitance: number
+
+    //New Achivement achieved function
+    userGetNewAchievement(usId: string, achId: string) {
+        admin.database().ref(OWNED_ACHIEVEMENTS_REF).push({
+            achievementId: achId,
+            userId: usId,
+            dateOfAcquitance: now
+        })
+    }
 }
+
+

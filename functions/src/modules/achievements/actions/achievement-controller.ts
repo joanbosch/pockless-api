@@ -28,7 +28,7 @@ export default async (user: any): Promise<Achievements[]> => {
         }
 
     })
-
     //Step 3: Return all Achievements
     return allAchievmentsOfAnUser
 }
+
