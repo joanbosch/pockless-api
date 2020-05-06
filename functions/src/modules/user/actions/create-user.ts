@@ -4,8 +4,9 @@ import { PROFILE_REF, OWNED_ACHIEVEMENTS_REF } from "../../../common/paths";
 import { CreateUserRestInput, } from "../model/create-user-rest-input";
 import { UserProfile } from "../model/user-profile";
 import getUserExists from "./get-user-exists";
-import {userGetNewAchievement} from "../../achievements/actions/achievement-controller";
+import {userGetNewAchievement} from "../../achievements/actions/achievement-checker";
 import {composeKey} from "../../pocks/actions/like-pock";
+import {WELCOME_POCKLES} from "../../achievements/achivements";
 
 /**
  * Creates the user in the database if it does not exist
@@ -23,7 +24,7 @@ export default async (body: CreateUserRestInput): Promise<UserProfile> => {
     const user = await admin.database().ref(`${PROFILE_REF}/${body.id}`).once('value')
 
     //Achievement Check
-    userGetNewAchievement(body.id, "M6aXU24YSeV7FinkeFC")
+    userGetNewAchievement(body.id, WELCOME_POCKLES)
     //End Achievement Check
 
     return new UserProfile(user.val())
