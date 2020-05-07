@@ -1,0 +1,43 @@
+image: node:10.15.3
+
+pipelines:
+  pull-requests:
+    '**':
+      - step:
+          name: Test
+          caches:
+            - node
+          script:
+            - cd functions
+            - npm install
+            - npm test
+            - npm run lint
+  branches:
+    develop:
+      - step:
+          name: Test
+          caches:
+            - node
+          script:
+            - cd functions
+            - npm install
+            - npm test
+            - npm run lint
+      - step:
+          name: Deploy
+          caches:
+            - functions-npm
+          script:
+            - export PATH=$PATH:$BITBUCKET_CLONE_DIR/functions/node_modules/.bin
+            - cd functions
+            - npm install
+            - npm install firebase-tools
+            - firebase deploy
+              --only functions
+              --non-interactive
+              --token=$FIREBASE_TOKEN
+              -m "Deploying $BITBUCKET_COMMIT (CI/CD)"
+
+definitions:
+  caches:
+    functions-npm: $BITBUCKET_CLONE_DIR/functions/node_modules

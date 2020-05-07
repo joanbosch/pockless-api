@@ -17,6 +17,8 @@ import { listPaths } from "./utils/testing";
 // To deploy is is needed to just use this
 admin.initializeApp();
 
+// const serviceAccount = require('C:\\Users\\Sergioo\\Desktop\\Tercero\\Q2\\ECSDI\\Pockles.json');
+
 const api = express()
 
 Server.buildServices(api, ...controllers)
@@ -38,6 +40,5 @@ api.use((err: ErrorResponse, req: express.Request, res: express.Response, next: 
 
 // Exports the express app so FirebaseFunction can know about it and call it in an endpoint request
 exports.api = functions.https.onRequest(api)
-
 
 
