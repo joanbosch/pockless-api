@@ -1,3 +1,5 @@
+import { UserProfileNameImage } from "../../user/model/user-profile-name-image";
+
 /**
  * Type of the Chat.
  *
@@ -16,9 +18,9 @@ export class Chat {
 
     id: string
 
-    user1: string
+    user1: UserProfileNameImage
 
-    user2: string
+    user2: UserProfileNameImage
 
     pock: string
 
