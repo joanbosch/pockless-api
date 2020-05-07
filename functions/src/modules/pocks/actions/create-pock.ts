@@ -110,3 +110,5 @@ export default async (input: CreatePockRestInput, user: any): Promise<PockMessag
 
     return new PockMessage(Object.assign({}, pockInserted.val(), {id: pockInserted.key}))
 }
+
+

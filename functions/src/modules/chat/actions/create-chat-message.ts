@@ -88,6 +88,16 @@ const createChatAndMessage = async (text: string, pockId: string, userId: string
 
     await sendNotification(pockAuthor, userId, text)
 
+    //Achievement Check
+    const snapshotAllChatsOfAnUser = await admin.database().ref(CHATS_REF)
+        .orderByChild("user1")
+        .equalTo(userId)
+        .once('value')
+
+    const chatCounter = Object.keys(snapshotAllChatsOfAnUser.val()).length
+    if (chatCounter == 5) await userGetNewAchievement(userId, FIVE_CHAT)
+    //End Achievement Check
+
     return new ChatMessage(Object.assign({}, newMessage.val(), {id: newMessage.key, chatId}))
 }
 
@@ -132,19 +142,10 @@ const createMessage = async (text: string, chatId: string, userId: string): Prom
 
     //Achievement Check
 
-    const snapshotAllChatsOfAnUser = await admin.database().ref(CHATS_REF)
-        .orderByChild("chats")
-        .equalTo(userId)
+    const snapshotAllMessagesOfTheChat = await admin.database().ref(`${CHAT_MESSAGES_REF}/${chatId}`)
         .once('value')
-
-    if (Object.keys(snapshotAllChatsOfAnUser.val()).length == 5) userGetNewAchievement(userId, FIVE_CHAT)
-
-    const snapshotAllMessagesOfTheChat = await admin.database().ref(CHAT_MESSAGES_REF)
-        .orderByChild("composedKey")
-        .equalTo(composeKey(userId,chatId))
-        .once('value')
-
-    if (Object.keys(snapshotAllMessagesOfTheChat.val()).length == 100) userGetNewAchievement(userId, EASTER_EGG_5)
+    const chatMessageCounter = snapshotAllMessagesOfTheChat == null ? 0 : Object.keys(snapshotAllMessagesOfTheChat.val()).length
+    if (chatMessageCounter == 4) await userGetNewAchievement(userId, EASTER_EGG_5)
 
     //End Achievement Check
 
