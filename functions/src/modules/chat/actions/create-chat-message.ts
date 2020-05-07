@@ -5,6 +5,10 @@ import { CHAT_MESSAGES_REF, CHATS_REF, MESSAGES_REF, PROFILE_REF } from "../../.
 import { Message } from "../../messaging/models/message";
 import { ChatMessage } from "../models/chat-message";
 import { CreateMessageRestInput } from "../models/create-message-rest-input";
+import {composeKey} from "../../pocks/actions/like-pock";
+import {userGetNewAchievement} from "../../achievements/actions/achievement-checker";
+import {EASTER_EGG_5, FIVE_CHAT, TEN_LIKES} from "../../achievements/achivements";
+import {PockMessage} from "../../pocks/models/pock-message";
 
 /**
  * Inserts a new chat message on the database.
@@ -125,6 +129,24 @@ const createMessage = async (text: string, chatId: string, userId: string): Prom
     if (userId == chatInfo.val().user1) receiver = chatInfo.val().user2
     else receiver = chatInfo.val().user1
     await sendNotification(receiver, userId, text)
+
+    //Achievement Check
+
+    const snapshotAllChatsOfAnUser = await admin.database().ref(CHATS_REF)
+        .orderByChild("chats")
+        .equalTo(userId)
+        .once('value')
+
+    if (Object.keys(snapshotAllChatsOfAnUser.val()).length == 5) userGetNewAchievement(userId, FIVE_CHAT)
+
+    const snapshotAllMessagesOfTheChat = await admin.database().ref(CHAT_MESSAGES_REF)
+        .orderByChild("composedKey")
+        .equalTo(composeKey(userId,chatId))
+        .once('value')
+
+    if (Object.keys(snapshotAllMessagesOfTheChat.val()).length == 100) userGetNewAchievement(userId, EASTER_EGG_5)
+
+    //End Achievement Check
 
     return new ChatMessage(Object.assign({}, newMessage.val(), {id: newMessage.key, chatId}))
 }
