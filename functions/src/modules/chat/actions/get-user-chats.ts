@@ -25,31 +25,22 @@ export default async (user: any): Promise<Chat[]> => {
         throw new ErrorResponse(400, 'Could not get any chat')
     }
 
-    const currentUser = await admin.database().ref(`${PROFILE_REF}/${user.uid}`).once('value')
-    const currentUserInfo = new UserProfileNameImage(Object.assign({}, currentUser.val(), {id: user.uid}))
-
     // 2. Return the chats obtained, sorted by the date of the last message
-    // It seems that forEach is the only way to do a loop on a snapshot, but it does not allow awaits inside it.
-    // To solve this I had to push the chats to array in a forEach and later fill the user information in a for loop.
+
     const result: Chat[] = []
     snapshot1.forEach((c: admin.database.DataSnapshot) => {
-        result.push(new Chat(Object.assign({}, c.val(), {id: c.key, user1: currentUserInfo, user2: {id: c.val().user2, name: "", profileImageUrl: ""}})))
+        result.push(new Chat(Object.assign({}, c.val(), {id: c.key, user1: user.uid, user2: {id: c.val().user2, name: "", profileImageUrl: ""}})))
     })
     snapshot2.forEach((c: admin.database.DataSnapshot) => {
-        result.push(new Chat(Object.assign({}, c.val(), {id: c.key, user1: {id: c.val().user1, name: "", profileImageUrl: ""}, user2: currentUserInfo})))
+        result.push(new Chat(Object.assign({}, c.val(), {id: c.key, user1: user.uid, user2: {id: c.val().user1, name: "", profileImageUrl: ""}})))
     })
 
-    for (const r of result) {
-        if (r.user1.profileImageUrl == "") {
-            const otherUser = await admin.database().ref(`${PROFILE_REF}/${r.user1.id}`).once('value')
-            r.user1.name = otherUser.val().name
-            r.user1.profileImageUrl = otherUser.val().profileImageUrl
-        } else {
-            const otherUser = await admin.database().ref(`${PROFILE_REF}/${r.user2.id}`).once('value')
-            r.user2.name = otherUser.val().name
-            r.user2.profileImageUrl = otherUser.val().profileImageUrl
-        }
-    }
+    result.sort((a: Chat, b: Chat) => b.date - a.date)
 
-    return result.sort((a: Chat, b: Chat) => b.date - a.date)
+    return Promise.all(result.map(async (chat: Chat) => {
+        const otherUserSnapshot = await admin.database().ref(`${PROFILE_REF}/${chat.user2.id}`).once('value')
+        const otherUserInfo = new UserProfileNameImage(Object.assign({}, otherUserSnapshot.val()))
+        return new Chat(Object.assign({}, chat, {user2: otherUserInfo}))
+    }))
+
 }

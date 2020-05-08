@@ -18,7 +18,7 @@ export class Chat {
 
     id: string
 
-    user1: UserProfileNameImage
+    user1: string
 
     user2: UserProfileNameImage
 
