@@ -5,3 +5,5 @@ export const NOTIFICATIONS_REF = '/notifications'
 export const LIKES_REF = '/likes'
 export const CHATS_REF = '/chats'
 export const CHAT_MESSAGES_REF = '/chat-messages'
+export const REPORTS_REF = '/reports'
+
