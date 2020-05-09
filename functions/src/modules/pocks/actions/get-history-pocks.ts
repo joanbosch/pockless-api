@@ -26,7 +26,7 @@ export default async (user: any): Promise<PockMessage[]> => {
     })
 
     //Achievements check
-    userGetNewAchievement(user.uid, FIRST_HISTORY)
+    await userGetNewAchievement(user.uid, FIRST_HISTORY)
     //End achievements check
 
     return result.sort((a: PockMessage, b: PockMessage) => a.dateInserted - b.dateInserted)
