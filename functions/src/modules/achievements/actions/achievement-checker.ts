@@ -46,10 +46,11 @@ export const userGetNewAchievement = async (usId: string, achId: string) => {
         allMyAchievements.forEach((ach: admin.database.DataSnapshot) => {
             allAchId.push(ach.val().achievementId)
         })
+        /*
         const allAch: Achievements[] = []
         for (let i = 0; i < allAchId.length; ++i) {
             const id = allAchId[i]
-            const a = await admin.database().ref(`${ACHIEVEMENTS_REF}/${id}`).once('value')
+            const a = await admin.database().ref(ACHIEVEMENTS_REF).once('value')
                 allAch.push(a.val())
         }
         let easterEggCounter = 0
@@ -57,5 +58,18 @@ export const userGetNewAchievement = async (usId: string, achId: string) => {
             if (allAch[i].achievementName == 'Secreto') ++easterEggCounter
         }
         if (allAch.length - easterEggCounter == 3) await userGetNewAchievement(usId, ALL_NORMAL_ACHIEVEMENTS)
+        */
+        let easterEggCounter = 0
+         allAchId.forEach(a => {
+             console.log(a.substring(17,20))
+             if (a.substring(17,20) == 'DgF'
+                 || a.substring(17,20) == 'DgG'
+                 || a.substring(17,20) == 'DgH'
+                 || a.substring(17,20) == 'DgI'
+                 || a.substring(17,20) == 'DgJ'
+                 || a.substring(17,20) == 'DgK'
+                 || a.substring(17,20) == 'DgL') ++easterEggCounter
+         })
+        if(allAchId.length - easterEggCounter == 3) await userGetNewAchievement(usId, ALL_NORMAL_ACHIEVEMENTS)
     }
 }
