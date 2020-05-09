@@ -5,6 +5,8 @@ import {ACHIEVEMENTS_REF, CHAT_MESSAGES_REF, CHATS_REF, OWNED_ACHIEVEMENTS_REF} 
 import { composeKey } from "../../pocks/actions/like-pock";
 import {ALL_NORMAL_ACHIEVEMENTS, EASTER_EGG_6} from "../achivements";
 import {Achievements} from "../models/achievements";
+import {Message} from "../../messaging/models/message"
+import {Category, sendMessage} from "../../messaging/actions/send-message";
 
 export const userGetNewAchievement = async (usId: string, achId: string) => {
     // Step 1: check if the user has or not the achievement
@@ -21,7 +23,13 @@ export const userGetNewAchievement = async (usId: string, achId: string) => {
             composedKey: composeKey(usId, achId),
             dateOfAcquaintance: now()
         })
-
+        //Send new achivement notification
+        const notification: Message = {
+            title: `¡Nuevo logro conseguido!`,
+            content: achId,
+            type: Category.ACHIEVEMENT
+        }
+        await sendMessage(usId, notification)
 
         //Achievement check
         const allMyAchievements = await admin.database().ref(OWNED_ACHIEVEMENTS_REF)
