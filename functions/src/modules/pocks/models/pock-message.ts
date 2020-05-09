@@ -1,11 +1,11 @@
-import { LatLong } from "../../../common/models/lat-long";
+import {LatLong} from "../../../common/models/lat-long";
 
 /**
  * Type of the PockMessage
  */
 export class PockMessage {
     // @ts-ignore
-    constructor({id, message, location, dateInserted, user, username, media, category, chatAccess, likes, liked, userProfileImage}) {
+    constructor({id, message, location, dateInserted, user, username, media, category, chatAccess, likes, liked, userProfileImage, reports, reported, hidden}) {
         this.id = id
         this.message = message
         this.location = location
@@ -18,6 +18,9 @@ export class PockMessage {
         this.likes = likes
         this.liked = liked
         this.userProfileImage = userProfileImage
+        this.reports = reports
+        this.reported = reported
+        this.hidden = hidden
     }
 
     id: any
@@ -43,4 +46,10 @@ export class PockMessage {
     likes: number
 
     userProfileImage: string
+
+    reports: number
+
+    reported: boolean
+
+    hidden: boolean
 }

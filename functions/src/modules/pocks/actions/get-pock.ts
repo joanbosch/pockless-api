@@ -1,8 +1,9 @@
 import * as admin from "firebase-admin";
 import { ErrorResponse } from "../../../common/error";
-import { LIKES_REF, MESSAGES_REF, PROFILE_REF } from "../../../common/paths";
+import {LIKES_REF, MESSAGES_REF, PROFILE_REF, REPORTS_REF} from "../../../common/paths";
 import { PockMessage } from "../models/pock-message"
 import { composeKey } from "./like-pock";
+import {composeKeyReport} from "./report-pock";
 
 /**
  * Get a pock from the database with a specific id
@@ -33,8 +34,15 @@ export default async (pockId: string, {uid}: any): Promise<PockMessage> => {
         .equalTo(composeKey(pockId, uid))
         .once('value')
 
+    //see if the pock has already been reported by user
+    const pockReported = await admin.database().ref(`${REPORTS_REF}`)
+        .orderByChild("composeKeyReport")
+        .equalTo(composeKeyReport(pockId, uid))
+        .once('value')
+
+
     return new PockMessage(Object.assign(
         {},
         db.val(),
-        {id: pockId, user, username: name, likes, liked: likedSnapshot.val() != null, userProfileImage: profileImageUrl}))
+        {id: pockId, user, username: name, likes, liked: likedSnapshot.val() != null, userProfileImage: profileImageUrl, reported:pockReported.val() != null}))
 }

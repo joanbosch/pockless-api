@@ -36,7 +36,7 @@ export default async (input: LatLong, user: any): Promise<PockMessage[]> => {
 
         // If database returned nothing, means that it has expired
         if (onePock != null && onePock.val() !== null && onePock.val().dateExpiration >= now()) {
-            if (!filterSensiblePocks || onePock.val().category !== '+18') {
+            if (!filterSensiblePocks || onePock.val().category !== '+18' && !onePock.val().hidden) {
                 returnPocksList.push(new PockMessage(Object.assign({}, onePock.val(), {id: pockId})))
             }
         }
