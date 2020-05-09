@@ -3,7 +3,6 @@ import { ErrorResponse } from "../../../common/error";
 import {LIKES_REF, MESSAGES_REF, PROFILE_REF, REPORTS_REF} from "../../../common/paths";
 import { PockMessage } from "../models/pock-message"
 import { composeKey } from "./like-pock";
-import {boolean} from "joi";
 import {composeKeyReport} from "./report-pock";
 
 /**
