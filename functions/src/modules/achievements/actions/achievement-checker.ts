@@ -1,7 +1,7 @@
 //New Achivement achieved function
 import admin from "firebase-admin";
 import { now } from "moment";
-import { OWNED_ACHIEVEMENTS_REF } from "../../../common/paths";
+import {ACHIEVEMENTS_REF, OWNED_ACHIEVEMENTS_REF} from "../../../common/paths";
 import { Category, sendMessage } from "../../messaging/actions/send-message";
 import { Message } from "../../messaging/models/message"
 import { composeKey } from "../../pocks/actions/like-pock";
@@ -22,10 +22,12 @@ export const userGetNewAchievement = async (usId: string, achId: string) => {
             composedKey: composeKey(usId, achId),
             dateOfAcquaintance: now()
         })
+
+        const actualAchievement = await admin.database().ref(`${ACHIEVEMENTS_REF}/${achId}`).once('value')
         //Send new achivement notification
         const notification: Message = {
             title: '¡Nuevo logro conseguido!',
-            content: achId,
+            content: actualAchievement.val().name,
             type: Category.ACHIEVEMENT
         }
         await sendMessage(usId, notification)
@@ -36,12 +38,12 @@ export const userGetNewAchievement = async (usId: string, achId: string) => {
             .equalTo(usId)
             .once('value')
 
-        if (allMyAchievements.val() != null && Object.keys(allMyAchievements.val()).length == 3) {
+        if (allMyAchievements.val() != null && Object.keys(allMyAchievements.val()).length == 14) {
             await userGetNewAchievement(usId, EASTER_EGG_6)
         }
 
         const normalAchievements = Object.values(allMyAchievements.val()).filter((a: any) => !EASTER_EGGS.includes(a.achievementId))
 
-        if (normalAchievements.length == 3) await userGetNewAchievement(usId, ALL_NORMAL_ACHIEVEMENTS)
+        if (normalAchievements.length == 10) await userGetNewAchievement(usId, ALL_NORMAL_ACHIEVEMENTS)
     }
 }
