@@ -21,6 +21,16 @@ export const EASTER_EGG_5 = '-M6aXU2AkdTKu0NveDgJ'
 export const EASTER_EGG_6 = '-M6aXU2AkdTKu0NveDgK'
 export const EASTER_EGG_7 = '-M6aXU2AkdTKu0NveDgL'
 
+export const EASTER_EGGS = [
+    EASTER_EGG_1,
+    EASTER_EGG_2,
+    EASTER_EGG_3,
+    EASTER_EGG_4,
+    EASTER_EGG_5,
+    EASTER_EGG_6,
+    EASTER_EGG_7,
+]
+
 
 
 

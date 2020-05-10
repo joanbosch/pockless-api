@@ -1,12 +1,11 @@
 //New Achivement achieved function
 import admin from "firebase-admin";
 import { now } from "moment";
-import {ACHIEVEMENTS_REF, CHAT_MESSAGES_REF, CHATS_REF, OWNED_ACHIEVEMENTS_REF} from "../../../common/paths";
+import { OWNED_ACHIEVEMENTS_REF } from "../../../common/paths";
+import { Category, sendMessage } from "../../messaging/actions/send-message";
+import { Message } from "../../messaging/models/message"
 import { composeKey } from "../../pocks/actions/like-pock";
-import {ALL_NORMAL_ACHIEVEMENTS, EASTER_EGG_6} from "../achivements";
-import {Achievements} from "../models/achievements";
-import {Message} from "../../messaging/models/message"
-import {Category, sendMessage} from "../../messaging/actions/send-message";
+import { ALL_NORMAL_ACHIEVEMENTS, EASTER_EGG_6, EASTER_EGGS } from "../achivements";
 
 export const userGetNewAchievement = async (usId: string, achId: string) => {
     // Step 1: check if the user has or not the achievement
@@ -25,7 +24,7 @@ export const userGetNewAchievement = async (usId: string, achId: string) => {
         })
         //Send new achivement notification
         const notification: Message = {
-            title: `¡Nuevo logro conseguido!`,
+            title: '¡Nuevo logro conseguido!',
             content: achId,
             type: Category.ACHIEVEMENT
         }
@@ -41,35 +40,8 @@ export const userGetNewAchievement = async (usId: string, achId: string) => {
             await userGetNewAchievement(usId, EASTER_EGG_6)
         }
 
-        ///////////////////////////////
-        const allAchId : string[] = []
-        allMyAchievements.forEach((ach: admin.database.DataSnapshot) => {
-            allAchId.push(ach.val().achievementId)
-        })
-        /*
-        const allAch: Achievements[] = []
-        for (let i = 0; i < allAchId.length; ++i) {
-            const id = allAchId[i]
-            const a = await admin.database().ref(ACHIEVEMENTS_REF).once('value')
-                allAch.push(a.val())
-        }
-        let easterEggCounter = 0
-        for (let i = 0; i < allAch.length; ++i){
-            if (allAch[i].achievementName == 'Secreto') ++easterEggCounter
-        }
-        if (allAch.length - easterEggCounter == 3) await userGetNewAchievement(usId, ALL_NORMAL_ACHIEVEMENTS)
-        */
-        let easterEggCounter = 0
-         allAchId.forEach(a => {
-             console.log(a.substring(17,20))
-             if (a.substring(17,20) == 'DgF'
-                 || a.substring(17,20) == 'DgG'
-                 || a.substring(17,20) == 'DgH'
-                 || a.substring(17,20) == 'DgI'
-                 || a.substring(17,20) == 'DgJ'
-                 || a.substring(17,20) == 'DgK'
-                 || a.substring(17,20) == 'DgL') ++easterEggCounter
-         })
-        if(allAchId.length - easterEggCounter == 3) await userGetNewAchievement(usId, ALL_NORMAL_ACHIEVEMENTS)
+        const normalAchievements = Object.values(allMyAchievements.val()).filter((a: any) => !EASTER_EGGS.includes(a.achievementId))
+
+        if (normalAchievements.length == 3) await userGetNewAchievement(usId, ALL_NORMAL_ACHIEVEMENTS)
     }
 }
