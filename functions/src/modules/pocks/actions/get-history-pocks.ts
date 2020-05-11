@@ -4,9 +4,7 @@ import { MESSAGES_REF } from "../../../common/paths";
 import { PockMessage } from "../models/pock-message"
 import {userGetNewAchievement} from "../../achievements/actions/achievement-checker";
 import {EASTER_EGG_1, FIRST_HISTORY} from "../../achievements/achivements";
-import {ErrorResponse} from "../../../common/error";
-import {MESSAGES_REF} from "../../../common/paths";
-import {PockMessage} from "../models/pock-message"
+
 
 /**
  * Get all pocks in the database for an user.
