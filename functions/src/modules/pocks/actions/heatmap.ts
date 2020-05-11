@@ -1,7 +1,7 @@
 import * as admin from "firebase-admin"
-import { now } from "moment";
-import { LatLong } from "../../../common/models/lat-long"
-import { MESSAGES_REF } from "../../../common/paths";
+import {now} from "moment";
+import {LatLong} from "../../../common/models/lat-long"
+import {MESSAGES_REF} from "../../../common/paths";
 
 export default async (): Promise<LatLong[]> => {
 
@@ -14,7 +14,9 @@ export default async (): Promise<LatLong[]> => {
     //Step2: Get All pock's location of the Snapshot
     const allPocksLocation: LatLong[] = []
     snapshotOfAllPocks.forEach((s: admin.database.DataSnapshot) => {
-        allPocksLocation.push(new LatLong(s.val().location))
+        if (!s.val().hidden) {
+            allPocksLocation.push(new LatLong(s.val().location))
+        }
     })
 
     //Check Achievement: usar heatmap

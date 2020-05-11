@@ -7,3 +7,5 @@ export const ACHIEVEMENTS_REF = '/achievements'
 export const OWNED_ACHIEVEMENTS_REF = '/owned-achievements'
 export const CHATS_REF = '/chats'
 export const CHAT_MESSAGES_REF = '/chat-messages'
+export const REPORTS_REF = '/reports'
+

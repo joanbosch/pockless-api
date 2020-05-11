@@ -12,9 +12,9 @@ export class CreateMessageRestInput {
     @is(an.string().required())
     text: string
 
-    @is(an.string().notRequired())
+    @is(an.string().notRequired().nullable())
     chatId?: string
 
-    @is(an.string().notRequired())
+    @is(an.string().notRequired().nullable())
     pockId?: string
 }

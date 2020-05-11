@@ -85,9 +85,11 @@ const createChatAndMessage = async (text: string, pockId: string, userId: string
 
     // 6. Send notification / Return the inserted message
     const newMessage = await admin.database().ref(`${CHAT_MESSAGES_REF}/${chatId}/${messageId}`).once('value')
+    const resultMessage = new ChatMessage(Object.assign({}, newMessage.val(), {id: newMessage.key, chatId}))
 
-    await sendNotification(pockAuthor, userId, text)
+    await sendNotification(pockAuthor, resultMessage)
 
+    return resultMessage
     //Achievement Check
     const snapshotAllChatsOfAnUser = await admin.database().ref(CHATS_REF)
         .orderByChild("user1")
@@ -135,11 +137,14 @@ const createMessage = async (text: string, chatId: string, userId: string): Prom
         date: newMessage.val().date
     })
 
+    const resultMessage = new ChatMessage(Object.assign({}, newMessage.val(), {id: newMessage.key, chatId}))
+
     let receiver: string
     if (userId == chatInfo.val().user1) receiver = chatInfo.val().user2
     else receiver = chatInfo.val().user1
-    await sendNotification(receiver, userId, text)
+    await sendNotification(receiver, resultMessage)
 
+    return resultMessage
     //Achievement Check
 
     const snapshotAllMessagesOfTheChat = await admin.database().ref(`${CHAT_MESSAGES_REF}/${chatId}`)
@@ -157,13 +162,13 @@ const composeKeyUsers = (user1: string, user2: string): string => {
     return `${user2}_${user1}`
 }
 
-const sendNotification = async (receiverId: string, senderId: string, message: string) => {
-    const sender = await admin.database().ref(`${PROFILE_REF}/${senderId}`).once('value')
-
+const sendNotification = async (receiverId: string, newChatMessage: ChatMessage) => {
+    const sender = await admin.database().ref(`${PROFILE_REF}/${newChatMessage.senderId}`).once('value')
     const notification: Message = {
         title: `New message from ${sender.val().name}`,
-        content: message,
-        type: Category.CHAT
+        content: newChatMessage.text,
+        type: Category.CHAT,
+        extra: {id: newChatMessage.id, text: newChatMessage.text, senderId: newChatMessage.senderId, read: String(newChatMessage.read), date: String(newChatMessage.date), chatId: newChatMessage.chatId}
     }
     await sendMessage(receiverId, notification)
 }
