@@ -19,3 +19,4 @@ export default async ({uid}: any): Promise<PockMessage[]> => {
         return await getPock(like.pock, {uid})
     }))
 }
+

@@ -1,6 +1,7 @@
 import { ChatRestController } from "./chat-controller";
 import { UserRestController } from "./user-controller";
 import { PocksRestController } from "./pocks-controller";
+import {NotificationsRestController} from "./notifications-controller";
 
 /**
  * Centralized export for all the controllers.
@@ -10,5 +11,6 @@ import { PocksRestController } from "./pocks-controller";
 export default [
     PocksRestController,
     UserRestController,
-    ChatRestController
+    ChatRestController,
+    NotificationsRestController
 ]
