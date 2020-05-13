@@ -85,7 +85,7 @@ export class PocksRestController extends BaseController {
     @PreProcessor(appClientAuthenticator([AppClient.POCKLES]))
     @Path('/:id/report')
     @POST
-    async reportPock(@PathParam("id") id: string, @QueryParam("motivo")motivo: string): Promise<PockMessage> {
-        return this.asPromise(reportPock, id, motivo)
+    async reportPock(@PathParam("id") id: string, body: string): Promise<PockMessage> {
+        return this.asPromise(reportPock, id, body)
     }
 }

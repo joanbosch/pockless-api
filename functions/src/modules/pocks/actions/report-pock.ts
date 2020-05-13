@@ -61,7 +61,7 @@ export default async (pockId: string, motivo: string, user: any): Promise<PockMe
         composeKeyReport: composeKeyReport(pockId, user.uid),
         user: user.uid,
         pock: pockId,
-        motivo: motivo
+        motivo
     })
 
     return getPock(pockId, user)
