@@ -6,8 +6,9 @@ import getPock from "./get-pock"
 import {Category, sendMessage} from "../../messaging/actions/send-message";
 import {Message} from "../../messaging/models/message";
 import {composeKey} from "./like-pock";
+import {ReportPockRestInput} from "../models/report-pock-rest-input";
 
-export default async (pockId: string, motivo: string, user: any): Promise<PockMessage> => {
+export default async (pockId: string, input: ReportPockRestInput, user: any): Promise<PockMessage> => {
     //Has the pock been reported?
     const pockReport = await admin.database().ref(`${REPORTS_REF}`)
         .orderByChild("composeKeyReport")
@@ -61,7 +62,7 @@ export default async (pockId: string, motivo: string, user: any): Promise<PockMe
         composeKeyReport: composeKeyReport(pockId, user.uid),
         user: user.uid,
         pock: pockId,
-        motivo
+        motive: input.motive
     })
 
     return getPock(pockId, user)

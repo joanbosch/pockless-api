@@ -16,6 +16,7 @@ import {CreatePockRestInput} from "../modules/pocks/models/create-pock-rest-inpu
 import {EditPockRestInput} from "../modules/pocks/models/edit-pock-rest-input"
 import {PockMessage} from "../modules/pocks/models/pock-message"
 import {BaseController} from "./base-controller"
+import {ReportPockRestInput} from "../modules/pocks/models/report-pock-rest-input";
 
 /**
  * Pocks rest controller that manages all the endpoints that are in /pock.
@@ -85,7 +86,8 @@ export class PocksRestController extends BaseController {
     @PreProcessor(appClientAuthenticator([AppClient.POCKLES]))
     @Path('/:id/report')
     @POST
-    async reportPock(@PathParam("id") id: string, body: string): Promise<PockMessage> {
+    async reportPock(@PathParam("id") id: string, body: ReportPockRestInput): Promise<PockMessage> {
+        this.validate(body, ReportPockRestInput.name)
         return this.asPromise(reportPock, id, body)
     }
 }
