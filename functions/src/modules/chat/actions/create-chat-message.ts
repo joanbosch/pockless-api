@@ -88,8 +88,6 @@ const createChatAndMessage = async (text: string, pockId: string, userId: string
     const resultMessage = new ChatMessage(Object.assign({}, newMessage.val(), {id: newMessage.key, chatId}))
 
     await sendNotification(pockAuthor, resultMessage)
-
-    return resultMessage
     //Achievement Check
     const snapshotAllChatsOfAnUser = await admin.database().ref(CHATS_REF)
         .orderByChild("user1")
@@ -100,6 +98,7 @@ const createChatAndMessage = async (text: string, pockId: string, userId: string
     if (chatCounter == 5) await userGetNewAchievement(userId, FIVE_CHAT)
     //End Achievement Check
 
+    return resultMessage
     return new ChatMessage(Object.assign({}, newMessage.val(), {id: newMessage.key, chatId}))
 }
 
@@ -144,7 +143,6 @@ const createMessage = async (text: string, chatId: string, userId: string): Prom
     else receiver = chatInfo.val().user1
     await sendNotification(receiver, resultMessage)
 
-    return resultMessage
     //Achievement Check
 
     const snapshotAllMessagesOfTheChat = await admin.database().ref(`${CHAT_MESSAGES_REF}/${chatId}`)
@@ -154,6 +152,7 @@ const createMessage = async (text: string, chatId: string, userId: string): Prom
 
     //End Achievement Check
 
+    return resultMessage
     return new ChatMessage(Object.assign({}, newMessage.val(), {id: newMessage.key, chatId}))
 }
 
