@@ -99,7 +99,6 @@ const createChatAndMessage = async (text: string, pockId: string, userId: string
     //End Achievement Check
 
     return resultMessage
-    return new ChatMessage(Object.assign({}, newMessage.val(), {id: newMessage.key, chatId}))
 }
 
 const createMessage = async (text: string, chatId: string, userId: string): Promise<ChatMessage> => {
@@ -153,7 +152,6 @@ const createMessage = async (text: string, chatId: string, userId: string): Prom
     //End Achievement Check
 
     return resultMessage
-    return new ChatMessage(Object.assign({}, newMessage.val(), {id: newMessage.key, chatId}))
 }
 
 const composeKeyUsers = (user1: string, user2: string): string => {
