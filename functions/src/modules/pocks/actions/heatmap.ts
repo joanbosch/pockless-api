@@ -19,6 +19,8 @@ export default async (): Promise<LatLong[]> => {
         }
     })
 
+    //Check Achievement: usar heatmap
+
     //Step 3: Return all locations
     return allPocksLocation
 }

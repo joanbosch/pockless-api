@@ -5,6 +5,10 @@ import { CHAT_MESSAGES_REF, CHATS_REF, MESSAGES_REF, PROFILE_REF } from "../../.
 import { Message } from "../../messaging/models/message";
 import { ChatMessage } from "../models/chat-message";
 import { CreateMessageRestInput } from "../models/create-message-rest-input";
+import {composeKey} from "../../pocks/actions/like-pock";
+import {userGetNewAchievement} from "../../achievements/actions/achievement-checker";
+import {EASTER_EGG_5, FIVE_CHAT, TEN_LIKES} from "../../achievements/achivements";
+import {PockMessage} from "../../pocks/models/pock-message";
 
 /**
  * Inserts a new chat message on the database.
@@ -84,6 +88,15 @@ const createChatAndMessage = async (text: string, pockId: string, userId: string
     const resultMessage = new ChatMessage(Object.assign({}, newMessage.val(), {id: newMessage.key, chatId}))
 
     await sendNotification(pockAuthor, resultMessage)
+    //Achievement Check
+    const snapshotAllChatsOfAnUser = await admin.database().ref(CHATS_REF)
+        .orderByChild("user1")
+        .equalTo(userId)
+        .once('value')
+
+    const chatCounter = Object.keys(snapshotAllChatsOfAnUser.val()).length
+    if (chatCounter == 5) await userGetNewAchievement(userId, FIVE_CHAT)
+    //End Achievement Check
 
     return resultMessage
 }
@@ -128,6 +141,15 @@ const createMessage = async (text: string, chatId: string, userId: string): Prom
     if (userId == chatInfo.val().user1) receiver = chatInfo.val().user2
     else receiver = chatInfo.val().user1
     await sendNotification(receiver, resultMessage)
+
+    //Achievement Check
+
+    const snapshotAllMessagesOfTheChat = await admin.database().ref(`${CHAT_MESSAGES_REF}/${chatId}`)
+        .once('value')
+    const chatMessageCounter = snapshotAllMessagesOfTheChat == null ? 0 : Object.keys(snapshotAllMessagesOfTheChat.val()).length
+    if (chatMessageCounter == 4) await userGetNewAchievement(userId, EASTER_EGG_5)
+
+    //End Achievement Check
 
     return resultMessage
 }

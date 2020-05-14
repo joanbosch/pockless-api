@@ -1,6 +1,8 @@
 import admin from "firebase-admin";
 import { ErrorResponse } from "../../../common/error";
 import { PROFILE_REF } from "../../../common/paths";
+import { WELCOME_POCKLES } from "../../achievements/achivements";
+import { userGetNewAchievement } from "../../achievements/actions/achievement-checker";
 import { CreateUserRestInput, } from "../model/create-user-rest-input";
 import { UserProfile } from "../model/user-profile";
 import getUserExists from "./get-user-exists";
@@ -19,6 +21,10 @@ export default async (body: CreateUserRestInput): Promise<UserProfile> => {
     await admin.database().ref(`${PROFILE_REF}/${body.id}`).set(body)
 
     const user = await admin.database().ref(`${PROFILE_REF}/${body.id}`).once('value')
+
+    //Achievement Check
+    await userGetNewAchievement(body.id, WELCOME_POCKLES)
+    //End Achievement Check
 
     return new UserProfile(user.val())
 }
