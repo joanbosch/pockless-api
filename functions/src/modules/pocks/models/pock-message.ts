@@ -1,3 +1,4 @@
+import { now } from "moment";
 import {LatLong} from "../../../common/models/lat-long";
 
 /**
@@ -21,6 +22,7 @@ export class PockMessage {
         this.reports = reports
         this.reported = reported
         this.hidden = hidden
+        this.editable = now() < this.dateInserted + 20*60*1000 // 20 minutes
     }
 
     id: any
@@ -52,4 +54,6 @@ export class PockMessage {
     reported: boolean
 
     hidden: boolean
+
+    editable: boolean
 }

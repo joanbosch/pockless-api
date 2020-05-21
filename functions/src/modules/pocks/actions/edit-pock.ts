@@ -4,12 +4,10 @@ import { PockMessage } from "../models/pock-message";
 import * as admin from "firebase-admin";
 import { MESSAGES_REF } from "../../../common/paths";
 
-const EDITABLE_TIME = 20 * 60 * 1000 // 20 minutes
 /**
  * Edits the content of an existing pock on the database.
  *
- * It must be reviewed when users are implemented in order to ensure that only the creator can
- * edit his pocks.
+ * Only the pock author can edit it.
  *
  * @param id
  * @param input
@@ -28,8 +26,9 @@ export default async (id: string, input: EditPockRestInput, user: any): Promise<
     if (creator != user.uid) {
         throw new ErrorResponse(403, 'You have not created this pock')
     }
-    if (Date.now() > dateInserted + EDITABLE_TIME) {
-        throw new ErrorResponse(400, 'Could not edit this pock')
+    const originalPock = new PockMessage(snapshot.val())
+    if (!originalPock.editable) {
+        throw new ErrorResponse(409, 'Could not edit this pock')
     }
 
     // Step 4: update the pock with the new values
