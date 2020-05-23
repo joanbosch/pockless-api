@@ -1,7 +1,6 @@
 import * as admin from "firebase-admin";
-import {NOTIFICATIONS_REF} from "../../../common/paths";
-import getNotification from "../../messaging/actions/get-message";
-import {NotificationMessage} from "../models/message-output";
+import { NOTIFICATIONS_REF } from "../../../common/paths";
+import { NotificationMessage } from "../models/message-output";
 
 export default async ({uid}: any): Promise<NotificationMessage[]> => {
 
