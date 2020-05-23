@@ -1,6 +1,7 @@
 import { AchievementRestController } from "./achievement-controller";
 import { ChatRestController } from "./chat-controller";
 import { PocksRestController } from "./pocks-controller";
+import {NotificationsRestController} from "./notifications-controller";
 import { UserRestController } from "./user-controller";
 
 /**
@@ -12,5 +13,7 @@ export default [
     PocksRestController,
     UserRestController,
     ChatRestController,
-    AchievementRestController
+    AchievementRestController,
+    ChatRestController,
+    NotificationsRestController
 ]
