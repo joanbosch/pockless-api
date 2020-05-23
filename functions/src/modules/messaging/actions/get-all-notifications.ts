@@ -1,9 +1,9 @@
-import {Message} from "../models/message";
 import * as admin from "firebase-admin";
 import {NOTIFICATIONS_REF} from "../../../common/paths";
 import getNotification from "../../messaging/actions/get-message";
+import {NotificationMessage} from "../models/message-output";
 
-export default async ({uid}: any): Promise<Message[]> => {
+export default async ({uid}: any): Promise<NotificationMessage[]> => {
 
     const notificationsSnapshot = await admin.database().ref(`${NOTIFICATIONS_REF}`)
         .orderByChild("userId")
@@ -15,9 +15,8 @@ export default async ({uid}: any): Promise<Message[]> => {
         return []
     }
 
-    return Promise.all(Object.values(val).map(async (notifaction: any) => {
-        return await getNotification(notifaction.id, {uid})
+    return Promise.all(Object.values(val).map(async (notification: any) => {
+        return new NotificationMessage(notification)
     }))
-
 
 }

@@ -1,6 +1,7 @@
 import {Category} from "../actions/send-message";
 
 export class NotificationMessage {
+    // @ts-ignore
     constructor({id,title,content,type}){
         this.id = id
         this.title = title
