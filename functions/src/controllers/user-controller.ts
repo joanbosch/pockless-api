@@ -17,6 +17,7 @@ import getLikes from "./../modules/user/actions/get-likes"
 import {EditUserProfileRestInput} from "../modules/user/model/edit-user-profile-rest-input";
 import editUserProfile from "./../modules/user/actions/edit-user-profile"
 import getUserById from "./../modules/user/actions/get-user-by-id"
+import {ViewOtherUser} from "../modules/user/model/view-other-user";
 
 @Tags('Users')
 @Path('/user')
@@ -40,7 +41,7 @@ export class UserRestController extends BaseController {
     @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @Path('/:id')
     @GET
-    async getMessageById(@PathParam("id") id: string): Promise<UserProfile> {
+    async getMessageById(@PathParam("id") id: string): Promise<ViewOtherUser> {
         return this.asPromise(getUserById, id)
     }
 

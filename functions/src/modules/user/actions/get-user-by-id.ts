@@ -1,12 +1,13 @@
 import admin from "firebase-admin";
 import { ErrorResponse } from "../../../common/error";
 import { MESSAGES_REF, PROFILE_REF } from "../../../common/paths";
-import { UserProfile } from "../model/user-profile";
+import { ViewOtherUser } from "../model/view-other-user";
 
 /**
- * Get a pock from the database with a specific id
+ * Get a user from the database with a specific id
+ * Badge update is needed
  */
-export default async (userId: string): Promise<UserProfile> => {
+export default async (userId: string): Promise<ViewOtherUser> => {
     //Check if exists a profile with the given id
     const userSnapshot = await admin.database().ref(`${PROFILE_REF}/${userId}`).once('value')
     if (userSnapshot === null || userSnapshot.val() === null) {
@@ -16,6 +17,8 @@ export default async (userId: string): Promise<UserProfile> => {
     const pocks = await admin.database().ref(`${MESSAGES_REF}`).orderByChild('user').equalTo(userId).once('value')
 
     const numberOfPocks = pocks.val() != null ? Object.keys(pocks.val()).length : 0
+    //Code to update
+    const numberOfBadge = 0;
 
-    return new UserProfile(Object.assign({}, userSnapshot.val(), {pocks: numberOfPocks}))
+    return new ViewOtherUser(Object.assign({}, userSnapshot.val(), {pocks: numberOfPocks}, {badge: numberOfBadge}))
 }
