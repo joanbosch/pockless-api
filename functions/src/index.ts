@@ -6,17 +6,18 @@ import { errorHandler, ErrorResponse } from "./common/error";
 import controllers from './controllers'
 import { listPaths } from "./utils/testing";
 
-// const serviceAccount = require('C:\\Users\\Victor\\Desktop\\Pockles.json');
-//
-// // To execute the API locally and connected to the firebase database use this
-const serviceAccount = require('C:\\Users\\Sergioo\\Desktop\\Tercero\\Q2\\ECSDI\\Pockles.json');
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: 'https://pockles.firebaseio.com'
-});
+//const serviceAccount = require('C:\\Users\\victo\\Desktop\\Pockles.json');
+
+ //To execute the API locally and connected to the firebase database use this
+ //admin.initializeApp({
+     //credential: admin.credential.cert(serviceAccount),
+   //databaseURL: 'https://pockles.firebaseio.com'
+ //});
 
 // To deploy is is needed to just use this
-// admin.initializeApp();
+admin.initializeApp();
+
+// const serviceAccount = require('C:\\Users\\Sergioo\\Desktop\\Tercero\\Q2\\ECSDI\\Pockles.json');
 
 const api = express()
 

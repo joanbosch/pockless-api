@@ -6,8 +6,9 @@ import getPock from "./get-pock"
 import {Category, sendMessage} from "../../messaging/actions/send-message";
 import {Message} from "../../messaging/models/message";
 import {composeKey} from "./like-pock";
+import {ReportPockRestInput} from "../models/report-pock-rest-input";
 
-export default async (pockId: string, user: any): Promise<PockMessage> => {
+export default async (pockId: string, input: ReportPockRestInput, user: any): Promise<PockMessage> => {
     //Has the pock been reported?
     const pockReport = await admin.database().ref(`${REPORTS_REF}`)
         .orderByChild("composeKeyReport")
@@ -32,11 +33,11 @@ export default async (pockId: string, user: any): Promise<PockMessage> => {
         .once('value')
 
     const likes = likesSnapshot.val() != null ? Object.keys(likesSnapshot.val()).length : 0 //nlikes
-    const reports = pockReport.val() != null ? Object.keys(numPockReported.val()).length+1 : 1//nReports
+    const reports = pockReport.val() != null ? Object.keys(numPockReported.val()).length + 1 : 1//nReports
     /*
          If the ratio between likes and reports is higher than 50%, the pock is hidden if it has a minimum of 50 reports.
      */
-        if (reports >= 50 && (reports / likes) > 0.5) {
+    if (reports >= 50 && (reports / likes) > 0.5) {
         //update the pock indicating it has been hidden
         await admin.database().ref(`${MESSAGES_REF}/${pockId}`).update({
             hidden: true
@@ -60,7 +61,8 @@ export default async (pockId: string, user: any): Promise<PockMessage> => {
     await admin.database().ref(`${REPORTS_REF}`).push({
         composeKeyReport: composeKeyReport(pockId, user.uid),
         user: user.uid,
-        pock: pockId
+        pock: pockId,
+        motive: input.motive
     })
 
     return getPock(pockId, user)
