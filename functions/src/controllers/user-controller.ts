@@ -41,7 +41,7 @@ export class UserRestController extends BaseController {
     @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @Path('/:id')
     @GET
-    async getMessageById(@PathParam("id") id: string): Promise<ViewOtherUser> {
+    async getUserById(@PathParam("id") id: string): Promise<ViewOtherUser> {
         return this.asPromise(getUserById, id)
     }
 
