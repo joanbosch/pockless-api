@@ -31,21 +31,6 @@ export class UserRestController extends BaseController {
     }
 
     @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
-    @GET
-    @Path('/:id/exists')
-    async userExists(@PathParam("id") id: string): Promise<Boolean> {
-        return this.asPromise(userExists, id)
-    }
-
-    @PreProcessor(userAuthentication)
-    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
-    @Path('/:id')
-    @GET
-    async getUserById(@PathParam("id") id: string): Promise<ViewOtherUser> {
-        return this.asPromise(getUserById, id)
-    }
-
-    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
     @POST
     async createUser(body: CreateUserRestInput): Promise<Boolean> {
         this.validate(body, CreateUserRestInput.name)
@@ -82,5 +67,20 @@ export class UserRestController extends BaseController {
     async editUserProfileHandler(body: EditUserProfileRestInput): Promise<UserProfile> {
         this.validate(body, EditUserProfileRestInput.name)
         return this.asPromise(editUserProfile, body)
+    }
+
+    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
+    @GET
+    @Path('/:id/exists')
+    async userExists(@PathParam("id") id: string): Promise<Boolean> {
+        return this.asPromise(userExists, id)
+    }
+
+    @PreProcessor(userAuthentication)
+    @PreProcessor(appClientAuthenticator([ AppClient.POCKLES ]))
+    @Path('/:id')
+    @GET
+    async getUserById(@PathParam("id") id: string): Promise<ViewOtherUser> {
+        return this.asPromise(getUserById, id)
     }
 }
