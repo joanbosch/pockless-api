@@ -1,14 +1,12 @@
 import * as admin from "firebase-admin";
-import { Category, sendMessage } from "../../messaging/actions/send-message";
 import { ErrorResponse } from "../../../common/error";
 import { CHAT_MESSAGES_REF, CHATS_REF, MESSAGES_REF, PROFILE_REF } from "../../../common/paths";
+import { EASTER_EGG_5, FIVE_CHAT } from "../../achievements/achivements";
+import { userGetNewAchievement } from "../../achievements/actions/achievement-checker";
+import { Category, sendMessage } from "../../messaging/actions/send-message";
 import { Message } from "../../messaging/models/message";
 import { ChatMessage } from "../models/chat-message";
 import { CreateMessageRestInput } from "../models/create-message-rest-input";
-import {composeKey} from "../../pocks/actions/like-pock";
-import {userGetNewAchievement} from "../../achievements/actions/achievement-checker";
-import {EASTER_EGG_5, FIVE_CHAT, TEN_LIKES} from "../../achievements/achivements";
-import {PockMessage} from "../../pocks/models/pock-message";
 
 /**
  * Inserts a new chat message on the database.
@@ -47,27 +45,30 @@ const createChatAndMessage = async (text: string, pockId: string, userId: string
         .orderByChild('composedKey')
         .equalTo(composeKeyUsers(userId, pockAuthor))
         .once('value')
-    if (existingChat.val() != null) {
-        throw new ErrorResponse(409, 'A chat with pock author already exists')
-    }
 
-    // 4. Create chat
     const dateInserted = Date.now()
 
-    const newChatSnapshot = await admin.database().ref(`${CHATS_REF}`).push({
-        composedKey: composeKeyUsers(userId, pockAuthor),
-        user1: userId,
-        user2: pockAuthor,
-        pock: pockId,
-        lastMessage: text,
-        date: dateInserted
-    })
-    if (!newChatSnapshot) {
-        throw new ErrorResponse(400, 'Could not create the chat')
-    }
+    let chatId
+    if (existingChat.val() == null) {
+        // 4. Create chat
 
-    const chatRef = newChatSnapshot.ref.toString().split('/')
-    const chatId = chatRef[chatRef.length - 1]
+        const newChatSnapshot = await admin.database().ref(`${CHATS_REF}`).push({
+            composedKey: composeKeyUsers(userId, pockAuthor),
+            user1: userId,
+            user2: pockAuthor,
+            pock: pockId,
+            lastMessage: text,
+            date: dateInserted
+        })
+        if (!newChatSnapshot) {
+            throw new ErrorResponse(400, 'Could not create the chat')
+        }
+
+        const chatRef = newChatSnapshot.ref.toString().split('/')
+        chatId = chatRef[chatRef.length - 1]
+    } else {
+        chatId = Object.keys(existingChat.val())[0]
+    }
 
     // 5. Insert first message
     const newMessageSnapshot = await admin.database().ref(`${CHAT_MESSAGES_REF}/${chatId}`).push({
@@ -88,6 +89,7 @@ const createChatAndMessage = async (text: string, pockId: string, userId: string
     const resultMessage = new ChatMessage(Object.assign({}, newMessage.val(), {id: newMessage.key, chatId}))
 
     await sendNotification(pockAuthor, resultMessage)
+
     //Achievement Check
     const snapshotAllChatsOfAnUser = await admin.database().ref(CHATS_REF)
         .orderByChild("user1")
@@ -96,7 +98,7 @@ const createChatAndMessage = async (text: string, pockId: string, userId: string
 
     const chatCounter = Object.keys(snapshotAllChatsOfAnUser.val()).length
     if (chatCounter == 5) await userGetNewAchievement(userId, FIVE_CHAT)
-    //End Achievement Check
+    //End Achievement Checkhola
 
     return resultMessage
 }
@@ -165,7 +167,14 @@ const sendNotification = async (receiverId: string, newChatMessage: ChatMessage)
         title: `New message from ${sender.val().name}`,
         content: newChatMessage.text,
         type: Category.CHAT,
-        extra: {id: newChatMessage.id, text: newChatMessage.text, senderId: newChatMessage.senderId, read: String(newChatMessage.read), date: String(newChatMessage.date), chatId: newChatMessage.chatId}
+        extra: {
+            id: newChatMessage.id,
+            text: newChatMessage.text,
+            senderId: newChatMessage.senderId,
+            read: String(newChatMessage.read),
+            date: String(newChatMessage.date),
+            chatId: newChatMessage.chatId
+        }
     }
     await sendMessage(receiverId, notification)
 }

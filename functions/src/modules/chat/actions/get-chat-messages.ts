@@ -7,11 +7,25 @@ import { ChatMessage } from "../models/chat-message";
  * Returns all the messages from the given chat
  *
  * @param id
+ * @param isPock
  * @param user
  */
-export default async (id: string, user: any): Promise<ChatMessage[]> => {
+export default async (id: string | null, isPock: boolean, user: any): Promise<ChatMessage[]> => {
     // 1. Check if chat exists
-    const chatSnapshot = await admin.database().ref(`${CHATS_REF}/${id}`).once('value')
+
+    let chatSnapshot
+    if (isPock) {
+        const snapshot = await admin.database().ref(`${CHATS_REF}`).orderByChild('pock').equalTo(id).once('value')
+        snapshot.forEach(snap => {
+            const s = snap.val()
+            if (s.user1 === user.uid || s.user2 === user.uid) {
+                chatSnapshot = snap
+                id = snap.key
+            }
+        })
+    } else {
+        chatSnapshot = await admin.database().ref(`${CHATS_REF}/${id}`).once('value')
+    }
     if (chatSnapshot == null || chatSnapshot.val() == null) {
         throw new ErrorResponse(404, 'Not exists a chat with that id')
     }
@@ -33,7 +47,7 @@ export default async (id: string, user: any): Promise<ChatMessage[]> => {
 
     // 4. Set messages sent by the other member as read
     // Last message is most recent. The loop stops when finds a message from the other user already read.
-    for (let i:number = result.length-1; i>=0 &&(result[i].senderId == user.uid || !result[i].read); i--) {
+    for (let i: number = result.length - 1; i >= 0 && (result[i].senderId == user.uid || !result[i].read); i--) {
         if (result[i].senderId != user.uid && !result[i].read) {
             await admin.database().ref(`${CHAT_MESSAGES_REF}/${id}/${result[i].id}`).update({
                 read: true

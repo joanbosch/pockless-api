@@ -1,5 +1,241 @@
 basePath: null
 definitions:
+    Achievement:
+        description: ""
+        properties:
+            id:
+                type: string
+                description: ""
+            name:
+                type: string
+                description: ""
+            description:
+                type: string
+                description: ""
+            icon:
+                type: string
+                description: ""
+        type: object
+        required:
+            - id
+            - name
+            - description
+            - icon
+    UserProfileNameImage:
+        description: ""
+        properties:
+            id:
+                type: string
+                description: ""
+            name:
+                type: string
+                description: ""
+            profileImageUrl:
+                type: string
+                description: ""
+        type: object
+        required:
+            - id
+            - name
+            - profileImageUrl
+    Chat:
+        description: "Type of the Chat.\r\n\r\nIt has no validator as it is an outgoing object (database -> external device)."
+        properties:
+            id:
+                type: string
+                description: ""
+            user1:
+                type: string
+                description: ""
+            user2:
+                $ref: '#/definitions/UserProfileNameImage'
+            pock:
+                type: string
+                description: ""
+            lastMessage:
+                type: string
+                description: ""
+            date:
+                type: number
+                format: double
+                description: ""
+        type: object
+        required:
+            - id
+            - user1
+            - user2
+            - pock
+            - lastMessage
+            - date
+    ChatMessage:
+        description: "Type of the ChatMessage\r\n\r\nIt has no validator as it is an outgoing object (database -> external device)."
+        properties:
+            id:
+                type: string
+                description: ""
+            text:
+                type: string
+                description: ""
+            senderId:
+                type: string
+                description: ""
+            read:
+                type: boolean
+                description: ""
+            date:
+                type: number
+                format: double
+                description: ""
+            chatId:
+                type: string
+                description: ""
+        type: object
+        required:
+            - id
+            - text
+            - senderId
+            - read
+            - date
+            - chatId
+    CreateMessageRestInput:
+        description: ""
+        properties:
+            text:
+                type: string
+                description: ""
+            chatId:
+                type: string
+                description: ""
+            pockId:
+                type: string
+                description: ""
+        type: object
+        required:
+            - text
+    LatLong:
+        description: 'Latitude-Longitude type'
+        properties:
+            latitude:
+                type: number
+                format: double
+                description: ""
+            longitude:
+                type: number
+                format: double
+                description: ""
+        type: object
+        required:
+            - latitude
+            - longitude
+    PockMessage:
+        description: 'Type of the PockMessage'
+        properties:
+            id:
+                type: object
+                description: ""
+            message:
+                type: string
+                description: ""
+            location:
+                $ref: '#/definitions/LatLong'
+            dateInserted:
+                type: number
+                format: double
+                description: ""
+            user:
+                type: string
+                description: ""
+            username:
+                type: string
+                description: ""
+            media:
+                type: string
+                description: ""
+            category:
+                type: string
+                description: ""
+            chatAccess:
+                type: boolean
+                description: ""
+            liked:
+                type: boolean
+                description: ""
+            likes:
+                type: number
+                format: double
+                description: ""
+            userProfileImage:
+                type: string
+                description: ""
+            reports:
+                type: number
+                format: double
+                description: ""
+            reported:
+                type: boolean
+                description: ""
+            hidden:
+                type: boolean
+                description: ""
+        type: object
+        required:
+            - id
+            - message
+            - location
+            - dateInserted
+            - category
+            - chatAccess
+            - liked
+            - likes
+            - userProfileImage
+            - reports
+            - reported
+            - hidden
+    CreatePockRestInput:
+        description: ""
+        properties:
+            message:
+                type: string
+                description: ""
+            location:
+                $ref: '#/definitions/LatLong'
+            chatAccess:
+                type: boolean
+                description: ""
+            category:
+                type: string
+                description: ""
+            mediaUrl:
+                type: string
+                description: ""
+        type: object
+        required:
+            - message
+            - location
+            - category
+    EditPockRestInput:
+        description: ""
+        properties:
+            message:
+                type: string
+                description: ""
+            chatAccess:
+                type: boolean
+                description: ""
+            category:
+                type: string
+                description: ""
+            mediaUrl:
+                type: string
+                description: ""
+        type: object
+    ReportPockRestInput:
+        description: ""
+        properties:
+            motive:
+                type: string
+                description: ""
+        type: object
     UserProfile:
         description: ""
         properties:
@@ -82,151 +318,112 @@ definitions:
             - profileImageUrl
             - radiusVisibility
             - accentColor
-    LatLong:
-        description: 'Latitude-Longitude type'
-        properties:
-            latitude:
-                type: number
-                format: double
-                description: ""
-            longitude:
-                type: number
-                format: double
-                description: ""
-        type: object
-        required:
-            - latitude
-            - longitude
-    PockMessage:
-        description: 'Type of the PockMessage'
-        properties:
-            id:
-                type: object
-                description: ""
-            message:
-                type: string
-                description: ""
-            location:
-                $ref: '#/definitions/LatLong'
-            dateInserted:
-                type: number
-                format: double
-                description: ""
-            user:
-                type: string
-                description: ""
-            username:
-              type: string
-              description: ""
-            media:
-              type: string
-              description: ""
-            category:
-              type: string
-              description: ""
-            chatAccess:
-              type: boolean
-              description: ""
-            canLike:
-              type: boolean
-              description: ""
-            likes:
-              type: number
-              format: double
-              description: ""
-        type: object
-        required:
-          - id
-          - message
-          - location
-          - dateInserted
-          - category
-          - chatAccess
-          - canLike
-          - likes
-    CreatePockRestInput:
+    InsertTokenRestInput:
         description: ""
         properties:
-            message:
-                type: string
-                description: ""
-            location:
-                $ref: '#/definitions/LatLong'
-            chatAccess:
-                type: boolean
-                description: ""
-            category:
-                type: string
-                description: ""
-            mediaUrl:
+            token:
                 type: string
                 description: ""
         type: object
         required:
-            - message
-            - location
-            - category
+            - token
+    EditUserProfileRestInput:
+        description: ""
+        properties:
+            name:
+                type: string
+                description: ""
+            profileImageUrl:
+                type: string
+                description: ""
+            radiusVisibility:
+                type: number
+                format: double
+                description: ""
+            accentColor:
+                type: string
+                description: ""
+        type: object
 info:
     description: 'Documentation of PAPI (Pockles API)'
     title: PAPI
     version: 0.0.1
 paths:
-    /user:
+    /achievement:
         get:
-            operationId: UserRestGetUser
+            operationId: AchievementRestHandleGetAchievements
             produces:
                 - application/json
             responses:
                 '200':
                     description: Ok
                     schema:
-                        $ref: '#/definitions/UserProfile'
+                        type: array
+                        items:
+                            $ref: '#/definitions/Achievement'
             description: ""
             tags:
-                - Users
+                - Achievement
             parameters: []
-        post:
-            operationId: UserRestCreateUser
+    /chat:
+        get:
+            operationId: ChatRestGetUserChatsHandler
             produces:
                 - application/json
             responses:
                 '200':
                     description: Ok
                     schema:
-                        $ref: '#/definitions/Boolean'
+                        type: array
+                        items:
+                            $ref: '#/definitions/Chat'
             description: ""
             tags:
-                - Users
+                - Chat
+            parameters: []
+    '/chat/{id}':
+        get:
+            operationId: ChatRestGetChatMessagesHandler
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/ChatMessage'
+            description: ""
+            tags:
+                - Chat
+            parameters:
+                - description: ""
+                  in: path
+                  name: id
+                  required: true
+                  type: string
+    /chat/message:
+        post:
+            operationId: ChatRestCreateChatMessageHandler
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        $ref: '#/definitions/ChatMessage'
+            description: ""
+            tags:
+                - Chat
             consumes:
                 - application/json
             parameters:
-                -
-                    description: ""
-                    in: body
-                    name: body
-                    required: true
-                    schema:
-                        $ref: '#/definitions/CreateUserRestInput'
-    '/user/{id}/exists':
-        get:
-            operationId: UserRestUserExists
-            produces:
-                - application/json
-            responses:
-                '200':
-                    description: Ok
-                    schema:
-                        $ref: '#/definitions/Boolean'
-            description: ""
-            tags:
-                - Users
-            parameters:
-                -
-                    description: ""
-                    in: path
-                    name: id
-                    required: true
-                    type: string
+                - description: ""
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                      $ref: '#/definitions/CreateMessageRestInput'
     /pock:
         post:
             operationId: PocksRestCreatePockHandler
@@ -279,9 +476,211 @@ paths:
                     required: true
                     type: number
                     format: double
-    /pock/history:
+    /pock/all/locations:
         get:
-          operationId: PocksRestGetPocksHist
+            operationId: PocksRestGetAllPocksLocations
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/LatLong'
+            description: ""
+            tags:
+                - Pocks
+            parameters: []
+    '/pock/{id}':
+        get:
+            operationId: PocksRestGetMessageById
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        $ref: '#/definitions/PockMessage'
+            description: ""
+            tags:
+                - Pocks
+            parameters:
+                - description: ""
+                  in: path
+                  name: id
+                  required: true
+                  type: string
+        patch:
+            operationId: PocksRestEditPockHandler
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        $ref: '#/definitions/PockMessage'
+            description: ""
+            tags:
+                - Pocks
+            consumes:
+                - application/json
+            parameters:
+                - description: ""
+                  in: path
+                  name: id
+                  required: true
+                  type: string
+                - description: ""
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                      $ref: '#/definitions/EditPockRestInput'
+    '/pock/{id}/like':
+        post:
+            operationId: PocksRestLikePock
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        $ref: '#/definitions/PockMessage'
+            description: ""
+            tags:
+                - Pocks
+            consumes:
+                - application/json
+            parameters:
+                - description: ""
+                  in: path
+                  name: id
+                  required: true
+                  type: string
+        delete:
+            operationId: PocksRestRemoveLikePock
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        $ref: '#/definitions/PockMessage'
+            description: ""
+            tags:
+                - Pocks
+            parameters:
+                - description: ""
+                  in: path
+                  name: id
+                  required: true
+                  type: string
+    '/pock/{id}/report':
+        post:
+            operationId: PocksRestReportPock
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        $ref: '#/definitions/PockMessage'
+            description: ""
+            tags:
+                - Pocks
+            consumes:
+                - application/json
+            parameters:
+                - description: ""
+                  in: path
+                  name: id
+                  required: true
+                  type: string
+                - description: ""
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                      $ref: '#/definitions/ReportPockRestInput'
+    /user:
+        get:
+            operationId: UserRestGetUser
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        $ref: '#/definitions/UserProfile'
+            description: ""
+            tags:
+                - Users
+            parameters: []
+        post:
+            operationId: UserRestCreateUser
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        $ref: '#/definitions/Boolean'
+            description: ""
+            tags:
+                - Users
+            consumes:
+                - application/json
+            parameters:
+                - description: ""
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                      $ref: '#/definitions/CreateUserRestInput'
+        patch:
+            operationId: UserRestEditUserProfileHandler
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        $ref: '#/definitions/UserProfile'
+            description: ""
+            tags:
+                - Users
+            consumes:
+                - application/json
+            parameters:
+                - description: ""
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                      $ref: '#/definitions/EditUserProfileRestInput'
+    '/user/{id}/exists':
+        get:
+            operationId: UserRestUserExists
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        $ref: '#/definitions/Boolean'
+            description: ""
+            tags:
+                - Users
+            parameters:
+                - description: ""
+                  in: path
+                  name: id
+                  required: true
+                  type: string
+    /user/history:
+        get:
+            operationId: UserRestGetAllMessagesHandler
             produces:
                 - application/json
             responses:
@@ -293,65 +692,45 @@ paths:
                             $ref: '#/definitions/PockMessage'
             description: ""
             tags:
-              - Pocks
-          parameters: []
-    '/pock/{id}':
-      get:
-        operationId: PocksRestGetMessageById
-        produces:
-          - application/json
-        responses:
-          '200':
-            description: Ok
-            schema:
-              $ref: '#/definitions/PockMessage'
-        description: ""
-        tags:
-          - Pocks
-        parameters:
-          - description: ""
-            in: path
-            name: id
-            required: true
-            type: string
-    '/pock/{id}/like':
-      post:
-        operationId: PocksRestLikePock
-        produces:
-          - application/json
-        responses:
-          '200':
-            description: Ok
-            schema:
-              $ref: '#/definitions/PockMessage'
-        description: ""
-        tags:
-          - Pocks
-        consumes:
-          - application/json
-        parameters:
-          - description: ""
-            in: path
-            name: id
-            required: true
-            type: string
-      delete:
-        operationId: PocksRestRemoveLikePock
-        produces:
-          - application/json
-        responses:
-          '200':
-            description: Ok
-            schema:
-              $ref: '#/definitions/PockMessage'
-        description: ""
-        tags:
-          - Pocks
-        parameters:
-          - description: ""
-            in: path
-            name: id
-            required: true
-            type: string
+                - Users
+            parameters: []
+    /user/likes:
+        get:
+            operationId: UserRestGetUserLikesHandler
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/PockMessage'
+            description: ""
+            tags:
+                - Users
+            parameters: []
+    /user/token:
+        put:
+            operationId: UserRestInsertToken
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Ok
+                    schema:
+                        $ref: '#/definitions/Boolean'
+            description: ""
+            tags:
+                - Users
+            consumes:
+                - application/json
+            parameters:
+                - description: ""
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                      $ref: '#/definitions/InsertTokenRestInput'
 swagger: '2.0'
 securityDefinitions: {}
