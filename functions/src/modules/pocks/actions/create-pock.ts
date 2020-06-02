@@ -29,6 +29,23 @@ export const DEFAULT_EXPIRATION_TIME = 7 * 24 * 3600 * 1000 // 1 week
  * @param user
  */
 export default async (input: CreatePockRestInput, user: any): Promise<PockMessage> => {
+    //Achievement Check
+    const checkingCoords = await admin.database().ref(MESSAGES_REF)
+        .orderByChild("user")
+        .equalTo(user.uid)
+        .once('value')
+
+    const pockscoords: PockMessage[] = []
+    checkingCoords.forEach((s: admin.database.DataSnapshot) => {
+        pockscoords.push(new PockMessage(s.val()))
+    })
+
+    if (pockscoords.some(p => p.location.latitude === input.location.latitude
+        && p.location.longitude === input.location.longitude) != null) {
+        await userGetNewAchievement(user.uid, SAME_COORDS)
+    }
+    //End Achievement Check
+
     // Step 2: Insert into database
     const snapshot =
         await admin.database().ref(MESSAGES_REF).push({
@@ -79,11 +96,6 @@ export default async (input: CreatePockRestInput, user: any): Promise<PockMessag
     if (pocks.length == 100) await userGetNewAchievement(user.uid, HUNDRED_POCK)
     if (pocks.length == 1000) await userGetNewAchievement(user.uid, THOUSAND_POCK)
     if (pocks.length == 517) await userGetNewAchievement(user.uid, EASTER_EGG_1)
-
-    if (pocks.some(p => p.location.latitude === input.location.latitude
-        && p.location.longitude === input.location.longitude) != null) {
-        await userGetNewAchievement(user.uid, SAME_COORDS)
-    }
 
     if (pocks.filter(p => p.category == "Salud").length === 13) {
         await userGetNewAchievement(user.uid, EASTER_EGG_2)
